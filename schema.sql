@@ -6,7 +6,6 @@ CREATE TABLE platforms (
 CREATE TABLE games (
     game_id INTEGER PRIMARY KEY,
     platform_id INTEGER NOT NULL,
-    FOREIGN KEY(platform_id) REFERENCES platforms(platform_id),
     name TEXT NOT NULL,
     licence TEXT NOT NULL,
     play_method TEXT NOT NULL,
@@ -17,5 +16,6 @@ CREATE TABLE games (
     tried INTEGER CHECK("tried" in (0, 1)),
     finished INTEGER CHECK("finished" in (0, 1)),
     rating FLOAT,
-    when_played DATE
+    when_played DATE,
+    FOREIGN KEY(platform_id) REFERENCES platforms(platform_id)
 );
