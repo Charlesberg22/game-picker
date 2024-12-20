@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import TopNav from "./ui/topnav";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,6 +25,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased`}
       >
+        <div className="flex md:flex-row md:overflow-hidden">
+              <TopNav />
+        </div>
         {children}
       </body>
     </html>
