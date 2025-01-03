@@ -21,7 +21,7 @@ db.serialize(() => {
         `
             CREATE TABLE IF NOT EXISTS platforms (
                 platform_id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL
+                platform_name TEXT NOT NULL
             );
         `,
         (error) => {
