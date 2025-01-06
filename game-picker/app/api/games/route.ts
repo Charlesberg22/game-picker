@@ -55,9 +55,10 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const query = `
-    SELECT game_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+    SELECT game_id, games.platform_id AS platform_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
     FROM games
     JOIN platforms ON games.platform_id = platforms.platform_id
+    ORDER BY games.platform_id, name
   `;
 
   try {
@@ -122,7 +123,7 @@ export async function DELETE(req: NextRequest) {
 
     const query = `
       DELETE FROM games
-      WHERE id = ?
+      WHERE game_id = ?
     `;
     const values = [id];
 

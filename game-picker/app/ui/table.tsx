@@ -1,4 +1,5 @@
 import { checkIfPrequelRequired, fetchAllGames } from '@/app/lib/data'
+import { DeleteGame, UpdateGame } from './buttons';
 
 export default async function GamesTable() {
   const games = await fetchAllGames();
@@ -97,8 +98,8 @@ export default async function GamesTable() {
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      {/* <UpdateInvoice id={invoice.id} />
-                      <DeleteInvoice id={invoice.id} /> stolen from tutorial, will make these update/delete game buttons */}
+                      <UpdateGame id={game.game_id} />
+                      <DeleteGame id={game.game_id} />
                     </div>
                   </td>
                 </tr>
