@@ -1,4 +1,4 @@
-import { fetchAllGames } from '@/app/lib/data'
+import { checkIfPrequelRequired, fetchAllGames } from '@/app/lib/data'
 
 export default async function GamesTable() {
   const games = await fetchAllGames();
@@ -78,19 +78,16 @@ export default async function GamesTable() {
                     {game.handheld ? '✔️' : '❌'}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {game.prequel_id}
-                    {/* update with logic for determining if prequel is played or unplayed */}
+                    {game.prequel_id === null || !checkIfPrequelRequired(game.prequel_id) ? '❌' : '✔️'}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {game.hltb_time}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {game.tried ? '✔️' : '❌'}
-                    {/* update with null option */}
+                    {game.tried ? '✔️' : (game.tried === null ? '' : '❌')}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {game.finished ? '✔️' : '❌'}
-                    {/* update with null option */}
+                    {game.finished ? '✔️' : (game.finished === null ? '' : '❌')}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {game.rating}
@@ -101,7 +98,7 @@ export default async function GamesTable() {
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       {/* <UpdateInvoice id={invoice.id} />
-                      <DeleteInvoice id={invoice.id} /> */}
+                      <DeleteInvoice id={invoice.id} /> stolen from tutorial, will make these update/delete game buttons */}
                     </div>
                   </td>
                 </tr>
