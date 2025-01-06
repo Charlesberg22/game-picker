@@ -1,3 +1,4 @@
+import { GamesTable } from "../lib/data";
 import { db } from "./database"
 
 export const apiGet = async (query: string) => {

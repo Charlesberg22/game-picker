@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const query = `
-    SELECT platform_name, name, licence, play_method, retro, prequel_id, hltb_time, tried, finished, rating, when_played, img
+    SELECT game_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
     FROM games
     JOIN platforms ON games.platform_id = platforms.platform_id
   `;

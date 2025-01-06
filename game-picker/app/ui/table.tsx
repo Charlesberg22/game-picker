@@ -6,8 +6,8 @@ export default async function GamesTable() {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <table className="hidden min-w-full text-gray-900 md:table">
+        <div className="rounded-lg bg-gray-900 p-2 md:pt-0">
+          <table className="hidden min-w-full text-gray-80 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
@@ -23,17 +23,38 @@ export default async function GamesTable() {
                   Play Method
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
+                  Retro?
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Handheld?
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Prequel Required?
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  HLTB
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Tried?
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Finished?
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
                   Rating
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Date Played
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-black">
               {games?.map((game: any) => (
                 <tr
-                  key={game.id}
+                  key={game.game_id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
@@ -51,7 +72,31 @@ export default async function GamesTable() {
                     {game.play_method}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
+                    {game.retro ? '✔️' : '❌'}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {game.handheld ? '✔️' : '❌'}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {game.prequel_id}
+                    {/* update with logic for determining if prequel is played or unplayed */}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {game.hltb_time}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {game.tried ? '✔️' : '❌'}
+                    {/* update with null option */}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {game.finished ? '✔️' : '❌'}
+                    {/* update with null option */}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
                     {game.rating}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {game.when_played}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">

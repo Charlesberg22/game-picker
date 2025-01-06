@@ -34,13 +34,14 @@ db.serialize(() => {
 
     db.run(
         `
-            CREATE TABLE games (
+            CREATE TABLE IF NOT EXISTS games (
                 game_id INTEGER PRIMARY KEY,
                 platform_id INTEGER NOT NULL,
                 name TEXT NOT NULL,
                 licence TEXT NOT NULL,
                 play_method TEXT NOT NULL,
                 retro INTEGER NOT NULL CHECK("retro" in (0, 1)),
+                handheld INTEGER NOT NULL CHECK("handheld in (0, 1)),
                 prequel_id INTEGER,
                 hltb_time FLOAT,
                 tried INTEGER CHECK("tried" in (0, 1)),
