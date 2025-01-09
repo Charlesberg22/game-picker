@@ -1,4 +1,4 @@
-import { apiDelete, apiGet, apiPatch, apiPost } from "../transactions";
+import { dbRun, dbAll } from "../transactions";
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       img,
     ];
 
-    await apiPost(query, values);
+    await dbRun(query, values);
 
     return NextResponse.json(
       { message: 'Successfully added game' },
@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
   `;
 
   try {
-    const body = await apiGet(query);
+    const body = await dbAll(query);
     return NextResponse.json(body, { status: 200 });
   } catch (error: any) {
     console.error('Error:', error.message);
@@ -93,7 +93,7 @@ export async function PATCH(req: NextRequest) {
       WHERE id = ?
     `;
 
-    await apiPatch(query, values);
+    await dbRun(query, values);
 
     return NextResponse.json(
       { message: `Successfully updated game with ID: ${id}` },
@@ -126,7 +126,7 @@ export async function DELETE(req: NextRequest) {
     `;
     const values = [id];
 
-    await apiDelete(query, values);
+    await dbRun(query, values);
 
     return NextResponse.json(
       { message: `Successfully deleted game with ID: ${id}` },

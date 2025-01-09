@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { games } from '../lib/placeholder-data';
-import { apiGet, apiPatch, apiPost } from '../api/transactions';
+import { dbAll, dbRun } from '../api/transactions';
 import { GamesTable } from '../lib/data';
 
 async function seedGames() {
@@ -38,11 +38,11 @@ async function seedGames() {
     
           // console.log('Values being inserted:', values); // Debugging output
 
-          await apiPost(insertQuery, values);
+          await dbRun(insertQuery, values);
         }
     
         // Update prequel_id based on prequel_name
-        const allGames = await apiGet(`SELECT game_id, name FROM games`) as GamesTable[];
+        const allGames = await dbAll(`SELECT game_id, name FROM games`) as GamesTable[];
     
         for (const game of games) {
           if (game.prequel_name) {
@@ -53,7 +53,7 @@ async function seedGames() {
                 SET prequel_id = ?
                 WHERE name = ?
               `;
-              await apiPatch(updateQuery, [String(prequel.game_id), game.name]);
+              await dbRun(updateQuery, [String(prequel.game_id), game.name]);
             }
           }
         }
