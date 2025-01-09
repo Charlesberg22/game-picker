@@ -18,6 +18,11 @@ export type GamesTable = {
   img: string
 };
 
+export type Platform = {
+  platform_id: number;
+  platform_name: string;
+};
+
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
 export async function fetchAllGames(): Promise<GamesTable[]> {
@@ -34,4 +39,27 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
 export async function checkIfPrequelRequired(prequel_id: number): Promise<Boolean> {
   const prequel = await dbAll(`SELECT game_id, tried FROM games WHERE game_id = ?`, [String(prequel_id)]) as GamesTable;
   return prequel.tried == null;
+}
+
+export async function fetchGameById(id: string): Promise<GamesTable> {
+  try {
+    const response = await apiGet(`SELECT * FROM games WHERE game_id = ${id}`) as GamesTable;
+    if (!response) throw new Error('Failed to fetch game');
+    const game = Array.isArray(response) ? response[0] : response;
+    return game;
+  } catch (error) {
+    console.error('Error fetching game:', error);
+    return {} as GamesTable;
+  }
+}
+
+export async function fetchPlatforms(): Promise<Platform[]> {
+  try {
+    const response = await apiGet(`SELECT * FROM platforms`) as Platform[];
+    if (!response) throw new Error('Failed to fetch platforms');
+    return response;
+  } catch (error) {
+    console.error('Error fetching platforms:', error);
+    return {} as Platform[];
+  }
 }
