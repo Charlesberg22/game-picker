@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { apiPatch } from '../api/transactions';
+import { dbRun } from '../api/transactions';
 import { redirect } from 'next/navigation';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
@@ -109,7 +109,7 @@ export async function updateGame(id: string, formData: FormData) {
     console.log( values );
 
     try {
-      await apiPatch(updateQuery, values);
+      await dbRun(updateQuery, values);
     } catch (error: any) {
       console.error('Error updating game:', error.message);
       throw error;
