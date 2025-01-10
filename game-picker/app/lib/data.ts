@@ -43,7 +43,7 @@ export async function checkIfPrequelRequired(prequel_id: number): Promise<Boolea
 
 export async function fetchGameById(id: string): Promise<GamesTable> {
   try {
-    const response = await apiGet(`SELECT * FROM games WHERE game_id = ${id}`) as GamesTable;
+    const response = await dbAll(`SELECT * FROM games WHERE game_id = ${id}`) as GamesTable;
     if (!response) throw new Error('Failed to fetch game');
     const game = Array.isArray(response) ? response[0] : response;
     return game;
@@ -55,7 +55,7 @@ export async function fetchGameById(id: string): Promise<GamesTable> {
 
 export async function fetchPlatforms(): Promise<Platform[]> {
   try {
-    const response = await apiGet(`SELECT * FROM platforms`) as Platform[];
+    const response = await dbAll(`SELECT * FROM platforms`) as Platform[];
     if (!response) throw new Error('Failed to fetch platforms');
     return response;
   } catch (error) {
