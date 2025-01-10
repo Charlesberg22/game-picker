@@ -11,7 +11,7 @@ export const db = new sqlite3.Database(
     (error) => {
         if (error) {
             console.error(error.message);
-return;
+            return;
         }
         console.log("Connected to games database.");
     }

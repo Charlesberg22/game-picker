@@ -1,4 +1,4 @@
-import { apiGet } from "../api/transactions";
+import { dbAll } from "../api/transactions";
 
 export type GamesTable = {
   game_id: number;
@@ -31,6 +31,6 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
 }
 
 export async function checkIfPrequelRequired(prequel_id: number): Promise<Boolean> {
-  const prequel = await apiGet(`SELECT game_id, tried FROM games WHERE game_id = ${prequel_id}`) as GamesTable;
-  return prequel.tried == null
+  const prequel = await dbAll(`SELECT game_id, tried FROM games WHERE game_id = ?`, [String(prequel_id)]) as GamesTable;
+  return prequel.tried == null;
 }
