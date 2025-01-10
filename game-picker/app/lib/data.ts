@@ -32,9 +32,5 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
 
 export async function checkIfPrequelRequired(prequel_id: number): Promise<Boolean> {
   const prequel = await apiGet(`SELECT game_id, tried FROM games WHERE game_id = ${prequel_id}`) as GamesTable;
-  if (prequel.tried !== null) {
-    return false
-  } else {
-    return true
-  }
+  return prequel.tried == null
 }
