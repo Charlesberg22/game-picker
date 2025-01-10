@@ -24,11 +24,11 @@ const FormSchema = z.object({
     handheld: z.coerce.boolean({
         invalid_type_error: 'Select handheld or television.'
     }),
-    prequel_id: z.string().nullable(),
-    hltb_time: z.string().nullable(),
+    prequel_id: z.string(),
+    hltb_time: z.string(),
     tried: z.coerce.boolean().nullable(),
     finished: z.coerce.boolean().nullable(),
-    rating: z.coerce.number().nullable(),
+    rating: z.coerce.number().gte(0).lte(10),
     when_played: z.string().nullable(),
 });
 
@@ -82,11 +82,11 @@ export async function updateGame(id: string, formData: FormData) {
           play_method = ?,
           retro = ?,
           handheld = ?,
-          prequel_id = ?,
+          prequel_id = CASE WHEN ? = "" THEN NULL ELSE ? END,
           hltb_time = ?,
           tried = ?,
           finished = ?,
-          rating = ?,
+          rating = CASE WHEN ? <= 0 THEN NULL ELSE ? END,
           when_played = ?
         WHERE game_id = ?
     `;
@@ -98,9 +98,11 @@ export async function updateGame(id: string, formData: FormData) {
       retro,
       handheld,
       prequel_id,
+      prequel_id,
       hltb_time,
       tried,
       finished,
+      rating,
       rating,
       when_played,
       id
