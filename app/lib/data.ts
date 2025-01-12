@@ -37,8 +37,12 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
 }
 
 export async function checkIfPrequelRequired(prequel_id: number): Promise<Boolean> {
-  const prequel = await dbAll(`SELECT game_id, tried FROM games WHERE game_id = ?`, [String(prequel_id)]) as GamesTable;
-  return prequel.tried == null;
+  const response = await dbAll(`SELECT game_id, tried FROM games WHERE game_id = ?`, [String(prequel_id)]) as GamesTable;
+  const prequel = Array.isArray(response) ? response[0] : response;
+  if (prequel !== undefined) {
+    return prequel.tried == null;
+  }
+  return false;
 }
 
 export async function fetchGameById(id: string): Promise<GamesTable> {

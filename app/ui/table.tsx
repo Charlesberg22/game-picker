@@ -4,8 +4,18 @@ import { DeleteGame, UpdateGame } from './buttons';
 export default async function GamesTable() {
   const games = await fetchAllGames();
 
+  const gamesWithPrequel = await Promise.all(
+    games.map(async (game: any) => {
+      const prequel_required = 
+        game.prequel_id === null
+          ? false
+          : await checkIfPrequelRequired(game.prequel_id);
+      return { ...game, prequel_required };
+    })
+  );
+
   return (
-    <div className="mt-6 flow-root">
+    <div className="mt-4 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-900 p-2 md:pt-0">
           <table className="hidden min-w-full text-gray-80 md:table">
@@ -53,7 +63,7 @@ export default async function GamesTable() {
               </tr>
             </thead>
             <tbody className="bg-black">
-              {games?.map((game: any) => (
+              {gamesWithPrequel?.map((game: any) => (
                 <tr
                   key={game.game_id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
@@ -79,7 +89,7 @@ export default async function GamesTable() {
                     {game.handheld ? '✔️' : '❌'}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {game.prequel_id === null || !checkIfPrequelRequired(game.prequel_id) ? '❌' : '✔️'}
+                    {game.prequel_required  ? '✔️' : '❌'}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {game.hltb_time}

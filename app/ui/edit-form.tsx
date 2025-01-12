@@ -1,9 +1,9 @@
 'use client';
 
-import { fetchAllGames, GamesTable, Platform } from "../lib/data";
+import { GamesTable, Platform } from "../lib/data";
 import { updateGame } from "../lib/actions";
 import Link from "next/link";
-import { BackwardIcon, BookOpenIcon, CalendarIcon, CheckIcon, ClockIcon, ComputerDesktopIcon, CpuChipIcon, CurrencyDollarIcon, DevicePhoneMobileIcon, DocumentTextIcon, NoSymbolIcon, TvIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { BackwardIcon, BookOpenIcon, CalendarIcon, CheckIcon, ClockIcon, ComputerDesktopIcon, CpuChipIcon, DevicePhoneMobileIcon, DocumentTextIcon, NoSymbolIcon, TvIcon } from "@heroicons/react/24/outline";
 
 export default function EditGameForm({game, platforms, allGames}: {game: GamesTable; platforms: Platform[]; allGames: GamesTable[]}) {
   const updateGameWithId = updateGame.bind(null, String(game.game_id));
@@ -366,11 +366,11 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
       <div className="mt-6 flex justify-end gap-4">
         <Link
           href="/"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-400"
         >
           Cancel
         </Link>
-        <button type="submit">Edit Game</button>
+        <button type="submit" className="flex mr-4 h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-800">Edit Game</button>
       </div>
     </form>
   )

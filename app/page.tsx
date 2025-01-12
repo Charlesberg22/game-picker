@@ -1,7 +1,6 @@
-import Image from "next/image";
-import { inter } from "./layout";
 import { Suspense } from 'react';
 import Table from './ui/table'
+import { AddGame } from './ui/buttons';
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -13,7 +12,8 @@ export default async function Page(props: {
 
 return (
   <div className="w-full">
-    <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+    <div className="mt-4 ml-2 flex">
+      <AddGame></AddGame>
     </div>
      <Suspense key={query}>
       <Table/>

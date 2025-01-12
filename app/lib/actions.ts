@@ -9,6 +9,9 @@ const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
 const FormSchema = z.object({
     game_id: z.string(),
+    name: z.string({
+        invalid_type_error: 'Enter a name.',
+    }),
     platform_id: z.string({
         invalid_type_error: 'Select a platform.',
     }),
@@ -50,6 +53,7 @@ const UpdateGame = FormSchema.omit({ game_id: true });
 
 export async function updateGame(id: string, formData: FormData) {
     const { 
+        name,
         platform_id,
         licence,
         play_method,
@@ -62,6 +66,7 @@ export async function updateGame(id: string, formData: FormData) {
         rating,
         when_played,
     } = UpdateGame.parse({
+        name: formData.get('name'),
         platform_id: formData.get('platform_id'),
         licence: formData.get('licence'),
         play_method: formData.get('play_method'),
@@ -77,7 +82,8 @@ export async function updateGame(id: string, formData: FormData) {
 
     const updateQuery = `
         UPDATE games
-        SET platform_id = ?,
+        SET name = ?,
+          platform_id = ?,
           licence = ?,
           play_method = ?,
           retro = ?,
@@ -92,6 +98,7 @@ export async function updateGame(id: string, formData: FormData) {
     `;
 
     const values = [
+      name,
       platform_id,
       licence,
       play_method,
@@ -108,12 +115,76 @@ export async function updateGame(id: string, formData: FormData) {
       id
     ] as string[]
 
-    console.log( values );
-
     try {
       await dbRun(updateQuery, values);
     } catch (error: any) {
       console.error('Error updating game:', error.message);
+      throw error;
+    }
+
+    revalidatePath('/');
+    redirect('/');    
+}
+
+const CreateGame = FormSchema.omit({ game_id: true });
+
+export async function createGame(formData: FormData) {
+    const { 
+        name,
+        platform_id,
+        licence,
+        play_method,
+        retro,
+        handheld,
+        prequel_id,
+        hltb_time,
+        tried,
+        finished,
+        rating,
+        when_played,
+    } = CreateGame.parse({
+        name: formData.get('name'),
+        platform_id: formData.get('platform_id'),
+        licence: formData.get('licence'),
+        play_method: formData.get('play_method'),
+        retro: formData.get('retro'),
+        handheld: formData.get('handheld'),
+        prequel_id: formData.get('prequel_id'),
+        hltb_time: formData.get('hltb_time'),
+        tried: formData.get('tried'),
+        finished: formData.get('finished'),
+        rating: formData.get('rating'),
+        when_played: formData.get('when_played'),
+    });
+
+    const createQuery = `
+        INSERT INTO games (name, platform_id, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played)
+        VALUES (?, ?, ?, ?, ?, ?, CASE WHEN ? = "" THEN NULL ELSE ? END, ?, ?, ?, CASE WHEN ? <= 0 THEN NULL ELSE ? END, ?)
+    `;
+
+    const values = [
+      name,
+      platform_id,
+      licence,
+      play_method,
+      retro,
+      handheld,
+      prequel_id,
+      prequel_id,
+      hltb_time,
+      tried,
+      finished,
+      rating,
+      rating,
+      when_played
+    ] as string[]
+
+    console.log( values );
+
+    try {
+      await dbRun(createQuery, values);
+    } catch (error: any) {
+      console.error('Error creating game:', error.message);
       throw error;
     }
 
