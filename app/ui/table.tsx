@@ -16,11 +16,11 @@ export default async function GamesTable() {
   );
 
   return (
-    <div className="mt-4 flow-root">
+    <div className="flow-root bg-neutral-950">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-900 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-900 px-2 md:pt-0">
           <table className="hidden min-w-full text-gray-80 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
+            <thead className="rounded-lg sticky top-[124px] bg-gray-900 text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                   Platform

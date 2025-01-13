@@ -9,7 +9,7 @@ export function AddGame() {
       className="flex mr-2 h-10 w-40 items-center justify-between rounded-lg bg-blue-600 px-4 text-md font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >
       <span className="hidden md:block">Add Game</span>{' '}
-      <PlusIcon className="h-5 md:ml-4" />
+      <PlusIcon className="h-5 md:pl-4" />
     </Link>
   );
 }

@@ -12,7 +12,7 @@ export default async function Page(props: {
 
 return (
   <div className="w-full">
-    <div className="mt-4 ml-2 flex">
+    <div className="sticky top-[60px] pt-2 pb-4 pl-2 flex bg-neutral-950">
       <AddGame></AddGame>
     </div>
      <Suspense key={query}>

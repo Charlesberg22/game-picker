@@ -25,7 +25,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased`}
       >
-        <div className="flex md:flex-row md:overflow-hidden">
+        <div className="flex sticky top-0 md:flex-row md:overflow-hidden bg-neutral-950">
               <TopNav />
         </div>
         {children}

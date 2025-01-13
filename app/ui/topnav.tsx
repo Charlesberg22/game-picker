@@ -37,7 +37,7 @@ function NavLinks() {
 
 export default function TopNav() {
   return (
-      <div className="flex flex-row gap-2 md:flex-row md:space-x-0 md:space-y-2 ml-2">
+      <div className="flex flex-row gap-x-2 md:flex-row md:space-x-0 md:py-2 ml-2">
         <NavLinks />
       </div>
   );
