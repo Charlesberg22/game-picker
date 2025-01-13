@@ -1,5 +1,6 @@
 import { checkIfPrequelRequired, fetchAllGames } from '@/app/lib/data'
 import { DeleteGame, UpdateGame } from './buttons';
+import { formatDate } from '@/app/lib/utils';
 
 export default async function GamesTable() {
   const games = await fetchAllGames();
@@ -104,7 +105,7 @@ export default async function GamesTable() {
                     {game.rating}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {game.when_played}
+                    {formatDate(game.when_played)}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">

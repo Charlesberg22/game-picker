@@ -25,7 +25,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "4",
-        "when_played": "April 2023"
+        "when_played": "2023-02-12"
     },
     {
         "platform_id": "1",
@@ -39,7 +39,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7",
-        "when_played": "September 2023"
+        "when_played": "2023-09-02"
     },
     {
         "platform_id": "1",
@@ -53,7 +53,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "2",
-        "when_played": "August 2023"
+        "when_played": "2023-08-26"
     },
     {
         "platform_id": "1",
@@ -67,7 +67,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "August 2023"
+        "when_played": "2023-08-27"
     },
     {
         "platform_id": "1",
@@ -81,7 +81,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6",
-        "when_played": "September 2023"
+        "when_played": "2023-09-03"
     },
     {
         "platform_id": "1",
@@ -95,7 +95,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "5",
-        "when_played": "June 2024"
+        "when_played": "2024-06-16"
     },
     {
         "platform_id": "1",
@@ -109,7 +109,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6",
-        "when_played": "September 2023"
+        "when_played": "2023-09-18"
     },
     {
         "platform_id": "1",
@@ -123,7 +123,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "6",
-        "when_played": "October 2023"
+        "when_played": "2023-10-16"
     },
     {
         "platform_id": "2",
@@ -291,7 +291,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7",
-        "when_played": "November 2023"
+        "when_played": "2023-11-28"
     },
     {
         "platform_id": "2",
@@ -347,7 +347,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8.5",
-        "when_played": "October 2023"
+        "when_played": "2023-10-31"
     },
     {
         "platform_id": "3",
@@ -361,7 +361,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "5.5",
-        "when_played": "June 2023"
+        "when_played": "2023-08-26"
     },
     {
         "platform_id": "3",
@@ -375,7 +375,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "5.5",
-        "when_played": "March 2023"
+        "when_played": "2023-02-10"
     },
     {
         "platform_id": "3",
@@ -389,7 +389,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "6",
-        "when_played": "August 2023"
+        "when_played": "2023-09-04"
     },
     {
         "platform_id": "3",
@@ -417,7 +417,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6",
-        "when_played": "July 2024"
+        "when_played": "2024-07-01"
     },
     {
         "platform_id": "3",
@@ -627,7 +627,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "4.5",
-        "when_played": "September 2023"
+        "when_played": "2023-09-26"
     },
     {
         "platform_id": "5",
@@ -641,7 +641,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "9",
-        "when_played": "May 2024"
+        "when_played": "2024-05-05"
     },
     {
         "platform_id": "5",
@@ -837,7 +837,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6.5",
-        "when_played": "July 2023"
+        "when_played": "2024-07-31"
     },
     {
         "platform_id": "8",
@@ -865,7 +865,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8",
-        "when_played": "August 2023"
+        "when_played": "2023-08-14"
     },
     {
         "platform_id": "8",
@@ -893,7 +893,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "6",
-        "when_played": "May 2023"
+        "when_played": "2023-05-01"
     },
     {
         "platform_id": "8",
@@ -1061,7 +1061,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "February 2023"
+        "when_played": "2023-02-20"
     },
     {
         "platform_id": "9",
@@ -1159,7 +1159,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "5.5",
-        "when_played": "December 2024"
+        "when_played": "2024-12-27"
     },
     {
         "platform_id": "9",
@@ -1187,7 +1187,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8",
-        "when_played": "March 2023"
+        "when_played": "2023-03-01"
     },
     {
         "platform_id": "9",
@@ -1215,7 +1215,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "November 2024"
+        "when_played": "2024-11-23"
     },
     {
         "platform_id": "9",
@@ -1229,7 +1229,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7",
-        "when_played": "September 2023"
+        "when_played": "2023-09-12"
     },
     {
         "platform_id": "9",
@@ -1271,7 +1271,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6.5",
-        "when_played": "October 2023"
+        "when_played": "2023-10-15"
     },
     {
         "platform_id": "9",
@@ -1299,7 +1299,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "November 2023"
+        "when_played": "2023-11-02"
     },
     {
         "platform_id": "10",
@@ -1383,7 +1383,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "2",
-        "when_played": "October 2023"
+        "when_played": "2023-10-17"
     },
     {
         "platform_id": "10",
@@ -1425,7 +1425,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8.5",
-        "when_played": "September 2023"
+        "when_played": "2023-09-23"
     },
     {
         "platform_id": "10",
@@ -1831,7 +1831,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7",
-        "when_played": "December 2024"
+        "when_played": "2024-12-22"
     },
     {
         "platform_id": "11",
@@ -1873,7 +1873,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "3",
-        "when_played": "June 2024"
+        "when_played": "2024-06-20"
     },
     {
         "platform_id": "11",
@@ -1887,7 +1887,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7",
-        "when_played": "October 2024"
+        "when_played": "2024-10-27"
     },
     {
         "platform_id": "11",
@@ -2223,7 +2223,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8.5",
-        "when_played": "January 2025"
+        "when_played": "2025-01-03"
     },
     {
         "platform_id": "13",
@@ -2279,7 +2279,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6",
-        "when_played": "December 2022"
+        "when_played": "2023-01-01"
     },
     {
         "platform_id": "13",
@@ -2293,7 +2293,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8.5",
-        "when_played": "December 2022"
+        "when_played": "2023-01-08"
     },
     {
         "platform_id": "13",
@@ -2307,7 +2307,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7",
-        "when_played": "December 2022"
+        "when_played": "2023-01-19"
     },
     {
         "platform_id": "13",
@@ -2559,7 +2559,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "6.5",
-        "when_played": "July 2024"
+        "when_played": "2024-07-19"
     },
     {
         "platform_id": "15",
@@ -2615,7 +2615,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8",
-        "when_played": "September 2022"
+        "when_played": "2022-09-30"
     },
     {
         "platform_id": "15",
@@ -2671,7 +2671,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "July 2024"
+        "when_played": "2024-07-23"
     },
     {
         "platform_id": "16",
@@ -2783,7 +2783,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6.5",
-        "when_played": "October 2023"
+        "when_played": "2023-10-15"
     },
     {
         "platform_id": "16",
@@ -2811,7 +2811,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6.5",
-        "when_played": "November 2023"
+        "when_played": "2023-11-14"
     },
     {
         "platform_id": "16",
@@ -2951,7 +2951,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6",
-        "when_played": "January 2023"
+        "when_played": "2023-01-28"
     },
     {
         "platform_id": "16",
@@ -2979,7 +2979,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "9.5",
-        "when_played": "November 2022"
+        "when_played": "2022-12-09"
     },
     {
         "platform_id": "16",
@@ -2993,7 +2993,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "6.5",
-        "when_played": "January 2023"
+        "when_played": "2023-02-04"
     },
     {
         "platform_id": "16",
@@ -3007,7 +3007,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "October 2023"
+        "when_played": "2023-10-27"
     },
     {
         "platform_id": "16",
@@ -3063,7 +3063,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "October 2024"
+        "when_played": "2024-10-23"
     },
     {
         "platform_id": "16",
@@ -3119,7 +3119,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "October 2023"
+        "when_played": "2023-10-14"
     },
     {
         "platform_id": "16",
@@ -3147,7 +3147,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "9",
-        "when_played": "September 2024"
+        "when_played": "2024-09-29"
     },
     {
         "platform_id": "17",
@@ -3161,7 +3161,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "June 2024"
+        "when_played": "2024-06-16"
     },
     {
         "platform_id": "17",
@@ -3175,7 +3175,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8.5",
-        "when_played": "December 2024"
+        "when_played": "2024-12-21"
     },
     {
         "platform_id": "17",
@@ -3189,7 +3189,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "9",
-        "when_played": "April 2024"
+        "when_played": "2024-04-13"
     },
     {
         "platform_id": "17",
@@ -3259,7 +3259,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "7.5",
-        "when_played": "November 2024"
+        "when_played": "2024-11-17"
     },
     {
         "platform_id": "17",
@@ -3301,7 +3301,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "8",
-        "when_played": "January 2024"
+        "when_played": "2024-01-01"
     },
     {
         "platform_id": "17",
@@ -3567,7 +3567,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "4.5",
-        "when_played": "August 2024"
+        "when_played": "2024-08-01"
     },
     {
         "platform_id": "100",
@@ -3679,7 +3679,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "9",
-        "when_played": "June 2024"
+        "when_played": "2024-06-15"
     },
     {
         "platform_id": "100",
@@ -3693,7 +3693,7 @@ export const games = [
         "tried": "1",
         "finished": "1",
         "rating": "9",
-        "when_played": "July 2024"
+        "when_played": "2024-07-01"
     },
     {
         "platform_id": "100",
@@ -3707,7 +3707,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "5.5",
-        "when_played": "May 2024"
+        "when_played": "2024-05-04"
     },
     {
         "platform_id": "100",
@@ -3805,7 +3805,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "6.5",
-        "when_played": "August 2024"
+        "when_played": "2024-08-21"
     },
     {
         "platform_id": "100",
@@ -3903,7 +3903,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "7",
-        "when_played": "July 2024"
+        "when_played": "2024-07-25"
     },
     {
         "platform_id": "100",
@@ -4001,7 +4001,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "8.5",
-        "when_played": "August 2024"
+        "when_played": "2024-08-21"
     },
     {
         "platform_id": "100",
@@ -4071,7 +4071,7 @@ export const games = [
         "tried": "1",
         "finished": "0",
         "rating": "5",
-        "when_played": "November 2024"
+        "when_played": "2024-11-24"
     },
     {
         "platform_id": "100",
