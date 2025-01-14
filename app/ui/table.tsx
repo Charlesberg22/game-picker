@@ -1,10 +1,9 @@
-import { checkIfPrequelRequired, fetchAllGames } from '@/app/lib/data'
+import { checkIfPrequelRequired, fetchFilteredGames } from '@/app/lib/data'
 import { DeleteGame, UpdateGame } from './buttons';
 import { formatDate } from '@/app/lib/utils';
 
-export default async function GamesTable() {
-  const games = await fetchAllGames();
-
+export default async function GamesTable({query}: {query: string}) {
+  const games = await fetchFilteredGames(query);
   const gamesWithPrequel = await Promise.all(
     games.map(async (game: any) => {
       const prequel_required = 
@@ -22,40 +21,40 @@ export default async function GamesTable() {
           <table className="hidden min-w-full text-gray-80 md:table">
             <thead className="rounded-lg sticky top-[124px] bg-gray-900 text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6 w-[108px]">
                   Platform
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-[480px]">
                   Game
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-[244px]">
                   Licence
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-[180px]">
                   Play Method
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-10">
                   Retro?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-10">
                   Handheld?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-24">
                   Prequel Required?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-16">
                   HLTB
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-10">
                   Tried?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-10">
                   Finished?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-16">
                   Rating
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 font-medium w-[108px]">
                   Date Played
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
@@ -86,22 +85,22 @@ export default async function GamesTable() {
                   <td className="whitespace-nowrap px-3 py-3">
                     {game.retro ? '✔️' : '❌'}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3 text-center">
                     {game.handheld ? '✔️' : '❌'}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3 text-center">
                     {game.prequel_required  ? '✔️' : '❌'}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3 text-center">
                     {game.hltb_time}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3 text-center">
                     {game.tried ? '✔️' : (game.tried === null ? '' : '❌')}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3 text-center">
                     {game.finished ? '✔️' : (game.finished === null ? '' : '❌')}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3 text-center">
                     {game.rating}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">

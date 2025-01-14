@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import Table from './ui/table'
 import { AddGame } from './ui/buttons';
+import Search from './ui/search';
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -13,11 +14,9 @@ export default async function Page(props: {
 return (
   <div className="w-full">
     <div className="sticky top-[60px] pt-2 pb-4 pl-2 flex bg-neutral-950">
-      <AddGame></AddGame>
+      <AddGame/> <Search placeholder="Filter games..." />
     </div>
-     <Suspense key={query}>
-      <Table/>
-    </Suspense>
+    <Table query={query}/>
   </div>
 );
 }

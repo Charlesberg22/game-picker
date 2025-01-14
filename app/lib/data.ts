@@ -36,6 +36,58 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
   }
 }
 
+export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
+  const values = Array(4).fill(`%${query}%`)
+  if (query == 'retro') {
+    values.push('1')
+  } else if (query == 'modern') {
+    values.push('0')
+  } else {
+    values.push('')
+  }
+  if (query == 'handheld') {
+    values.push('1')
+  } else if (query == 'desktop') {
+    values.push('0')
+  } else {
+    values.push('')
+  }
+  if (query == 'tried') {
+    values.push('1')
+  } else {
+    values.push('')
+  }
+  if (query == 'finished') {
+    values.push('1')
+  } else {
+    values.push('')
+  }
+  
+  try {
+    const response = await dbAll(`
+      SELECT game_id, games.platform_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+      FROM games
+      JOIN platforms ON games.platform_id = platforms.platform_id
+      WHERE
+        platforms.platform_name LIKE ? OR
+        name LIKE ? OR
+        licence LIKE ? OR
+        play_method LIKE ? OR
+        retro = ? OR
+        handheld = ? OR
+        tried = ? OR
+        finished = ?
+      ORDER BY games.platform_id, name
+    `,
+    values) as GamesTable[];
+    if (!response) throw new Error('Failed to fetch games');
+    return response;
+  } catch (error) {
+    console.error('Error fetching games:', error);
+    return [];
+  }
+}
+
 export async function checkIfPrequelRequired(prequel_id: number): Promise<Boolean> {
   const response = await dbAll(`SELECT game_id, tried FROM games WHERE game_id = ?`, [String(prequel_id)]) as GamesTable;
   const prequel = Array.isArray(response) ? response[0] : response;
