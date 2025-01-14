@@ -33,25 +33,25 @@ export default async function GamesTable({query}: {query: string}) {
                 <th scope="col" className="px-3 py-5 font-medium w-[180px]">
                   Play Method
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium w-10">
+                <th scope="col" className="px-3 py-5 font-medium w-10 text-center">
                   Retro?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium w-10">
+                <th scope="col" className="px-3 py-5 font-medium w-10 text-center">
                   Handheld?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium w-24">
+                <th scope="col" className="px-3 py-5 font-medium w-24 text-center">
                   Prequel Required?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium w-16">
+                <th scope="col" className="px-3 py-5 font-medium w-16 text-center">
                   HLTB
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium w-10">
+                <th scope="col" className="px-3 py-5 font-medium w-10 text-center">
                   Tried?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium w-10">
+                <th scope="col" className="px-3 py-5 font-medium w-10 text-center">
                   Finished?
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium w-16">
+                <th scope="col" className="px-3 py-5 font-medium w-16 text-center">
                   Rating
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium w-[108px]">
