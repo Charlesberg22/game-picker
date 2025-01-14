@@ -65,12 +65,18 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
     values.push('')
   }
   if (query == 'tried') {
-    values.push('1')
+    values.push('1', '1')
+  } else if (query == 'avoided') {
+    values.push('0', '0')
+  } else if (query == 'untried') {
+    values.push('null', '')
   } else {
-    values.push('')
+    values.push('', '')
   }
   if (query == 'finished') {
     values.push('1')
+  } else if (query == 'unfinished') {
+    values.push('0')
   } else {
     values.push('')
   }
@@ -87,7 +93,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
         play_method LIKE ? OR
         retro = ? OR
         handheld = ? OR
-        tried = ? OR
+        (CASE WHEN ? = 'null' THEN tried IS NULL ELSE tried = ? END) OR
         finished = ?
       ORDER BY games.platform_id, name
     `,
