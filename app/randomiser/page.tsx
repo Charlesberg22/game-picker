@@ -1,7 +1,6 @@
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { checkPlayedStats, checkUnplayedStats, fetchGameOptions } from "../lib/data";
 import GenericGamesTable from "../ui/generic-table";
-import { revalidatePath } from "next/cache";
 import { refreshRandomGame } from "../lib/actions";
 
 

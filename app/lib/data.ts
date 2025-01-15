@@ -234,3 +234,20 @@ export async function fetchGameOptions(retro: boolean, handheld: boolean): Promi
     return {} as GamesTable[];
   }
 }
+
+export async function fetchGameTimeline(): Promise<GamesTable[]> {
+  try {
+    const response = await dbAll(`
+      SELECT game_id, games.platform_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+      FROM games
+      JOIN platforms ON games.platform_id = platforms.platform_id
+      WHERE tried = 1
+      ORDER by when_played, hltb_time DESC
+    `) as GamesTable[];
+    if (!response) throw new Error('Failed to fetch game');
+    return response;
+  } catch (error) {
+    console.error('Error fetching game:', error);
+    return {} as GamesTable[];
+  }
+}
