@@ -86,15 +86,14 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
       SELECT game_id, games.platform_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
       FROM games
       JOIN platforms ON games.platform_id = platforms.platform_id
-      WHERE
-        platforms.platform_name LIKE ? OR
-        name LIKE ? OR
-        licence LIKE ? OR
-        play_method LIKE ? OR
-        retro = ? OR
-        handheld = ? OR
-        (CASE WHEN ? = 'null' THEN tried IS NULL ELSE tried = ? END) OR
-        finished = ?
+      WHERE platforms.platform_name LIKE ?
+      OR name LIKE ?
+      OR licence LIKE ?
+      OR play_method LIKE ?
+      OR retro = ?
+      OR handheld = ?
+      OR (CASE WHEN ? = 'null' THEN tried IS NULL ELSE tried = ? END)
+      OR finished = ?
       ORDER BY games.platform_id, name
     `,
     values) as GamesTable[];
@@ -208,5 +207,30 @@ export async function checkPlayedStats(): Promise<Stats> {
   } catch (error) {
     console.error('Error fetching platforms:', error);
     return {} as Stats;
+  }
+}
+
+export async function fetchGameOptions(retro: boolean, handheld: boolean): Promise<GamesTable[]> {
+  try {
+    const response = await dbAll(`
+      SELECT game_id, games.platform_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+      FROM games
+      JOIN platforms ON games.platform_id = platforms.platform_id
+      WHERE retro = ?
+      AND handheld = ?
+      AND tried IS NULL
+      AND (prequel_id IS NULL OR
+          EXISTS (
+              SELECT 1
+              FROM games AS prequel
+              WHERE prequel.game_id = games.prequel_id
+              AND prequel.tried IS NOT NULL
+          )
+      )`, [String(Number(retro)), String(Number(handheld))]) as GamesTable[];
+    if (!response) throw new Error('Failed to fetch game');
+    return response;
+  } catch (error) {
+    console.error('Error fetching game:', error);
+    return {} as GamesTable[];
   }
 }

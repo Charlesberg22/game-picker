@@ -189,3 +189,7 @@ export async function createGame(formData: FormData) {
     revalidatePath('/');
     redirect('/');    
 }
+
+export async function refreshRandomGame() {
+    revalidatePath('/randomiser')
+  }
