@@ -9,9 +9,9 @@ export default async function Page() {
 
   return (
     <div className="w-full">
-      <div className="sticky top-[60px] pt-2 h-16 pl-2 flex bg-neutral-950">
+      <div className="sticky pl-2 flex bg-neutral-950">
       </div>
-      <GenericGamesTable games={games}/>
+      <GenericGamesTable games={games} vertPos={60}/>
     </div>
   );
 }
