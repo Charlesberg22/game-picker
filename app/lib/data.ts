@@ -10,6 +10,7 @@ export type GamesTable = {
   retro: boolean;
   handheld: boolean;
   prequel_id: number | null;
+  prequel_required: boolean;
   hltb_time: number;
   tried: boolean;
   finished: boolean;
@@ -83,7 +84,25 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
   
   try {
     const response = await dbAll(`
-      SELECT game_id, games.platform_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+      SELECT
+        game_id,
+        games.platform_id,
+        platform_name,
+        name, licence,
+        play_method,
+        retro,
+        handheld,
+        prequel_id,
+        hltb_time,
+        tried,
+        finished,
+        rating,
+        when_played,
+        img,
+        (SELECT 1
+          FROM games AS prequel
+          WHERE prequel.game_id = games.prequel_id
+          AND prequel.tried IS NULL) AS prequel_required
       FROM games
       JOIN platforms ON games.platform_id = platforms.platform_id
       WHERE platforms.platform_name LIKE ?
@@ -103,14 +122,6 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
     console.error('Error fetching games:', error);
     return [];
   }
-}
-
-export async function checkIfPrequelRequired(prequel_id: number): Promise<Boolean> {
-  const response = await dbGet(`SELECT game_id, tried FROM games WHERE game_id = ?`, [String(prequel_id)]) as GamesTable;
-  if (response !== undefined) {
-    return response.tried == null;
-  }
-  return false;
 }
 
 export async function fetchGameById(id: string): Promise<GamesTable> {
