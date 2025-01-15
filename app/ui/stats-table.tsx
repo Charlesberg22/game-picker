@@ -1,6 +1,9 @@
 import { Stats } from "@/app/lib/data";
 
 export default async function StatsTable({unplayedStats, playedStats}: {unplayedStats: Stats, playedStats: Stats}) {
+
+  const overall_ratio_modern_retro = Math.round((unplayedStats.number_of_modern + playedStats.number_of_modern) / (unplayedStats.number_of_retro + playedStats.number_of_retro) * 10 ) / 10;
+  const overall_ratio_desktop_handheld = Math.round((unplayedStats.number_of_desktop + playedStats.number_of_desktop) / (unplayedStats.number_of_handheld + playedStats.number_of_handheld) * 10) / 10;
   
   return (
     <div className="flow-root bg-neutral-950">
@@ -60,10 +63,10 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
                 </tr>
                 <tr className="w-full py-3 border-b text-sm">
                   <td className="whitespace-nowrap py-3 px-3">
-                    Ratio of Modern to Retro Games Remaining
+                    Ratio of Modern to Retro Games Overall
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 text-end">
-                    {unplayedStats.ratio_modern_retro}
+                    {overall_ratio_modern_retro}
                   </td>
                 </tr>
                 <tr className="w-full py-3 border-b text-sm">
@@ -76,10 +79,10 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
                 </tr>
                 <tr className="w-full py-3 border-b text-sm">
                   <td className="whitespace-nowrap py-3 px-3">
-                    Ratio of Desktop to Handheld Games Remaining
+                    Ratio of Desktop to Handheld Games Overall
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 text-end">
-                    {unplayedStats.ratio_desktop_handheld}
+                    {overall_ratio_desktop_handheld}
                   </td>
                 </tr>
                 <tr className="w-full py-3 text-sm">

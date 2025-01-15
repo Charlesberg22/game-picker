@@ -9,15 +9,19 @@ export default async function Page() {
   const unplayedStats = await checkUnplayedStats();
   const playedStats = await checkPlayedStats();
 
-  const retro = unplayedStats.ratio_modern_retro < playedStats.ratio_modern_retro;
-  const remainingRetro = retro
-    ? Math.ceil(playedStats.number_of_modern / unplayedStats.ratio_modern_retro - playedStats.number_of_retro)
-    : Math.ceil(playedStats.number_of_retro * unplayedStats.ratio_modern_retro - playedStats.number_of_modern);
+  const overall_ratio_modern_retro = (unplayedStats.number_of_modern + playedStats.number_of_modern) / (unplayedStats.number_of_retro + playedStats.number_of_retro);
 
-  const handheld = unplayedStats.ratio_desktop_handheld < playedStats.ratio_desktop_handheld;
+  const retro = overall_ratio_modern_retro < playedStats.ratio_modern_retro;
+  const remainingRetro = retro
+    ? Math.ceil(playedStats.number_of_modern / overall_ratio_modern_retro - playedStats.number_of_retro)
+    : Math.ceil(playedStats.number_of_retro * overall_ratio_modern_retro - playedStats.number_of_modern);
+
+  const overall_ratio_desktop_handheld = (unplayedStats.number_of_desktop + playedStats.number_of_desktop) / (unplayedStats.number_of_handheld + playedStats.number_of_handheld);
+  
+  const handheld = overall_ratio_desktop_handheld < playedStats.ratio_desktop_handheld;
   const remainingHandheld = retro
-    ? Math.ceil(playedStats.number_of_desktop / unplayedStats.ratio_desktop_handheld - playedStats.number_of_handheld)
-    : Math.ceil(playedStats.number_of_handheld * unplayedStats.ratio_desktop_handheld - playedStats.number_of_desktop);
+    ? Math.ceil(playedStats.number_of_desktop / overall_ratio_desktop_handheld - playedStats.number_of_handheld)
+    : Math.ceil(playedStats.number_of_handheld * overall_ratio_desktop_handheld - playedStats.number_of_desktop);
 
   const games = await fetchGameOptions(retro, handheld);
 
