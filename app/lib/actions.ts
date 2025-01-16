@@ -4,8 +4,9 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { dbRun } from '../api/transactions';
 import { redirect } from 'next/navigation';
+import { getBaseUrl } from './utils';
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+const baseUrl = getBaseUrl();
 
 const FormSchema = z.object({
     game_id: z.string(),
