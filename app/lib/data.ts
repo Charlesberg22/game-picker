@@ -1,4 +1,5 @@
 import { dbAll, dbGet } from "../api/transactions";
+import { getBaseUrl } from "./utils";
 
 export type GamesTable = {
   game_id: number;
@@ -36,7 +37,7 @@ export type Stats = {
   ratio_desktop_handheld: number;
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+const baseUrl = getBaseUrl();
 
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {
