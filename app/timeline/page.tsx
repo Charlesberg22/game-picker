@@ -1,4 +1,3 @@
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { fetchGameTimeline } from "../lib/data";
 import GenericGamesTable from "../ui/generic-table";
 
