@@ -21,6 +21,7 @@
     "react-dom": "^19.0.0",
     "sqlite3": "^5.1.7",
     "tsconfig-paths": "^4.2.0",
+    "use-debounce": "^10.0.4",
     "zod": "^3.24.1"
   },
   "devDependencies": {
