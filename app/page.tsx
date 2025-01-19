@@ -13,7 +13,7 @@ export default async function Page(props: {
 return (
   <div className="w-full">
     <div className="sticky top-[60px] pt-2 pb-4 pl-2 flex bg-neutral-950">
-      <AddGame></AddGame>
+      <AddGame />
     </div>
      <Suspense key={query}>
       <Table/>
