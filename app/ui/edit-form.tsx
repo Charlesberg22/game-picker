@@ -193,7 +193,7 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
               id="prequel"
               name="prequel_id"
               className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={game.prequel_id}
+              defaultValue={game.prequel_id ?? ""}
             >
               <option value=''>
                 None

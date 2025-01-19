@@ -26,7 +26,10 @@ export function UpdateGame({ id }: { id: string }) {
 }
 
 export function DeleteGame({ id }: { id: string }) {
-  const deleteGameWithId = deleteGame.bind(null, id);
+  async function deleteGameWithId() {
+    "use server"
+    deleteGame(id);
+  }
   return (
     <form action={deleteGameWithId}>
       <button className="rounded-md border p-2 hover:bg-red-600">

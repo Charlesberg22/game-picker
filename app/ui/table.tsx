@@ -5,7 +5,7 @@ import { formatDate } from '@/app/lib/utils';
 export default async function GamesTable({query}: {query: string}) {
   const games = await fetchFilteredGames(query);
   const gamesWithPrequel = await Promise.all(
-    games.map(async (game: any) => {
+    games.map(async game => {
       const prequel_required = 
         game.prequel_id === null
           ? false
@@ -63,7 +63,7 @@ export default async function GamesTable({query}: {query: string}) {
               </tr>
             </thead>
             <tbody className="bg-black">
-              {gamesWithPrequel?.map((game: any) => (
+              {gamesWithPrequel.map(game => (
                 <tr
                   key={game.game_id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
