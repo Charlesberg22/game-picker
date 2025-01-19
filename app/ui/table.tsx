@@ -6,7 +6,7 @@ export default async function GamesTable() {
   const games = await fetchAllGames();
 
   const gamesWithPrequel = await Promise.all(
-    games.map(async (game: any) => {
+    games.map(async game => {
       const prequel_required = 
         game.prequel_id === null
           ? false
