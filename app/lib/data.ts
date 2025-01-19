@@ -32,7 +32,7 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
     return await response.json();
   } catch (error) {
     console.error('Error fetching games:', error);
-    return [];
+    throw error;
   }
 }
 
@@ -53,7 +53,7 @@ export async function fetchGameById(id: string): Promise<GamesTable> {
     return game;
   } catch (error) {
     console.error('Error fetching game:', error);
-    return {} as GamesTable;
+    throw error;
   }
 }
 
@@ -64,6 +64,6 @@ export async function fetchPlatforms(): Promise<Platform[]> {
     return response;
   } catch (error) {
     console.error('Error fetching platforms:', error);
-    return {} as Platform[];
+    throw error;
   }
 }
