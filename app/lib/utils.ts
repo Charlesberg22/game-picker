@@ -2,7 +2,7 @@ import { format } from 'date-fns'
 import { enAU } from 'date-fns/locale';
 import { NextApiRequest } from 'next';
 
-export const formatDate = (dateStr: string): string | undefined => {
+export function formatDate(dateStr: string): string | undefined {
     if (dateStr === '') {
         return;
     }
