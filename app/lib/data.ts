@@ -1,5 +1,4 @@
 import { dbAll, dbGet } from "../api/transactions";
-import { getBaseUrl } from "./utils";
 
 export type GamesTable = {
   game_id: number;
@@ -36,8 +35,6 @@ export type Stats = {
   ratio_modern_retro: number;
   ratio_desktop_handheld: number;
 };
-
-const baseUrl = getBaseUrl();
 
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {

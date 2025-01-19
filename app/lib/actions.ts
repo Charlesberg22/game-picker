@@ -4,7 +4,6 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { dbRun } from '../api/transactions';
 import { redirect } from 'next/navigation';
-import { getBaseUrl } from './utils';
 
 const FormSchema = z.object({
     game_id: z.string(),
