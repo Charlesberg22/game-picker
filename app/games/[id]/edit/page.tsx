@@ -8,10 +8,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
-    const [game, platforms, allGames] = await Promise.all([props.params.then(({ id }) => fetchGameById(id)), 
-fetchPlatforms(), 
-fetchAllGames()
-    ];
+    const [game, platforms, allGames] = await Promise.all([
+        props.params.then(({ id }) => fetchGameById(id)), 
+        fetchPlatforms(), 
+        fetchAllGames()
+    ]);
 
 
     return (

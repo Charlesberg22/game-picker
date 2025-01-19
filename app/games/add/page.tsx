@@ -8,8 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-    const platforms = await fetchPlatforms();
-    const allGames = await fetchAllGames();
+    const [platforms, allGames] = await Promise.all([
+         fetchPlatforms(),
+         fetchAllGames()
+    ]);    
 
     return (
         <main>
