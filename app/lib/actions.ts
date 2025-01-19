@@ -179,8 +179,6 @@ export async function createGame(formData: FormData) {
       when_played
     ] as string[]
 
-    console.log( values );
-
     try {
       await dbRun(createQuery, values);
     } catch (error: any) {
