@@ -9,7 +9,7 @@ export type GamesTable = {
   play_method: string;
   retro: boolean;
   handheld: boolean;
-  prequel_id: number;
+  prequel_id: number | null;
   hltb_time: number;
   tried: boolean;
   finished: boolean;
