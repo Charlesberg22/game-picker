@@ -4,9 +4,6 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { dbRun } from '../api/transactions';
 import { redirect } from 'next/navigation';
-import { getBaseUrl } from './utils';
-
-const baseUrl = getBaseUrl();
 
 const FormSchema = z.object({
     game_id: z.string(),
@@ -37,17 +34,21 @@ const FormSchema = z.object({
 });
 
 export async function deleteGame(id: string) {
+
+    const deleteQuery = `
+      DELETE FROM games
+      WHERE game_id = ?
+      `;
+    const values = [id];
+
     try {
-        const response = await fetch(`${baseUrl}/api/games?id=${id}`, {
-            method: 'DELETE',
-        });
-        if (!response.ok) throw new Error('Failed to delete game');
-        revalidatePath('/')
-        return await response.json();
-    } catch (error) {
-        console.log(`Failed to delete game with ID: ${id} due to ${error}`)
+      await dbRun(deleteQuery, values);
+    } catch (error: any) {
+      console.error('Error deleting game:', error.message);
+      throw error;
     }
-       
+
+    revalidatePath('/');   
 }
 
 const UpdateGame = FormSchema.omit({ game_id: true });

@@ -1,5 +1,4 @@
 import { dbAll, dbGet } from "../api/transactions";
-import { getBaseUrl } from "./utils";
 
 export type GamesTable = {
   game_id: number;
@@ -37,13 +36,15 @@ export type Stats = {
   ratio_desktop_handheld: number;
 };
 
-const baseUrl = getBaseUrl();
-
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {
-    const response = await fetch(`${baseUrl}/api/games`);
-    if (!response.ok) throw new Error('Failed to fetch games');
-    return await response.json();
+    const response = await dbAll(`
+    SELECT game_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+    FROM games
+    JOIN platforms ON games.platform_id = platforms.platform_id
+    `) as GamesTable[];
+    if (!response) throw new Error('Failed to fetch games');
+    return response;
   } catch (error) {
     console.error('Error fetching games:', error);
     throw error;

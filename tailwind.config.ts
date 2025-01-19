@@ -15,4 +15,5 @@ export default {
     },
   },
   plugins: [],
+  safelist: []
 } satisfies Config;
