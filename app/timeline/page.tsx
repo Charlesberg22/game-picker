@@ -10,7 +10,7 @@ export default async function Page() {
     <div className="w-full">
       <div className="sticky pl-2 flex bg-neutral-950">
       </div>
-      <GenericGamesTable games={games} vertPos={60}/>
+      <GenericGamesTable games={games} vertPos={'60px'}/>
     </div>
   );
 }

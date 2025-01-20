@@ -38,7 +38,7 @@ export default async function Page() {
           </button>
         </form>
       </div>
-      <GenericGamesTable games={games} vertPos={124}/>
+      <GenericGamesTable games={games} vertPos={'124px'}/>
     </div>
   );
 }

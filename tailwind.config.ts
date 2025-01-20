@@ -16,5 +16,5 @@ export default {
     },
   },
   plugins: [],
-  safelist: []
+  safelist: ['top-[124px]']
 } satisfies Config;
