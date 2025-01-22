@@ -1,4 +1,5 @@
 import { dbAll, dbGet } from "../api/transactions";
+import { removeKeywords } from "./utils";
 
 export type GamesTable = {
   game_id: number;
@@ -52,38 +53,40 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
 }
 
 export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
-  const values = Array(4).fill(`%${query}%`)
-  if (query == 'retro') {
+  const words = query.split(" ")
+  const newQuery = words.filter(removeKeywords).join(' ')
+  const values = Array(4).fill(`%${newQuery}%`)
+  if (query.includes('retro')) {
     values.push('1')
-  } else if (query == 'modern') {
+  } else if (query.includes('modern')) {
     values.push('0')
   } else {
-    values.push('')
+    values.push('%')
   }
-  if (query == 'handheld') {
+  if (query.includes('handheld')) {
     values.push('1')
-  } else if (query == 'desktop') {
+  } else if (query.includes('desktop')) {
     values.push('0')
   } else {
-    values.push('')
+    values.push('%')
   }
-  if (query == 'tried') {
+  if (query.includes(' tried')) {
+    values.push('1', '1', '1')
+  } else if (query.includes('avoided')) {
+    values.push('0', '0', '0')
+  } else if (query.includes('untried')) {
+    values.push('', 'null', '')
+  } else {
+    values.push('%', '%', '%')
+  }
+  if (query.includes(' finished')) {
     values.push('1', '1')
-  } else if (query == 'avoided') {
+  } else if (query.includes('unfinished')) {
     values.push('0', '0')
-  } else if (query == 'untried') {
-    values.push('null', '')
   } else {
-    values.push('', '')
+    values.push('%', '%')
   }
-  if (query == 'finished') {
-    values.push('1')
-  } else if (query == 'unfinished') {
-    values.push('0')
-  } else {
-    values.push('')
-  }
-  
+  console.log(values)
   try {
     const response = await dbAll(`
       SELECT
@@ -107,14 +110,16 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
           AND prequel.tried IS NULL) AS prequel_required
       FROM games
       JOIN platforms ON games.platform_id = platforms.platform_id
-      WHERE platforms.platform_name LIKE ?
-      OR name LIKE ?
-      OR licence LIKE ?
-      OR play_method LIKE ?
-      OR retro = ?
-      OR handheld = ?
-      OR (CASE WHEN ? = 'null' THEN tried IS NULL ELSE tried = ? END)
-      OR finished = ?
+      WHERE (
+        platforms.platform_name LIKE ?
+        OR name LIKE ?
+        OR licence LIKE ?
+        OR play_method LIKE ?
+      )
+      AND retro LIKE ?
+      AND handheld LIKE ?
+      AND (? = '%' OR (? = 'null' AND tried IS NULL) OR tried LIKE ?)
+      AND (finished = ? OR ? = '%')
       ORDER BY games.platform_id, name
     `,
     values) as GamesTable[];

@@ -22,6 +22,22 @@ export const getBaseUrl = (req?: NextApiRequest) => {
       return `${req.headers['x-forwarded-proto'] || 'http'}://${req.headers.host}`;
     }
   
-    // Fallback for server-side without `req` (e.g., for build time only, as otherwise will error APPARENTLY although didn't error in testing, hence commented)
-    // return process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    // Fallback for server-side without `req` (e.g., for build time only, as otherwise will error APPARENTLY)
+    return process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
   };
+
+  const keywords = [
+    'retro',
+    'modern',
+    'handheld',
+    'desktop',
+    'tried',
+    'untried',
+    'avoided',
+    'finished',
+    'unfinished'
+  ]
+
+  export function removeKeywords(word: string) {
+    return !keywords.includes(word)
+  }
