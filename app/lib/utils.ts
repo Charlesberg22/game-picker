@@ -24,21 +24,21 @@ export const getBaseUrl = (req?: NextApiRequest) => {
   
     // Fallback for server-side without `req` (e.g., for build time only, as otherwise will error APPARENTLY)
     return process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  };
+};
 
-  const keywords = [
-    'retro',
-    'modern',
-    'handheld',
-    'desktop',
-    'tried',
-    'untried',
-    'avoided',
-    'finished',
-    'unfinished',
-    'timeline'
-  ]
+const keywords = [
+  'retro',
+  'modern',
+  'handheld',
+  'desktop',
+  'tried',
+  'untried',
+  'avoided',
+  'finished',
+  'unfinished',
+  'timeline'
+]
 
-  export function removeKeywords(word: string) {
+export function removeKeywords(word: string) {
     return !keywords.includes(word)
-  }
+}
