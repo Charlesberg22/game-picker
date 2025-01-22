@@ -70,23 +70,29 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
   } else {
     values.push('%')
   }
-  if (query.includes(' tried')) {
-    values.push('1', '1', '1')
-  } else if (query.includes('avoided')) {
-    values.push('0', '0', '0')
-  } else if (query.includes('untried')) {
-    values.push('', 'null', '')
+  if (query.includes('timeline')) {
+    values.push('1', '1', '1', '%', '%', 'timeline', 'timeline')
   } else {
-    values.push('%', '%', '%')
+    if (query.includes(' tried')) {
+      values.push('1', '1', '1')
+    } else if (query.includes('avoided')) {
+      values.push('0', '0', '0')
+    } else if (query.includes('untried')) {
+      values.push('', 'null', '')
+    } else {
+      values.push('%', '%', '%')
+    }
+    if (query.includes(' finished')) {
+      values.push('1', '1')
+    } else if (query.includes('unfinished')) {
+      values.push('0', '0')
+    } else {
+      values.push('%', '%')
+    }
+    values.push('','')
   }
-  if (query.includes(' finished')) {
-    values.push('1', '1')
-  } else if (query.includes('unfinished')) {
-    values.push('0', '0')
-  } else {
-    values.push('%', '%')
-  }
-  console.log(values)
+
+  // tried and finished are treated differently due to their nullability
   try {
     const response = await dbAll(`
       SELECT
@@ -120,7 +126,15 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
       AND handheld LIKE ?
       AND (? = '%' OR (? = 'null' AND tried IS NULL) OR tried LIKE ?)
       AND (finished = ? OR ? = '%')
-      ORDER BY games.platform_id, name
+      ORDER BY 
+        CASE
+          WHEN ? = 'timeline' THEN when_played
+          ELSE games.platform_id
+        END,
+        CASE
+          WHEN ? != 'timeline' THEN name
+          ELSE -hltb_time
+        END
     `,
     values) as GamesTable[];
     if (!response) throw new Error('Failed to fetch games');

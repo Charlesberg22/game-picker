@@ -35,7 +35,8 @@ export const getBaseUrl = (req?: NextApiRequest) => {
     'untried',
     'avoided',
     'finished',
-    'unfinished'
+    'unfinished',
+    'timeline'
   ]
 
   export function removeKeywords(word: string) {
