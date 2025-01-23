@@ -8,8 +8,8 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
   return (
     <div className="flow-root bg-neutral-950">
       <div className="inline-block align-left">
-        <div className="rounded-lg bg-gray-900 px-2 pb-2 ml-2 md:pt-0">
-          <table className="hidden text-gray-80 md:table">
+        <div className="rounded-lg bg-gray-900 px-2 pb-2 ml-2 pt-0">
+          <table className="text-gray-80 table">
             <thead className="rounded-lg bg-gray-900 text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-3 py-5 font-medium w-[360px]">
