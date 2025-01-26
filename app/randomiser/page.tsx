@@ -18,7 +18,7 @@ export default async function Page() {
   const overall_ratio_desktop_handheld = (unplayedStats.number_of_desktop + playedStats.number_of_desktop) / (unplayedStats.number_of_handheld + playedStats.number_of_handheld);
   
   const handheld = overall_ratio_desktop_handheld < playedStats.ratio_desktop_handheld;
-  const remainingHandheld = retro
+  const remainingHandheld = handheld
     ? Math.ceil(playedStats.number_of_desktop / overall_ratio_desktop_handheld - playedStats.number_of_handheld)
     : Math.ceil(playedStats.number_of_handheld * overall_ratio_desktop_handheld - playedStats.number_of_desktop);
 
