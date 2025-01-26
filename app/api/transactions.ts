@@ -1,4 +1,3 @@
-import { GamesTable } from "../lib/data";
 import { db } from "./database"
 
 export const dbAll = async (query: string, values?: string[]) => {

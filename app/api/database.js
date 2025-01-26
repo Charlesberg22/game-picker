@@ -1,8 +1,14 @@
 import sqlite3 from "sqlite3";
 import path from "path";
+import fs from "fs";
 
-// create db at root
-const dbPath = path.join(process.cwd(), "games.db");
+const dataFolderPath = path.join(process.cwd(), "data");
+if (!fs.existsSync(dataFolderPath)) {
+    fs.mkdirSync(dataFolderPath);
+}
+
+// create db at data folder
+const dbPath = path.join(dataFolderPath, "games.db");
 
 // initialising the database, or connecting if it exists
 export const db = new sqlite3.Database(
@@ -36,9 +42,9 @@ db.serialize(() => {
     db.run(
         `
             CREATE TABLE IF NOT EXISTS games (
-                game_id INTEGER PRIMARY KEY,
+                game_id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,
                 platform_id INTEGER NOT NULL,
-                name TEXT NOT NULL,
+                name TEXT NOT NULL UNIQUE,
                 licence TEXT NOT NULL,
                 play_method TEXT NOT NULL,
                 retro INTEGER NOT NULL CHECK(retro IN (0, 1)),

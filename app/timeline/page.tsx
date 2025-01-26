@@ -1,4 +1,3 @@
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { fetchGameTimeline } from "../lib/data";
 import GenericGamesTable from "../ui/generic-table";
 
@@ -9,8 +8,9 @@ export default async function Page() {
 
   return (
     <div className="w-full">
-      <div className="sticky pl-2 flex bg-neutral-950" />
-      <GenericGamesTable games={games} vertPos={60}/>
+      <div className="sticky pl-2 flex bg-neutral-950">
+      </div>
+      <GenericGamesTable games={games} vertPos={'60px'}/>
     </div>
   );
 }

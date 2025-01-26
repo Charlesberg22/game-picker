@@ -7,7 +7,6 @@ import { BackwardIcon, BookOpenIcon, CalendarIcon, CheckIcon, ClockIcon, Compute
 
 export default function EditGameForm({game, platforms, allGames}: {game: GamesTable; platforms: Platform[]; allGames: GamesTable[]}) {
   const updateGameWithId = updateGame.bind(null, String(game.game_id));
-  console.log( game );
 
   return (
     <form action={updateGameWithId} key={game.game_id}>

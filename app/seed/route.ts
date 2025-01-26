@@ -15,7 +15,8 @@ async function seedGames() {
             ?, ?, ?, ?, ?, ?, ?,
             CASE WHEN ? = "" THEN NULL ELSE ? END,
             CASE WHEN ? = "" THEN NULL ELSE ? END,
-            ?, ?
+            CASE WHEN ? = "" THEN NULL ELSE ? END,
+            ?
           )
         `;
     
@@ -33,6 +34,7 @@ async function seedGames() {
             game.finished === null ? "" : String(game.finished),
             game.finished === null ? "" : String(game.finished), // required as two placeholders in the case expression, unsure of better way
             game.rating === null ? "" : String(game.rating),
+            game.rating === null ? "" : String(game.rating), // required as two placeholders in the case expression, unsure of better way
             game.when_played === null ? "" : String(game.when_played),
           ];
     
