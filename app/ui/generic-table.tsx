@@ -98,8 +98,8 @@ return (
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <UpdateGame id={game.game_id} />
-                      <DeleteGame id={game.game_id} />
+                      <UpdateGame id={String(game.game_id)} />
+                      <DeleteGame id={String(game.game_id)} />
                     </div>
                   </td>
                 </tr>
