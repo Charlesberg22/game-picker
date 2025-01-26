@@ -53,7 +53,7 @@ return (
               </tr>
             </thead>
             <tbody className="bg-black">
-              {games?.map((game: any) => (
+              {games?.map(game => (
                 <tr
                   key={game.game_id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
