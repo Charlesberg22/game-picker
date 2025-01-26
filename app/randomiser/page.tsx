@@ -6,8 +6,7 @@ import { refreshRandomGame } from "../lib/actions";
 
 export default async function Page() {
 
-  const unplayedStats = await checkUnplayedStats();
-  const playedStats = await checkPlayedStats();
+  const [unplayedStats, playedStats] = await Promise.all([checkUnplayedStats(), checkPlayedStats()]);
 
   const overall_ratio_modern_retro = (unplayedStats.number_of_modern + playedStats.number_of_modern) / (unplayedStats.number_of_retro + playedStats.number_of_retro);
 
