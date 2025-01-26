@@ -8,8 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-    const unplayedStats = await checkUnplayedStats();
-    const playedStats = await checkPlayedStats();
+    const [unplayedStats, playedStats] = await Promise.all([checkUnplayedStats(), checkPlayedStats()]);
 
     return (
         <main>
