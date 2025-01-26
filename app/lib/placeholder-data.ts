@@ -1,3 +1,86 @@
+export const platforms = [
+    {
+        "platform_id": "1",
+        "platform_name": "NES"
+    },
+    {
+        "platform_id": "2",
+        "platform_name": "SNES"
+    },
+    {
+        "platform_id": "3",
+        "platform_name": "Gameboy"
+    },
+    {
+        "platform_id": "4",
+        "platform_name": "PS1"
+    },
+    {
+        "platform_id": "5",
+        "platform_name": "N64"
+    },
+    {
+        "platform_id": "6",
+        "platform_name": "GBC"
+    },
+    {
+        "platform_id": "7",
+        "platform_name": "PS2"
+    },
+    {
+        "platform_id": "8",
+        "platform_name": "Gamecube"
+    },
+    {
+        "platform_id": "9",
+        "platform_name": "GBA"
+    },
+    {
+        "platform_id": "10",
+        "platform_name": "DS"
+    },
+    {
+        "platform_id": "11",
+        "platform_name": "PS3"
+    },
+    {
+        "platform_id": "12",
+        "platform_name": "Wii"
+    },
+    {
+        "platform_id": "13",
+        "platform_name": "3DS"
+    },
+    {
+        "platform_id": "14",
+        "platform_name": "Wii U"
+    },
+    {
+        "platform_id": "15",
+        "platform_name": "PS4"
+    },
+    {
+        "platform_id": "16",
+        "platform_name": "Switch"
+    },
+    {
+        "platform_id": "17",
+        "platform_name": "PS5"
+    },
+    {
+        "platform_id": "18",
+        "platform_name": "Switch 2"
+    },
+    {
+        "platform_id": "100",
+        "platform_name": "PC"
+    },
+]
+
+
+
+
+
 export const games = [
     {
         "platform_id": "1",

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { games } from '../lib/placeholder-data';
+import { games, platforms } from '../lib/placeholder-data';
 import { dbAll, dbRun } from '../api/transactions';
 import { GamesTable } from '../lib/data';
 
@@ -64,8 +64,35 @@ async function seedGames() {
       }
 }
 
+async function seedPlatforms() {
+  try {
+    const insertQuery = `
+      INSERT INTO platforms (
+        platform_id, platform_name
+      )
+      VALUES (
+        ?, ?
+      )
+    `;
+
+    for (const platform of platforms) {
+      const values = [
+        platform.platform_id,
+        platform.platform_name,
+      ];
+
+      await dbRun(insertQuery, values);
+    }
+
+  } catch (error: any) {
+    console.error('Error seeding database:', error.message);
+    throw error;
+  }
+}
+
 export async function GET() {
     try {
+        await seedPlatforms();
         await seedGames();
         return NextResponse.json({ message: 'Database seeded successfully'});
     } catch (error: any) {

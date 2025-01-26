@@ -325,6 +325,7 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
                 id="rating"
                 name="rating"
                 type="number"
+                step="0.5"
                 defaultValue={Number(game.rating)}
                 placeholder="Enter rating once played"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"

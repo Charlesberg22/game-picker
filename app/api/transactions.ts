@@ -13,6 +13,18 @@ export const dbAll = async (query: string, values?: string[]) => {
   });
 };
 
+export const dbGet = async (query: string, values?: string[]) => {
+  return await new Promise((resolve, reject) => {
+    db.get(query, values,  (error: Error, row: any) => {
+      if (error) {
+        console.log(error);
+        return reject(error);
+      }
+      return resolve(row);
+    });
+  });
+};
+
 export const dbRun = async (query: string, values: string[]) => {
   return await new Promise((resolve, reject) => {
     db.run(query, values, function (error) {
