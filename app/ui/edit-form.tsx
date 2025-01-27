@@ -10,7 +10,7 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
 
   return (
     <form action={updateGameWithId} key={game.game_id}>
-      <div className="rounded-md bg-green-900 p-4 mt-2 md:p-6">
+      <div className="rounded-md bg-green-900 p-4 md:p-6">
         {/* Platform Name */}
         <div className="mb-4">
           <label htmlFor="platform" className="mb-2 block text-sm font-medium">
@@ -363,7 +363,7 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
           </div>
         </div>
       </div>
-      <div className="mt-6 flex justify-end gap-4">
+      <div className="my-4 flex justify-end gap-4">
         <Link
           href="/"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-400"
