@@ -15,9 +15,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         fetchAllGames()
     ]);
 
-    const hltbService = new HowLongToBeatService;
-    hltbService.search(game.name).then(result => console.log(result[0]))
-
     return (
         <main>
             <EditGameForm game={game} platforms={platforms} allGames={allGames}/>
