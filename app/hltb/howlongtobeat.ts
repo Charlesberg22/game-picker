@@ -14,10 +14,16 @@ export class HowLongToBeatService {
    * @return Promise<HowLongToBeatEntry> the promise that, when fullfilled, returns the game
    */
 
-  async search(query: string, signal?: AbortSignal): Promise<Array<HowLongToBeatEntry>> {
+  async getSearchKey() {
+    const searchKey = await this.hltb.getSearchKey();
+    return searchKey;
+  }
+
+  async search(query: string, searchKey: string, signal?: AbortSignal): Promise<Array<HowLongToBeatEntry>> {
     let searchTerms = query.split(' ');
     let search = await this.hltb.search(
       searchTerms,
+      searchKey,
       signal
     );
     // console.log(`Found ${search.count} results`);

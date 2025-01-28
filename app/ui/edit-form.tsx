@@ -22,10 +22,12 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
     .then(hltbData => {
       const newTime = hltbData.gameplayMainExtra;
       setHltbTime(newTime);
+      console.log(hltbData.imageUrl)
       alert("Updated hltb time.");
     })
     .catch(error => {
       console.error("Error fetching from API:", error);
+      alert("Failed to update hltb time.");
     });
   }
   

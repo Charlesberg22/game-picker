@@ -49,15 +49,12 @@ export class HltbSearch {
     }
   }
 
-  async search(query: Array<string>, signal?: AbortSignal): Promise<any> {
+  async search(query: Array<string>, searchKey: string, signal?: AbortSignal): Promise<any> {
     // Use built-in javascript URLSearchParams as a drop-in replacement to create axios.post required data param
     let search = { ...this.payload };
     search.searchTerms = query;
     try {
-      const searchKey = await this.getSearchKey();
-      console.log(searchKey)
       const searchUrlWithKey = HltbSearch.SEARCH_URL + searchKey;
-      console.log(searchUrlWithKey)
 
       let result =
         await axios.post(searchUrlWithKey, search, {
@@ -79,7 +76,7 @@ export class HltbSearch {
     }
   }
 
-  private async getSearchKey(
+  async getSearchKey(
     checkAllScripts: boolean = false
   ): Promise<string> {
     const res = await axios.get(HltbSearch.BASE_URL, {
