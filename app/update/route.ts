@@ -4,9 +4,11 @@ import { HowLongToBeatService } from "../hltb/howlongtobeat";
 import { dbRun } from "../api/transactions";
 
 async function updateFromHltb() {
-  const games = await fetchAllGames();
   const hltbService = new HowLongToBeatService;
-  const searchKey = await hltbService.getSearchKey();
+  const [games, searchKey] = await Promise.all([
+    fetchAllGames(),
+    hltbService.getSearchKey()
+  ]);
   const updateQuery = `
     UPDATE games
     SET hltb_time = ?

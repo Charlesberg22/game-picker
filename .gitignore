@@ -24,6 +24,7 @@ trace
 # misc
 .DS_Store
 *.pem
+/public/games
 
 # debug
 npm-debug.log*
