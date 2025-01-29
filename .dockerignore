@@ -2,3 +2,4 @@ node_modules
 .git
 .dockerignore
 Dockerfile
+/public/games

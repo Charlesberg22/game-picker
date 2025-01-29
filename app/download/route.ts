@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import https from "https";
 import fs from "fs";
-import { HowLongToBeatService } from "../hltb/howlongtobeat";
+import { HowLongToBeatService } from "../hltb/howlongtobeat"; // Taken from https://github.com/ckatzorke/howlongtobeat/
 import { fetchAllGames } from "../lib/data";
 import path from "path";
 import { dbRun } from "../api/transactions";

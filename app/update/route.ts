@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { fetchAllGames } from "../lib/data";
-import { HowLongToBeatService } from "../hltb/howlongtobeat";
+import { HowLongToBeatService } from "../hltb/howlongtobeat"; // Taken from https://github.com/ckatzorke/howlongtobeat/
 import { dbRun } from "../api/transactions";
 
 async function updateFromHltb() {

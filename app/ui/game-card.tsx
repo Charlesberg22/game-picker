@@ -1,4 +1,3 @@
-import { ClockIcon } from "@heroicons/react/24/outline";
 import { GamesTable } from "../lib/data";
 import Image from 'next/image';
 

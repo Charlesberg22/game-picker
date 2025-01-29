@@ -20,14 +20,14 @@ export class HowLongToBeatService {
   }
 
   async search(query: string, searchKey: string, signal?: AbortSignal): Promise<Array<HowLongToBeatEntry>> {
-    let searchTerms = query.split(' ');
-    let search = await this.hltb.search(
+    const searchTerms = query.split(' ');
+    const search = await this.hltb.search(
       searchTerms,
       searchKey,
       signal
     );
     // console.log(`Found ${search.count} results`);
-    let hltbEntries = new Array<HowLongToBeatEntry>();
+    const hltbEntries = new Array<HowLongToBeatEntry>();
     for (const resultEntry of search.data) {
       hltbEntries.push(new HowLongToBeatEntry(
         '' + resultEntry.game_id, // game id is now a number, but I want to keep the model stable
@@ -59,15 +59,15 @@ export class HowLongToBeatService {
     if (longer.length < shorter.length) {
       // longer should always have
       // greater length
-      let temp: string = longer;
+      const temp: string = longer;
       longer = shorter;
       shorter = temp;
     }
-    let longerLength: number = longer.length;
+    const longerLength: number = longer.length;
     if (longerLength == 0) {
       return 1.0;
     }
-    let distance = levenshtein.get(longer, shorter);
+    const distance = levenshtein.get(longer, shorter);
     return Math.round(((longerLength - distance) / longerLength) * 100) / 100;
   }
 }

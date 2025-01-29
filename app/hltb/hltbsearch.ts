@@ -51,12 +51,12 @@ export class HltbSearch {
 
   async search(query: Array<string>, searchKey: string, signal?: AbortSignal): Promise<any> {
     // Use built-in javascript URLSearchParams as a drop-in replacement to create axios.post required data param
-    let search = { ...this.payload };
+    const search = { ...this.payload };
     search.searchTerms = query;
     try {
       const searchUrlWithKey = HltbSearch.SEARCH_URL + searchKey;
 
-      let result =
+      const result =
         await axios.post(searchUrlWithKey, search, {
           headers: {
             'User-Agent': new UserAgent().toString(),
@@ -114,6 +114,7 @@ export class HltbSearch {
         const matches = [...scriptText.matchAll(HltbSearch.SEARCH_KEY_PATTERN)];
         return matches[0][1] + matches[0][2];
       } catch (error) {
+        console.log(error)
         continue;
       }
     }
