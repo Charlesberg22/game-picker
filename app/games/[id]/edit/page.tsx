@@ -14,7 +14,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         fetchAllGames()
     ]);
 
-
     return (
         <main>
             <EditGameForm game={game} platforms={platforms} allGames={allGames}/>

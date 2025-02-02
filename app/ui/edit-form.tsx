@@ -4,13 +4,38 @@ import { GamesTable, Platform } from "../lib/data";
 import { updateGame } from "../lib/actions";
 import Link from "next/link";
 import { BackwardIcon, BookOpenIcon, CalendarIcon, CheckIcon, ClockIcon, ComputerDesktopIcon, CpuChipIcon, DevicePhoneMobileIcon, DocumentTextIcon, NoSymbolIcon, TvIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+
 
 export default function EditGameForm({game, platforms, allGames}: {game: GamesTable; platforms: Platform[]; allGames: GamesTable[]}) {
+  
+  const [hltbTime, setHltbTime] = useState<number | string>(game.hltb_time || "");
+
+  function updateHltb(game: GamesTable) {
+    fetch(`/api/hltb?name=${encodeURIComponent(game.name)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch HLTB data");
+      }
+      return response.json();
+    })
+    .then(hltbData => {
+      const newTime = hltbData.gameplayMainExtra;
+      setHltbTime(newTime);
+      console.log(hltbData.imageUrl)
+      alert("Updated hltb time.");
+    })
+    .catch(error => {
+      console.error("Error fetching from API:", error);
+      alert("Failed to update hltb time.");
+    });
+  }
+  
   const updateGameWithId = updateGame.bind(null, String(game.game_id));
 
   return (
     <form action={updateGameWithId} key={game.game_id}>
-      <div className="rounded-md bg-green-900 p-4 mt-2 md:p-6">
+      <div className="rounded-md bg-green-900 p-4 md:p-6">
         {/* Platform Name */}
         <div className="mb-4">
           <label htmlFor="platform" className="mb-2 block text-sm font-medium">
@@ -210,7 +235,16 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
         {/* HLTB */}
         <div className="mb-4">
           <label htmlFor="hltb_time" className="mb-2 block text-sm font-medium">
-            How long to beat (in hours)?
+            <span>How long to beat (in hours)? </span>
+            <button
+              className="underline"
+              onClick={(e) => {
+                e.preventDefault();
+                updateHltb(game);
+              }}
+            >
+              Update from hltb.com
+            </button>
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -218,7 +252,8 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
                 id="hltb_time"
                 name="hltb_time"
                 type="number"
-                defaultValue={Number(game.hltb_time)}
+                value={hltbTime}
+                onChange={(e) => setHltbTime(e.target.value)}
                 placeholder="Enter time"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -363,7 +398,7 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
           </div>
         </div>
       </div>
-      <div className="mt-6 flex justify-end gap-4">
+      <div className="my-4 flex justify-end gap-4">
         <Link
           href="/"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-400"

@@ -13,8 +13,11 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "arg": "^5.0.2",
+    "axios": "^1.7.9",
+    "cheerio": "^1.0.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "fast-levenshtein": "^3.0.0",
     "next": "15.1.1",
     "pnpm": "^9.15.3",
     "react": "^19.0.0",
@@ -22,10 +25,12 @@
     "sqlite3": "^5.1.7",
     "tsconfig-paths": "^4.2.0",
     "use-debounce": "^10.0.4",
+    "user-agents": "^1.1.428",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/fast-levenshtein": "^0.0.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

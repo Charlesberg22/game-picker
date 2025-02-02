@@ -2,7 +2,12 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { checkPlayedStats, checkUnplayedStats, fetchGameOptions } from "../lib/data";
 import GenericGamesTable from "../ui/generic-table";
 import { refreshRandomGame } from "../lib/actions";
+import { Metadata } from "next";
+import GameCard from "../ui/game-card";
 
+export const metadata: Metadata = {
+  title: 'Randomiser',
+};
 
 export default async function Page() {
 
@@ -52,14 +57,18 @@ export default async function Page() {
 
   return (
     <div className="w-full">
-      <div className="sticky top-[60px] gap-10 pt-2 pb-4 pl-2 flex bg-neutral-950">
-        <form action={refreshRandomGame}>
-          <button type="submit" className="flex mr-2 h-10 items-center rounded-lg bg-blue-600 px-4 text-md font-medium text-white">
-            Choosing a {remainingByEra.type} game ({remainingByEra.remaining} remaining) that is played {remainingByScreenType.type} ({remainingByScreenType.remaining} remaining)
-            <ArrowPathIcon className="h-5 px-4"/>
-            {randomGame.name}
+      <div className="sticky top-[60px] z-10 gap-10 pt-2 pb-4 pl-2 flex bg-neutral-950">
+        <form className="w-full mr-2 md:w-auto" action={refreshRandomGame}>
+          <button type="submit" className="flex h-10 md:h-10 w-full items-center rounded-lg bg-blue-600 px-4 text-sm md:text-md font-medium text-white">
+            <span className="hidden md:block">Choosing a {remainingByEra.type} game ({remainingByEra.remaining} remaining) that is played {remainingByScreenType.type} ({remainingByScreenType.remaining} remaining)</span>
+            <span className="block text-center max-w-[170px] min-w-[170px] md:hidden">{moreModernGamesPlayed ? 'Retro' : 'Modern'} ({remainingByEra.remaining}) & {moreDesktopGamesPlayed ? 'Handheld' : 'Desktop'} ({remainingByScreenType.remaining})</span>
+            <ArrowPathIcon className="h-5 md:h-5 px-4 min-w-[30px]"/>
+            <span className="flex-1 max-w-[270px] md:max-w-[400px]">{randomGame.name}</span>
           </button>
         </form>
+      </div>
+      <div className="flex justify-center md:justify-start pb-2 pl-2">
+        <GameCard game={randomGame}/>
       </div>
       <GenericGamesTable games={games} vertPos={'124px'}/>
     </div>

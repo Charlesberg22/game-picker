@@ -8,11 +8,11 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
   return (
     <div className="flow-root bg-neutral-950">
       <div className="inline-block align-left">
-        <div className="rounded-lg bg-gray-900 px-2 pb-2 ml-2 md:pt-0">
-          <table className="hidden text-gray-80 md:table">
+        <div className="rounded-lg bg-gray-900 px-2 pb-2 mx-2 pt-0">
+          <table className="text-gray-80 table">
             <thead className="rounded-lg bg-gray-900 text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-3 py-5 font-medium w-[360px]">
+                <th scope="col" className="px-3 py-5 font-medium min-w-[300px]">
                   Description
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium w-[108px] text-end">
@@ -46,7 +46,7 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
                   </td>
                 </tr>
                 <tr className="w-full border-b py-3 text-sm">
-                  <td className="whitespace-nowrap py-3 px-3">
+                  <td className="py-3 px-3">
                     Number of Retro/Modern Games Remaining
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 text-end">
@@ -54,7 +54,7 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
                   </td>
                 </tr>
                 <tr className="w-full py-3 border-b text-sm">
-                  <td className="whitespace-nowra py-3 px-3">
+                  <td className="py-3 px-3">
                     Number of Handheld/Desktop Games Remaining
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 text-end">
@@ -62,7 +62,7 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
                   </td>
                 </tr>
                 <tr className="w-full py-3 border-b text-sm">
-                  <td className="whitespace-nowrap py-3 px-3">
+                  <td className="py-3 px-3">
                     Ratio of Modern to Retro Games Overall
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 text-end">
@@ -70,7 +70,7 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
                   </td>
                 </tr>
                 <tr className="w-full py-3 border-b text-sm">
-                  <td className="whitespace-nowrap py-3 px-3">
+                  <td className="py-3 px-3">
                     Ratio of Modern to Retro Games Played
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 text-end">
@@ -78,7 +78,7 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
                   </td>
                 </tr>
                 <tr className="w-full py-3 border-b text-sm">
-                  <td className="whitespace-nowrap py-3 px-3">
+                  <td className="py-3 px-3">
                     Ratio of Desktop to Handheld Games Overall
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 text-end">
@@ -86,7 +86,7 @@ export default async function StatsTable({unplayedStats, playedStats}: {unplayed
                   </td>
                 </tr>
                 <tr className="w-full py-3 text-sm">
-                  <td className="whitespace-nowrap py-3 px-3">
+                  <td className="py-3 px-3">
                     Ratio of Desktop to Handheld Games Played
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 text-end">
