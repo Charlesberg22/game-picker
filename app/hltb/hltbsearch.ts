@@ -1,4 +1,3 @@
-import axios from 'axios';
 import UserAgent from 'user-agents';
 import * as cheerio from 'cheerio';
 
@@ -49,26 +48,33 @@ export class HltbSearch {
     }
   }
 
-  async search(query: Array<string>, searchKey: string, signal?: AbortSignal): Promise<any> {
+  async search(
+    query: Array<string>,
+    searchKey: string,
+    signal?: AbortSignal,
+  ): Promise<any> {
     // Use built-in javascript URLSearchParams as a drop-in replacement to create axios.post required data param
     const search = { ...this.payload };
     search.searchTerms = query;
+    if (!signal) {
+      const controller = new AbortController();
+      signal = controller.signal;
+      // Abort request after 20 seconds
+      setTimeout(() => controller.abort(), 20_000);
+    }
     try {
       const searchUrlWithKey = HltbSearch.SEARCH_URL + searchKey;
-
-      const result =
-        await axios.post(searchUrlWithKey, search, {
-          headers: {
-            'User-Agent': new UserAgent().toString(),
-            'content-type': 'application/json',
-            'origin': 'https://howlongtobeat.com/',
-            'referer': 'https://howlongtobeat.com/'
-          },
-          timeout: 20000,
-          signal,
-        });
-      // console.log('Result', JSON.stringify(result.data));
-      return result.data;
+      return await fetch(searchUrlWithKey, {
+        method: "POST",
+        body: JSON.stringify(search),
+        headers: {
+          "User-Agent": new UserAgent().toString(),
+          "content-type": "application/json",
+          origin: "https://howlongtobeat.com/",
+          referer: "https://howlongtobeat.com/",
+        },
+        signal,
+      }).then((res) => res.json());
     } catch (error) {
       if (error) {
         throw error;
@@ -79,15 +85,14 @@ export class HltbSearch {
   async getSearchKey(
     checkAllScripts: boolean = false
   ): Promise<string> {
-    const res = await axios.get(HltbSearch.BASE_URL, {
+    const html = await fetch(HltbSearch.BASE_URL, {
+      next: { revalidate: 300 },
       headers: {
         "User-Agent": new UserAgent().toString(),
         origin: "https://howlongtobeat.com",
         referer: "https://howlongtobeat.com",
       },
-    });
-
-    const html = res.data;
+    }).then((res) => res.text());
     const $ = cheerio.load(html);
 
     const scripts = $("script[src]");
@@ -102,15 +107,15 @@ export class HltbSearch {
       const scriptUrl = HltbSearch.BASE_URL + src;
 
       try {
-        const res = await axios.get(scriptUrl, {
+        const scriptText = await fetch(scriptUrl, {
+          next: { revalidate: 300 },
           headers: {
             "User-Agent": new UserAgent().toString(),
             origin: "https://howlongtobeat.com",
             referer: "https://howlongtobeat.com",
           },
-        });
+        }).then((res) => res.text());
 
-        const scriptText = res.data;
         const matches = [...scriptText.matchAll(HltbSearch.SEARCH_KEY_PATTERN)];
         return matches[0][1] + matches[0][2];
       } catch (error) {
