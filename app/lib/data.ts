@@ -55,8 +55,8 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
 export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
   query = query.toLowerCase();
   const words = query.split(" ");
-  const newQuery = words.filter(removeKeywords).join(' ');
-  const values = Array(4).fill(`%${newQuery}%`);
+  const keywordLessQuery = words.filter(removeKeywords).join(' ');
+  const values = Array(4).fill(`%${keywordLessQuery}%`);
   if (query.includes('retro')) {
     values.push('1')
   } else if (query.includes('modern')) {
