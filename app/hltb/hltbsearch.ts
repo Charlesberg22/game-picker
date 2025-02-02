@@ -8,10 +8,10 @@ import * as cheerio from 'cheerio';
  * Takes care about the http connection and response handling
  */
 export class HltbSearch {
-  public static BASE_URL: string = 'https://howlongtobeat.com/';
-  public static DETAIL_URL: string = `${HltbSearch.BASE_URL}game?id=`;
-  public static SEARCH_URL: string = `${HltbSearch.BASE_URL}api/s/`;
-  public static IMAGE_URL: string = `${HltbSearch.BASE_URL}games/`;
+  public static BASE_URL = 'https://howlongtobeat.com/';
+  public static DETAIL_URL = `${HltbSearch.BASE_URL}game?id=`;
+  public static SEARCH_URL = `${HltbSearch.BASE_URL}api/s/`;
+  public static IMAGE_URL = `${HltbSearch.BASE_URL}games/`;
 
   private static readonly SEARCH_KEY_PATTERN =
   /"\/api\/(?:s|game|user)\/".concat\("([a-zA-Z0-9]+)"\).concat\("([a-zA-Z0-9]+)"\)/g;
