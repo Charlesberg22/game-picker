@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Game name is required" }, { status: 400 });
   }
 
-  const hltbService = new HowLongToBeatService;
+  const hltbService = new HowLongToBeatService();
 
   try {
     const searchKey = await hltbService.getSearchKey();
