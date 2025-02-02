@@ -53,21 +53,20 @@ export class HowLongToBeatService {
    * @param term the string of which the similarity is wanted
    */
   static calcDistancePercentage(text: string, term: string): number {
-    let longer: string = text.toLowerCase().trim();
-    let shorter: string = term.toLowerCase().trim();
+    let longer = text.toLowerCase().trim();
+    let shorter = term.toLowerCase().trim();
     if (longer.length < shorter.length) {
       // longer should always have
       // greater length
-      const temp: string = longer;
+      const temp = longer;
       longer = shorter;
       shorter = temp;
     }
-    const longerLength: number = longer.length;
-    if (longerLength == 0) {
+    if (longer.length == 0) {
       return 1.0;
     }
     const distance = levenshtein.get(longer, shorter);
-    return Math.round(((longerLength - distance) / longerLength) * 100) / 100;
+    return Math.round(((longer.length - distance) / longer.length) * 100) / 100;
   }
 }
 
