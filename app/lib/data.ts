@@ -17,7 +17,7 @@ export type GamesTable = {
   finished: boolean;
   rating: string;
   when_played: string;
-  img: string
+  img: string;
 };
 
 export type Platform = {
@@ -39,15 +39,15 @@ export type Stats = {
 
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {
-    const response = await dbAll(`
+    const response = (await dbAll(`
     SELECT game_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
     FROM games
     JOIN platforms ON games.platform_id = platforms.platform_id
-    `) as GamesTable[];
-    if (!response) throw new Error('Failed to fetch games');
+    `)) as GamesTable[];
+    if (!response) throw new Error("Failed to fetch games");
     return response;
   } catch (error) {
-    console.error('Error fetching games:', error);
+    console.error("Error fetching games:", error);
     throw error;
   }
 }
@@ -55,47 +55,48 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
 export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
   query = query.toLowerCase();
   const words = query.split(" ");
-  const keywordLessQuery = words.filter(removeKeywords).join(' ');
+  const keywordLessQuery = words.filter(removeKeywords).join(" ");
   const values = Array(4).fill(`%${keywordLessQuery}%`);
-  if (query.includes('retro')) {
-    values.push('1')
-  } else if (query.includes('modern')) {
-    values.push('0')
+  if (query.includes("retro")) {
+    values.push("1");
+  } else if (query.includes("modern")) {
+    values.push("0");
   } else {
-    values.push('%')
+    values.push("%");
   }
-  if (query.includes('handheld')) {
-    values.push('1')
-  } else if (query.includes('desktop')) {
-    values.push('0')
+  if (query.includes("handheld")) {
+    values.push("1");
+  } else if (query.includes("desktop")) {
+    values.push("0");
   } else {
-    values.push('%')
+    values.push("%");
   }
-  if (query.includes('timeline')) {
-    values.push('1', '1', '1', '%', '%', 'timeline', 'timeline')
+  if (query.includes("timeline")) {
+    values.push("1", "1", "1", "%", "%", "timeline", "timeline");
   } else {
-    if (query.includes(' tried')) {
-      values.push('1', '1', '1')
-    } else if (query.includes('avoided')) {
-      values.push('0', '0', '0')
-    } else if (query.includes('untried')) {
-      values.push('', 'null', '')
+    if (query.includes(" tried")) {
+      values.push("1", "1", "1");
+    } else if (query.includes("avoided")) {
+      values.push("0", "0", "0");
+    } else if (query.includes("untried")) {
+      values.push("", "null", "");
     } else {
-      values.push('%', '%', '%')
+      values.push("%", "%", "%");
     }
-    if (query.includes(' finished')) {
-      values.push('1', '1')
-    } else if (query.includes('unfinished')) {
-      values.push('0', '0')
+    if (query.includes(" finished")) {
+      values.push("1", "1");
+    } else if (query.includes("unfinished")) {
+      values.push("0", "0");
     } else {
-      values.push('%', '%')
+      values.push("%", "%");
     }
-    values.push('','')
+    values.push("", "");
   }
 
   // tried and finished are treated differently due to their nullability
   try {
-    const response = await dbAll(`
+    const response = (await dbAll(
+      `
       SELECT
         game_id,
         games.platform_id,
@@ -137,40 +138,43 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
           ELSE -hltb_time
         END
     `,
-    values) as GamesTable[];
-    if (!response) throw new Error('Failed to fetch games');
+      values,
+    )) as GamesTable[];
+    if (!response) throw new Error("Failed to fetch games");
     return response;
   } catch (error) {
-    console.error('Error fetching games:', error);
+    console.error("Error fetching games:", error);
     return [];
   }
 }
 
 export async function fetchGameById(id: string): Promise<GamesTable> {
   try {
-    const response = await dbGet(`SELECT * FROM games WHERE game_id = ?`, [id]) as GamesTable;
-    if (!response) throw new Error('Failed to fetch game');
+    const response = (await dbGet(`SELECT * FROM games WHERE game_id = ?`, [
+      id,
+    ])) as GamesTable;
+    if (!response) throw new Error("Failed to fetch game");
     return response;
   } catch (error) {
-    console.error('Error fetching game:', error);
+    console.error("Error fetching game:", error);
     throw error;
   }
 }
 
 export async function fetchPlatforms(): Promise<Platform[]> {
   try {
-    const response = await dbAll(`SELECT * FROM platforms`) as Platform[];
-    if (!response) throw new Error('Failed to fetch platforms');
+    const response = (await dbAll(`SELECT * FROM platforms`)) as Platform[];
+    if (!response) throw new Error("Failed to fetch platforms");
     return response;
   } catch (error) {
-    console.error('Error fetching platforms:', error);
+    console.error("Error fetching platforms:", error);
     throw error;
   }
 }
 
 export async function checkUnplayedStats(): Promise<Stats> {
   try {
-    const response = await dbGet(`
+    const response = (await dbGet(`
       SELECT (
         SELECT COUNT(*)
         FROM games
@@ -196,23 +200,30 @@ export async function checkUnplayedStats(): Promise<Stats> {
         FROM games
         WHERE tried IS NULL AND handheld = 0
       ) AS number_of_desktop
-    `) as Stats;
-    if (!response) throw new Error('Failed to fetch platforms');
+    `)) as Stats;
+    if (!response) throw new Error("Failed to fetch platforms");
 
-    response.average_length = Math.round(response.total_length / response.number_of_games);
-    response.ratio_modern_retro = Math.round(response.number_of_modern / response.number_of_retro * 10) / 10;
-    response.ratio_desktop_handheld = Math.round(response.number_of_desktop / response.number_of_handheld * 10) / 10;
+    response.average_length = Math.round(
+      response.total_length / response.number_of_games,
+    );
+    response.ratio_modern_retro =
+      Math.round((response.number_of_modern / response.number_of_retro) * 10) /
+      10;
+    response.ratio_desktop_handheld =
+      Math.round(
+        (response.number_of_desktop / response.number_of_handheld) * 10,
+      ) / 10;
 
     return response;
   } catch (error) {
-    console.error('Error fetching platforms:', error);
+    console.error("Error fetching platforms:", error);
     return {} as Stats;
   }
 }
 
 export async function checkPlayedStats(): Promise<Stats> {
   try {
-    const response = await dbGet(`
+    const response = (await dbGet(`
       SELECT (
         SELECT COUNT(*)
         FROM games
@@ -230,22 +241,31 @@ export async function checkPlayedStats(): Promise<Stats> {
         FROM games
         WHERE tried = 1 AND handheld = 0
       ) AS number_of_desktop
-    `) as Stats;
-    if (!response) throw new Error('Failed to fetch platforms');
+    `)) as Stats;
+    if (!response) throw new Error("Failed to fetch platforms");
 
-    response.ratio_modern_retro = Math.round(response.number_of_modern / response.number_of_retro * 10) / 10;
-    response.ratio_desktop_handheld = Math.round(response.number_of_desktop / response.number_of_handheld * 10) / 10;
-    
+    response.ratio_modern_retro =
+      Math.round((response.number_of_modern / response.number_of_retro) * 10) /
+      10;
+    response.ratio_desktop_handheld =
+      Math.round(
+        (response.number_of_desktop / response.number_of_handheld) * 10,
+      ) / 10;
+
     return response;
   } catch (error) {
-    console.error('Error fetching platforms:', error);
+    console.error("Error fetching platforms:", error);
     return {} as Stats;
   }
 }
 
-export async function fetchGameOptions(retro: boolean, handheld: boolean): Promise<GamesTable[]> {
+export async function fetchGameOptions(
+  retro: boolean,
+  handheld: boolean,
+): Promise<GamesTable[]> {
   try {
-    const response = await dbAll(`
+    const response = (await dbAll(
+      `
       SELECT game_id, games.platform_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
       FROM games
       JOIN platforms ON games.platform_id = platforms.platform_id
@@ -259,28 +279,30 @@ export async function fetchGameOptions(retro: boolean, handheld: boolean): Promi
               WHERE prequel.game_id = games.prequel_id
               AND prequel.tried IS NOT NULL
           )
-      )`, [String(Number(retro)), String(Number(handheld))]) as GamesTable[];
-    if (!response) throw new Error('Failed to fetch game');
+      )`,
+      [String(Number(retro)), String(Number(handheld))],
+    )) as GamesTable[];
+    if (!response) throw new Error("Failed to fetch game");
     return response;
   } catch (error) {
-    console.error('Error fetching game:', error);
+    console.error("Error fetching game:", error);
     return {} as GamesTable[];
   }
 }
 
 export async function fetchGameTimeline(): Promise<GamesTable[]> {
   try {
-    const response = await dbAll(`
+    const response = (await dbAll(`
       SELECT game_id, games.platform_id, platform_name, name, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
       FROM games
       JOIN platforms ON games.platform_id = platforms.platform_id
       WHERE tried = 1
       ORDER by when_played, hltb_time DESC
-    `) as GamesTable[];
-    if (!response) throw new Error('Failed to fetch game');
+    `)) as GamesTable[];
+    if (!response) throw new Error("Failed to fetch game");
     return response;
   } catch (error) {
-    console.error('Error fetching game:', error);
+    console.error("Error fetching game:", error);
     return {} as GamesTable[];
   }
 }

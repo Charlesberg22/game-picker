@@ -1,36 +1,56 @@
-'use client';
+"use client";
 
 import { GamesTable, Platform } from "../lib/data";
 import { updateGame } from "../lib/actions";
 import Link from "next/link";
-import { BackwardIcon, BookOpenIcon, CalendarIcon, CheckIcon, ClockIcon, ComputerDesktopIcon, CpuChipIcon, DevicePhoneMobileIcon, DocumentTextIcon, NoSymbolIcon, TvIcon } from "@heroicons/react/24/outline";
+import {
+  BackwardIcon,
+  BookOpenIcon,
+  CalendarIcon,
+  CheckIcon,
+  ClockIcon,
+  ComputerDesktopIcon,
+  CpuChipIcon,
+  DevicePhoneMobileIcon,
+  DocumentTextIcon,
+  NoSymbolIcon,
+  TvIcon,
+} from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-
-export default function EditGameForm({game, platforms, allGames}: {game: GamesTable; platforms: Platform[]; allGames: GamesTable[]}) {
-  
-  const [hltbTime, setHltbTime] = useState<number | string>(game.hltb_time || "");
+export default function EditGameForm({
+  game,
+  platforms,
+  allGames,
+}: {
+  game: GamesTable;
+  platforms: Platform[];
+  allGames: GamesTable[];
+}) {
+  const [hltbTime, setHltbTime] = useState<number | string>(
+    game.hltb_time || "",
+  );
 
   function updateHltb(game: GamesTable) {
     fetch(`/api/hltb?name=${encodeURIComponent(game.name)}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Failed to fetch HLTB data");
-      }
-      return response.json();
-    })
-    .then(hltbData => {
-      const newTime = hltbData.gameplayMainExtra;
-      setHltbTime(newTime);
-      console.log(hltbData.imageUrl)
-      alert("Updated hltb time.");
-    })
-    .catch(error => {
-      console.error("Error fetching from API:", error);
-      alert("Failed to update hltb time.");
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch HLTB data");
+        }
+        return response.json();
+      })
+      .then((hltbData) => {
+        const newTime = hltbData.gameplayMainExtra;
+        setHltbTime(newTime);
+        console.log(hltbData.imageUrl);
+        alert("Updated hltb time.");
+      })
+      .catch((error) => {
+        console.error("Error fetching from API:", error);
+        alert("Failed to update hltb time.");
+      });
   }
-  
+
   const updateGameWithId = updateGame.bind(null, String(game.game_id));
 
   return (
@@ -103,7 +123,10 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
 
         {/* Play method */}
         <div className="mb-4">
-          <label htmlFor="play_method" className="mb-2 block text-sm font-medium">
+          <label
+            htmlFor="play_method"
+            className="mb-2 block text-sm font-medium"
+          >
             Play method (what platform will you actually play it on)
           </label>
           <div className="relative mt-2 rounded-md">
@@ -119,7 +142,7 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
               <ComputerDesktopIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-        </div> 
+        </div>
 
         {/* Retro or Modern */}
         <fieldset>
@@ -219,9 +242,7 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
               className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue={game.prequel_id ?? ""}
             >
-              <option value=''>
-                None
-              </option>
+              <option value="">None</option>
               {allGames.map((game) => (
                 <option key={game.game_id} value={game.game_id}>
                   {game.name}
@@ -371,7 +392,10 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
 
         {/* When Played */}
         <div className="mb-4">
-          <label htmlFor="when_played" className="mb-2 block text-sm font-medium">
+          <label
+            htmlFor="when_played"
+            className="mb-2 block text-sm font-medium"
+          >
             When did you finish playing it?
           </label>
           <div className="relative mt-2 rounded-md">
@@ -380,16 +404,15 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
                 id="when_played"
                 name="when_played"
                 type="date"
-                defaultValue={
-                  (() => {
-                    // Attempt to parse `game.when_played`
-                    const whenPlayedDate = new Date(game.when_played);
-                    // If valid, format to YYYY-MM-DD; otherwise, use today's date
-                    return whenPlayedDate instanceof Date && !isNaN(whenPlayedDate.getTime())
-                      ? whenPlayedDate.toISOString().split('T')[0]
-                      : '';
-                  })()
-                }
+                defaultValue={(() => {
+                  // Attempt to parse `game.when_played`
+                  const whenPlayedDate = new Date(game.when_played);
+                  // If valid, format to YYYY-MM-DD; otherwise, use today's date
+                  return whenPlayedDate instanceof Date &&
+                    !isNaN(whenPlayedDate.getTime())
+                    ? whenPlayedDate.toISOString().split("T")[0]
+                    : "";
+                })()}
                 placeholder="Enter date played"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -405,8 +428,13 @@ export default function EditGameForm({game, platforms, allGames}: {game: GamesTa
         >
           Cancel
         </Link>
-        <button type="submit" className="flex mr-4 h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-800">Edit Game</button>
+        <button
+          type="submit"
+          className="flex mr-4 h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-800"
+        >
+          Edit Game
+        </button>
       </div>
     </form>
-  )
+  );
 }

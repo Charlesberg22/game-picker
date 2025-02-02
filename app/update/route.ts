@@ -7,7 +7,7 @@ async function updateFromHltb() {
   const hltbService = new HowLongToBeatService();
   const [games, searchKey] = await Promise.all([
     fetchAllGames(),
-    hltbService.getSearchKey()
+    hltbService.getSearchKey(),
   ]);
   const updateQuery = `
     UPDATE games
@@ -31,9 +31,11 @@ async function updateFromHltb() {
 export async function GET() {
   try {
     await updateFromHltb();
-    return NextResponse.json({ message: 'Successfully updated all hltb times.'});
+    return NextResponse.json({
+      message: "Successfully updated all hltb times.",
+    });
   } catch (error: any) {
-    console.error('Error:', error.message);
+    console.error("Error:", error.message);
     return NextResponse.json({ error }, { status: 500 });
   }
 }

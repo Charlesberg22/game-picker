@@ -9,8 +9,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Backlog Tracker',
-    default: 'Backlog Tracker',
+    template: "%s | Backlog Tracker",
+    default: "Backlog Tracker",
   },
   description: "My games tracker",
 };
@@ -22,11 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} antialiased`}
-      >
+      <body className={`${inter.className} antialiased`}>
         <div className="flex sticky top-0 z-50 bg-neutral-950 pb-4 md:pb-0">
-              <TopNav />
+          <TopNav />
         </div>
         {children}
       </body>
