@@ -4,7 +4,7 @@ import { HowLongToBeatService } from "../hltb/howlongtobeat"; // Taken from http
 import { dbRun } from "../api/transactions";
 
 async function updateFromHltb() {
-  const hltbService = new HowLongToBeatService;
+  const hltbService = new HowLongToBeatService();
   const [games, searchKey] = await Promise.all([
     fetchAllGames(),
     hltbService.getSearchKey()
