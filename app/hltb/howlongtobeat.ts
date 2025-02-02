@@ -15,8 +15,7 @@ export class HowLongToBeatService {
    */
 
   async getSearchKey() {
-    const searchKey = await this.hltb.getSearchKey();
-    return searchKey;
+    return await this.hltb.getSearchKey();
   }
 
   async search(query: string, searchKey: string, signal?: AbortSignal): Promise<Array<HowLongToBeatEntry>> {
