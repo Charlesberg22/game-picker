@@ -221,11 +221,16 @@ export async function checkUnplayedStats(): Promise<Stats> {
   }
 }
 
+// number_of_games is both played and ignored, for use in total no. of games, not only played
 export async function checkPlayedStats(): Promise<Stats> {
   try {
     const response = (await dbGet(`
       SELECT (
         SELECT COUNT(*)
+        FROM games
+        WHERE tried IS NOT NULL
+      ) AS number_of_games,
+      ( SELECT COUNT(*)
         FROM games
         WHERE tried = 1 AND retro = 1
       ) AS number_of_retro,

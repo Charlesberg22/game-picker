@@ -44,6 +44,14 @@ export default async function StatsTable({
                   Total Number of Games
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
+                  {unplayedStats.number_of_games + playedStats.number_of_games}
+                </td>
+              </tr>
+              <tr className="w-full border-b py-3 text-sm">
+              <td className="whitespace-nowrap py-3 px-3">
+                  Total Number of Games Remaining
+                </td>
+                <td className="whitespace-nowrap px-3 py-3 text-end">
                   {unplayedStats.number_of_games}
                 </td>
               </tr>

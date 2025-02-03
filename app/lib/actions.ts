@@ -124,6 +124,7 @@ export async function updateGame(id: string, formData: FormData) {
   }
 
   revalidatePath("/");
+  revalidatePath("/stats");
   redirect("/");
 }
 
@@ -188,6 +189,7 @@ export async function createGame(formData: FormData) {
   }
 
   revalidatePath("/");
+  revalidatePath("/stats");
   redirect("/");
 }
 
