@@ -76,6 +76,7 @@ export default async function Page() {
         <form className="w-full mr-2 md:w-auto" action={refreshRandomGame}>
           <button
             type="submit"
+            id="submit-form"
             className="flex h-10 md:h-10 w-full items-center rounded-lg bg-blue-600 px-4 text-sm md:text-md font-medium text-white"
           >
             <span className="hidden md:block">
@@ -83,7 +84,7 @@ export default async function Page() {
               remaining) that is played {remainingByScreenType.type} (
               {remainingByScreenType.remaining} remaining)
             </span>
-            <span className="block text-center max-w-[170px] min-w-[170px] md:hidden">
+            <span className="block text-center max-w-[100px] min-w-[100px] md:hidden">
               {moreModernGamesPlayed ? "Retro" : "Modern"} (
               {remainingByEra.remaining}) &{" "}
               {moreDesktopGamesPlayed ? "Handheld" : "Desktop"} (
@@ -97,7 +98,9 @@ export default async function Page() {
         </form>
       </div>
       <div className="flex justify-center md:justify-start pb-2 pl-2">
-        <GameCard game={randomGame} />
+        <label htmlFor="submit-form" className="cursor-pointer">
+          <GameCard game={randomGame} />
+        </label>
       </div>
       <GenericGamesTable games={games} vertPos={"124px"} />
     </div>

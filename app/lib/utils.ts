@@ -44,3 +44,7 @@ const keywords = [
 export function removeKeywords(word: string) {
   return !keywords.includes(word);
 }
+
+export function removePunctuation(name: string): string {
+  return name.replace(/[^\w\s\-]|_/g, "").replace(/\s/g, "-");
+}

@@ -2,7 +2,6 @@
 
 import { GamesTable, Platform } from "../lib/data";
 import { createGame } from "../lib/actions";
-import Link from "next/link";
 import {
   BackwardIcon,
   BookOpenIcon,
@@ -17,14 +16,19 @@ import {
   TvIcon,
 } from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AddGameForm({
   platforms,
   allGames,
+  referrer,
 }: {
   platforms: Platform[];
   allGames: GamesTable[];
+  referrer: string;
 }) {
+  const router = useRouter();
+
   const [hltbTime, setHltbTime] = useState<number | string>("");
   const nameInputRef = useRef<HTMLInputElement>(null);
 
@@ -49,6 +53,7 @@ export default function AddGameForm({
 
   return (
     <form action={createGame} className="">
+      <input type="hidden" name="previousPage" value={referrer} />
       <div className="rounded-md bg-green-900 p-4 md:p-6">
         {/* Platform Name */}
         <div className="mb-4">
@@ -399,12 +404,13 @@ export default function AddGameForm({
         </div>
       </div>
       <div className="my-4 flex justify-end gap-4">
-        <Link
-          href="/"
+        <button
+          type="button"
+          onClick={() => router.back()}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
-        </Link>
+        </button>
         <button
           type="submit"
           className="flex mr-4 h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-800"

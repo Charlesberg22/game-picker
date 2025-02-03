@@ -24,10 +24,10 @@ export function UpdateGame({ id }: { id: string }) {
   );
 }
 
-export function DeleteGame({ id }: { id: string }) {
+export async function DeleteGame({ id }: { id: string }) {
   async function deleteGameWithId() {
     "use server";
-    deleteGame(id);
+    await deleteGame(id);
   }
   return (
     <form action={deleteGameWithId}>

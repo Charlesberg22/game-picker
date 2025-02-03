@@ -176,6 +176,17 @@ export async function fetchGameById(id: string): Promise<GamesTable> {
   }
 }
 
+export async function fetchLastRowId(): Promise<string> {
+  try {
+    const response = await dbGet(`SELECT last_insert_rowid()`);
+    if (!response) throw new Error("Failed to fetch game");
+    return String(Object.values(response)[0]);
+  } catch (error) {
+    console.error("Error fetching game:", error);
+    throw error;
+  }
+}
+
 export async function fetchPlatforms(): Promise<Platform[]> {
   try {
     const response = (await dbAll(`SELECT * FROM platforms`)) as Platform[];

@@ -4,6 +4,19 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { dbRun } from "../api/transactions";
 import { redirect } from "next/navigation";
+import https from "https";
+import fs from "fs";
+import UserAgent from "user-agents";
+import { removePunctuation } from "./utils";
+import {
+  fetchAllGames,
+  fetchGameById,
+  fetchLastRowId,
+  GamesTable,
+} from "./data";
+import { HowLongToBeatService } from "../hltb/howlongtobeat"; // Taken from https://github.com/ckatzorke/howlongtobeat/
+import path from "path";
+import { games } from "./placeholder-data";
 
 const FormSchema = z.object({
   game_id: z.string(),
@@ -39,6 +52,7 @@ export async function deleteGame(id: string) {
       WHERE game_id = ?
       `;
   const values = [id];
+  const game = await fetchGameById(id);
 
   try {
     await dbRun(deleteQuery, values);
@@ -47,12 +61,23 @@ export async function deleteGame(id: string) {
     throw error;
   }
 
+  if (game.img) {
+    const publicDir = path.join(process.cwd(), "public");
+    const savePath = path.join(publicDir, game.img);
+    fs.unlink(savePath, (err) => {
+      if (err) throw err;
+    });
+  }
+
   revalidatePath("/");
+  revalidatePath("/stats");
 }
 
 const UpdateGame = FormSchema.omit({ game_id: true });
 
 export async function updateGame(id: string, formData: FormData) {
+  const previousPage = formData.get("previousPage") as string;
+
   const {
     name,
     platform_id,
@@ -125,12 +150,14 @@ export async function updateGame(id: string, formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/stats");
-  redirect("/");
+  redirect(previousPage);
 }
 
 const CreateGame = FormSchema.omit({ game_id: true });
 
 export async function createGame(formData: FormData) {
+  const previousPage = formData.get("previousPage") as string;
+
   const {
     name,
     platform_id,
@@ -181,8 +208,12 @@ export async function createGame(formData: FormData) {
     when_played,
   ] as string[];
 
+  // unavoidable promise waterfall as each relies on the last
   try {
     await dbRun(createQuery, values);
+    const id = await fetchLastRowId();
+    const game = await fetchGameById(id);
+    await saveImagesToDb(game);
   } catch (error: any) {
     console.error("Error creating game:", error.message);
     throw error;
@@ -190,9 +221,85 @@ export async function createGame(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/stats");
-  redirect("/");
+  redirect(previousPage || "/");
 }
 
 export async function refreshRandomGame() {
   revalidatePath("/randomiser");
+}
+
+async function downloadImage(imageUrl: string, savePath: string) {
+  const protocol = https;
+
+  return new Promise<void>((resolve, reject) => {
+    const options = {
+      headers: {
+        "User-Agent": new UserAgent().toString(),
+        origin: "https://howlongtobeat.com",
+        referer: "https://howlongtobeat.com",
+      },
+    };
+
+    protocol
+      .get(imageUrl, options, (response) => {
+        if (response.statusCode !== 200) {
+          reject(
+            new Error(`Failed to get '${imageUrl}' (${response.statusCode})`),
+          );
+          return;
+        }
+
+        const fileStream = fs.createWriteStream(savePath);
+        response.pipe(fileStream);
+
+        fileStream.on("finish", () => {
+          fileStream.close(() => resolve());
+        });
+
+        fileStream.on("error", (err) => {
+          fs.unlink(savePath, () => reject(err));
+        });
+      })
+      .on("error", (err) => reject(err));
+  });
+}
+
+export async function saveImagesToDb(game?: GamesTable) {
+  const hltbService = new HowLongToBeatService();
+  let games: GamesTable[] = [];
+  let searchKey: string;
+  if (typeof game === "undefined") {
+    [games, searchKey] = await Promise.all([
+      fetchAllGames(),
+      hltbService.getSearchKey(),
+    ]);
+  } else {
+    games[0] = game;
+    searchKey = await hltbService.getSearchKey();
+  }
+
+  const updateQuery = `
+        UPDATE games
+        SET img = ?
+        WHERE game_id = ?
+    `;
+  const publicDir = path.join(process.cwd(), "public");
+
+  for (const game of games) {
+    if (!game.img) {
+      try {
+        const result = await hltbService.search(game.name, searchKey);
+        const imageUrl = result[0].imageUrl;
+        const cleanedName = removePunctuation(game.name);
+        const savePath = path.join("/games", cleanedName.concat(".jpg"));
+        const values = [savePath, String(game.game_id)];
+        await Promise.all([
+          dbRun(updateQuery, values),
+          downloadImage(imageUrl, path.join(publicDir, savePath)),
+        ]);
+      } catch (error) {
+        console.error(`HLTB fetch error with ${game.name}:`, error);
+      }
+    }
+  }
 }
