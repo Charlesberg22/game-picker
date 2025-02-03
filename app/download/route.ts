@@ -6,6 +6,7 @@ import { fetchAllGames } from "../lib/data";
 import path from "path";
 import { dbRun } from "../api/transactions";
 import UserAgent from "user-agents";
+import { request } from "http";
 
 async function downloadImage(imageUrl: string, savePath: string) {
   const protocol = https;
@@ -79,12 +80,10 @@ async function downloadAllImages() {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     await downloadAllImages();
-    return NextResponse.json({
-      message: "Successfully downloaded all remaining images.",
-    });
+    return NextResponse.redirect(new URL("/stats", request.url));
   } catch (error: any) {
     console.error("Error:", error.message);
     return NextResponse.json({ error }, { status: 500 });

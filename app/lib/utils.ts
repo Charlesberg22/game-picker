@@ -37,6 +37,8 @@ const keywords = [
   "finished",
   "unfinished",
   "timeline",
+  "playable",
+  "prequel",
 ];
 
 export function removeKeywords(word: string) {

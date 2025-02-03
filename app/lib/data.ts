@@ -71,6 +71,13 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
   } else {
     values.push("%");
   }
+  if (query.includes("prequel")) {
+    values.push("1");
+  } else if (query.includes("playable")) {
+    values.push("0");
+  } else {
+    values.push("%");
+  }
   if (query.includes("timeline")) {
     values.push("1", "1", "1", "%", "%", "timeline", "timeline");
   } else {
@@ -112,10 +119,17 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
         rating,
         when_played,
         img,
-        (SELECT 1
+        COALESCE((
+          SELECT
+            CASE
+              WHEN prequel.game_id = games.prequel_id
+              AND prequel.tried IS NULL
+                THEN 1
+              ELSE 0
+            END
           FROM games AS prequel
           WHERE prequel.game_id = games.prequel_id
-          AND prequel.tried IS NULL) AS prequel_required
+        ), 0) AS prequel_required
       FROM games
       JOIN platforms ON games.platform_id = platforms.platform_id
       WHERE (
@@ -126,6 +140,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
       )
       AND retro LIKE ?
       AND handheld LIKE ?
+      AND prequel_required LIKE ?
       AND (? = '%' OR (? = 'null' AND tried IS NULL) OR tried LIKE ?)
       AND (finished = ? OR ? = '%')
       ORDER BY 

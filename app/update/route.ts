@@ -25,15 +25,14 @@ async function updateFromHltb() {
     } catch (error) {
       console.error(`HLTB fetch error with ${game.name}:`, error);
     }
+    break;
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     await updateFromHltb();
-    return NextResponse.json({
-      message: "Successfully updated all hltb times.",
-    });
+    return NextResponse.redirect(new URL("/stats", request.url));
   } catch (error: any) {
     console.error("Error:", error.message);
     return NextResponse.json({ error }, { status: 500 });
