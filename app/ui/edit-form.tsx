@@ -210,7 +210,7 @@ export default function EditGameForm({
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="retro"
+                  htmlFor="handheld"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-purple-500 px-3 py-1.5 text-xs font-medium text-white"
                 >
                   Handheld <DevicePhoneMobileIcon className="h-4 w-4" />
@@ -226,7 +226,7 @@ export default function EditGameForm({
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="modern"
+                  htmlFor="desktop"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-500 px-3 py-1.5 text-xs font-medium text-white"
                 >
                   Television <TvIcon className="h-4 w-4" />
@@ -306,7 +306,7 @@ export default function EditGameForm({
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="retro"
+                  htmlFor="tried"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-purple-500 px-3 py-1.5 text-xs font-medium text-white"
                 >
                   Tried <CheckIcon className="h-4 w-4" />
@@ -322,7 +322,7 @@ export default function EditGameForm({
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="modern"
+                  htmlFor="untried"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-500 px-3 py-1.5 text-xs font-medium text-white"
                 >
                   Will not try <NoSymbolIcon className="h-4 w-4" />
@@ -349,7 +349,7 @@ export default function EditGameForm({
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="retro"
+                  htmlFor="finished"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-purple-500 px-3 py-1.5 text-xs font-medium text-white"
                 >
                   Finished <CheckIcon className="h-4 w-4" />
@@ -365,7 +365,7 @@ export default function EditGameForm({
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="modern"
+                  htmlFor="unfinished"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-500 px-3 py-1.5 text-xs font-medium text-white"
                 >
                   Not finished <NoSymbolIcon className="h-4 w-4" />
