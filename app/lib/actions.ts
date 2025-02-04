@@ -16,22 +16,21 @@ import {
 } from "./data";
 import { HowLongToBeatService } from "../hltb/howlongtobeat"; // Taken from https://github.com/ckatzorke/howlongtobeat/
 import path from "path";
-import { games } from "./placeholder-data";
 
 const FormSchema = z.object({
   game_id: z.string(),
-  name: z.string({
-    invalid_type_error: "Enter a name.",
-  }),
+  name: z
+    .string()
+    .min(1, { message: "You must enter a name."}),
   platform_id: z.string({
-    invalid_type_error: "Select a platform.",
+    invalid_type_error: "You must select a platform.",
   }),
-  licence: z.string({
-    invalid_type_error: "Enter a licence type.",
-  }),
-  play_method: z.string({
-    invalid_type_error: "Enter a platform to play on.",
-  }),
+  licence: z
+    .string()
+    .min(1, { message: "You must enter a licence type."}),
+  play_method: z
+    .string()
+    .min(1, { message: "You must enter a platform."}),
   retro: z.coerce.boolean({
     invalid_type_error: "Select retro or modern.",
   }),
@@ -45,6 +44,20 @@ const FormSchema = z.object({
   rating: z.coerce.number().gte(0).lte(10),
   when_played: z.string().nullable(),
 });
+
+export type State = 
+  | {
+    errors?: {
+        name?: string[];
+        platform_id?: string[];
+        licence?: string[];
+        play_method?: string[];
+        retro?: string[];
+        handheld?: string[];
+    };
+    message?: string | null;
+  }
+  | undefined;
 
 export async function deleteGame(id: string) {
   const deleteQuery = `
@@ -75,8 +88,29 @@ export async function deleteGame(id: string) {
 
 const UpdateGame = FormSchema.omit({ game_id: true });
 
-export async function updateGame(id: string, formData: FormData) {
+export async function updateGame(id: string, state: State, formData: FormData) {
   const previousPage = formData.get("previousPage") as string;
+
+  const validatedFields = UpdateGame.safeParse({
+    name: formData.get("name"),
+    platform_id: formData.get("platform_id"),
+    licence: formData.get("licence"),
+    play_method: formData.get("play_method"),
+    retro: formData.get("retro"),
+    handheld: formData.get("handheld"),
+    prequel_id: formData.get("prequel_id"),
+    hltb_time: formData.get("hltb_time"),
+    tried: formData.get("tried"),
+    finished: formData.get("finished"),
+    rating: formData.get("rating"),
+    when_played: formData.get("when_played"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+        errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
 
   const {
     name,
@@ -91,20 +125,7 @@ export async function updateGame(id: string, formData: FormData) {
     finished,
     rating,
     when_played,
-  } = UpdateGame.parse({
-    name: formData.get("name"),
-    platform_id: formData.get("platform_id"),
-    licence: formData.get("licence"),
-    play_method: formData.get("play_method"),
-    retro: formData.get("retro"),
-    handheld: formData.get("handheld"),
-    prequel_id: formData.get("prequel_id"),
-    hltb_time: formData.get("hltb_time"),
-    tried: formData.get("tried"),
-    finished: formData.get("finished"),
-    rating: formData.get("rating"),
-    when_played: formData.get("when_played"),
-  });
+  } = validatedFields.data;
 
   const updateQuery = `
         UPDATE games
@@ -155,8 +176,29 @@ export async function updateGame(id: string, formData: FormData) {
 
 const CreateGame = FormSchema.omit({ game_id: true });
 
-export async function createGame(formData: FormData) {
+export async function createGame(state: State, formData: FormData) {
   const previousPage = formData.get("previousPage") as string;
+
+ const validatedFields = CreateGame.safeParse({
+    name: formData.get("name"),
+    platform_id: formData.get("platform_id"),
+    licence: formData.get("licence"),
+    play_method: formData.get("play_method"),
+    retro: formData.get("retro"),
+    handheld: formData.get("handheld"),
+    prequel_id: formData.get("prequel_id"),
+    hltb_time: formData.get("hltb_time"),
+    tried: formData.get("tried"),
+    finished: formData.get("finished"),
+    rating: formData.get("rating"),
+    when_played: formData.get("when_played"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+        errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
 
   const {
     name,
@@ -171,20 +213,7 @@ export async function createGame(formData: FormData) {
     finished,
     rating,
     when_played,
-  } = CreateGame.parse({
-    name: formData.get("name"),
-    platform_id: formData.get("platform_id"),
-    licence: formData.get("licence"),
-    play_method: formData.get("play_method"),
-    retro: formData.get("retro"),
-    handheld: formData.get("handheld"),
-    prequel_id: formData.get("prequel_id"),
-    hltb_time: formData.get("hltb_time"),
-    tried: formData.get("tried"),
-    finished: formData.get("finished"),
-    rating: formData.get("rating"),
-    when_played: formData.get("when_played"),
-  });
+  } = validatedFields.data
 
   const createQuery = `
         INSERT INTO games (name, platform_id, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played)

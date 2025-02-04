@@ -1,7 +1,7 @@
 "use client";
 
 import { GamesTable, Platform } from "../lib/data";
-import { updateGame } from "../lib/actions";
+import { State, updateGame } from "../lib/actions";
 import Link from "next/link";
 import {
   BackwardIcon,
@@ -16,7 +16,7 @@ import {
   NoSymbolIcon,
   TvIcon,
 } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function EditGameForm({
@@ -56,10 +56,12 @@ export default function EditGameForm({
       });
   }
 
-  const updateGameWithId = updateGame.bind(null, String(game.game_id));
+  const updateGameWithId = (state: State, formData: FormData) => 
+    updateGame(String(game.game_id), state, formData);
+  const [state, action] = useActionState(updateGameWithId, undefined);
 
   return (
-    <form action={updateGameWithId} key={game.game_id}>
+    <form action={action} key={game.game_id}>
       <input type="hidden" name="previousPage" value={referrer} />
       <div className="rounded-md bg-green-900 p-4 md:p-6">
         {/* Platform Name */}
@@ -105,6 +107,7 @@ export default function EditGameForm({
               <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+          {state?.errors?.name && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.name}</span>}
         </div>
 
         {/* Licence */}
@@ -125,6 +128,7 @@ export default function EditGameForm({
               <BookOpenIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+          {state?.errors?.licence && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.licence}</span>}
         </div>
 
         {/* Play method */}
@@ -148,6 +152,7 @@ export default function EditGameForm({
               <ComputerDesktopIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+          {state?.errors?.play_method && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.play_method}</span>}
         </div>
 
         {/* Retro or Modern */}
@@ -190,6 +195,7 @@ export default function EditGameForm({
                 </label>
               </div>
             </div>
+            {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
           </div>
         </fieldset>
 
@@ -233,6 +239,7 @@ export default function EditGameForm({
                 </label>
               </div>
             </div>
+            {state?.errors?.handheld && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.handheld}</span>}
           </div>
         </fieldset>
 

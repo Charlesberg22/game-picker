@@ -15,7 +15,7 @@ import {
   NoSymbolIcon,
   TvIcon,
 } from "@heroicons/react/24/outline";
-import { useRef, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AddGameForm({
@@ -51,8 +51,10 @@ export default function AddGameForm({
       });
   }
 
+  const [state, action] = useActionState(createGame, undefined);
+
   return (
-    <form action={createGame} className="">
+    <form action={action} className="">
       <input type="hidden" name="previousPage" value={referrer} />
       <div className="rounded-md bg-green-900 p-4 md:p-6">
         {/* Platform Name */}
@@ -78,6 +80,7 @@ export default function AddGameForm({
             </select>
             <CpuChipIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
+          {state?.errors?.platform_id && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.platform_id}</span>}
         </div>
 
         {/* Game Name */}
@@ -95,10 +98,12 @@ export default function AddGameForm({
                 ref={nameInputRef}
                 placeholder="Enter name"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                required
               />
               <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+          {state?.errors?.name && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.name}</span>}
         </div>
 
         {/* Licence */}
@@ -115,10 +120,12 @@ export default function AddGameForm({
                 defaultValue=""
                 placeholder="Enter licensing details"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                required
               />
               <BookOpenIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+          {state?.errors?.licence && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.licence}</span>}
         </div>
 
         {/* Play method */}
@@ -138,10 +145,12 @@ export default function AddGameForm({
                 defaultValue=""
                 placeholder="Enter play method"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                required
               />
               <ComputerDesktopIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+          {state?.errors?.play_method && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.play_method}</span>}
         </div>
 
         {/* Retro or Modern */}
@@ -158,6 +167,7 @@ export default function AddGameForm({
                   type="radio"
                   value="true"
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  required
                 />
                 <label
                   htmlFor="retro"
@@ -173,6 +183,7 @@ export default function AddGameForm({
                   type="radio"
                   value=""
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  required
                 />
                 <label
                   htmlFor="modern"
@@ -182,6 +193,7 @@ export default function AddGameForm({
                 </label>
               </div>
             </div>
+            {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
           </div>
         </fieldset>
 
@@ -199,6 +211,7 @@ export default function AddGameForm({
                   type="radio"
                   value="true"
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  required
                 />
                 <label
                   htmlFor="handheld"
@@ -214,6 +227,7 @@ export default function AddGameForm({
                   type="radio"
                   value=""
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  required
                 />
                 <label
                   htmlFor="desktop"
@@ -223,6 +237,7 @@ export default function AddGameForm({
                 </label>
               </div>
             </div>
+            {state?.errors?.handheld && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.handheld}</span>}
           </div>
         </fieldset>
 
