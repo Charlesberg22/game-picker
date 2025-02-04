@@ -87,6 +87,7 @@ export default function EditGameForm({
             </select>
             <CpuChipIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
+          {state?.errors?.platform_id && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.platform_id}</span>}
         </div>
 
         {/* Game Name */}
@@ -156,11 +157,11 @@ export default function EditGameForm({
         </div>
 
         {/* Retro or Modern */}
-        <fieldset>
+        <fieldset className="mb-4">
           <legend className="mb-2 block text-sm font-medium">
             Is it retro or modern?
           </legend>
-          <div className="rounded-md mb-4 border border-gray-200 bg-green-50 px-[14px] py-3">
+          <div className="rounded-md border border-gray-200 bg-green-50 px-[14px] py-3">
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input
@@ -195,16 +196,16 @@ export default function EditGameForm({
                 </label>
               </div>
             </div>
-            {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
           </div>
+          {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
         </fieldset>
 
         {/* Handheld or Desktop */}
-        <fieldset>
+        <fieldset className="mb-4">
           <legend className="mb-2 block text-sm font-medium">
             Is it handheld or tv-based?
           </legend>
-          <div className="rounded-md mb-4 border border-gray-200 bg-green-50 px-[14px] py-3">
+          <div className="rounded-md border border-gray-200 bg-green-50 px-[14px] py-3">
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input
@@ -239,8 +240,8 @@ export default function EditGameForm({
                 </label>
               </div>
             </div>
-            {state?.errors?.handheld && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.handheld}</span>}
           </div>
+          {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
         </fieldset>
 
         {/* Prequel */}

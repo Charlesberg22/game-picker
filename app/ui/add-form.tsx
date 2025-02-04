@@ -52,6 +52,7 @@ export default function AddGameForm({
   }
 
   const [state, action] = useActionState(createGame, undefined);
+  console.log(state?.formData.handheld);
 
   return (
     <form action={action} className="">
@@ -64,10 +65,11 @@ export default function AddGameForm({
           </label>
           <div className="relative">
             <select
+              key={state?.formData?.platform_id}
               id="platform"
               name="platform_id"
               className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
+              defaultValue={state?.formData?.platform_id || ""}
             >
               <option value="" disabled>
                 Select the platform
@@ -94,11 +96,10 @@ export default function AddGameForm({
                 id="name"
                 name="name"
                 type="string"
-                defaultValue=""
+                defaultValue={state?.formData?.name || ""}
                 ref={nameInputRef}
                 placeholder="Enter name"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
               />
               <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -117,10 +118,9 @@ export default function AddGameForm({
                 id="licence"
                 name="licence"
                 type="string"
-                defaultValue=""
+                defaultValue={state?.formData?.licence || ""}
                 placeholder="Enter licensing details"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
               />
               <BookOpenIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -142,10 +142,9 @@ export default function AddGameForm({
                 id="play_method"
                 name="play_method"
                 type="string"
-                defaultValue=""
+                defaultValue={state?.formData?.retro || ""}
                 placeholder="Enter play method"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
               />
               <ComputerDesktopIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -154,11 +153,11 @@ export default function AddGameForm({
         </div>
 
         {/* Retro or Modern */}
-        <fieldset>
+        <fieldset className="mb-4">
           <legend className="mb-2 block text-sm font-medium">
             Is it retro or modern?
           </legend>
-          <div className="rounded-md mb-4 border border-gray-200 bg-green-50 px-[14px] py-3">
+          <div className="rounded-md border border-gray-200 bg-green-50 px-[14px] py-3">
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input
@@ -166,8 +165,8 @@ export default function AddGameForm({
                   name="retro"
                   type="radio"
                   value="true"
+                  defaultChecked={state?.formData?.retro === "true"}
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
-                  required
                 />
                 <label
                   htmlFor="retro"
@@ -182,8 +181,8 @@ export default function AddGameForm({
                   name="retro"
                   type="radio"
                   value=""
+                  defaultChecked={state?.formData?.retro === ""}
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
-                  required
                 />
                 <label
                   htmlFor="modern"
@@ -193,16 +192,16 @@ export default function AddGameForm({
                 </label>
               </div>
             </div>
-            {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
           </div>
+          {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
         </fieldset>
 
         {/* Handheld or Desktop */}
-        <fieldset>
+        <fieldset className="mb-4">
           <legend className="mb-2 block text-sm font-medium">
             Is it handheld or tv-based?
           </legend>
-          <div className="rounded-md mb-4 border border-gray-200 bg-green-50 px-[14px] py-3">
+          <div className="rounded-md border border-gray-200 bg-green-50 px-[14px] py-3">
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input
@@ -210,8 +209,8 @@ export default function AddGameForm({
                   name="handheld"
                   type="radio"
                   value="true"
+                  defaultChecked={state?.formData?.handheld === "true"}
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
-                  required
                 />
                 <label
                   htmlFor="handheld"
@@ -226,8 +225,8 @@ export default function AddGameForm({
                   name="handheld"
                   type="radio"
                   value=""
+                  defaultChecked={state?.formData?.handheld === ""}
                   className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
-                  required
                 />
                 <label
                   htmlFor="desktop"
@@ -237,8 +236,8 @@ export default function AddGameForm({
                 </label>
               </div>
             </div>
-            {state?.errors?.handheld && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.handheld}</span>}
           </div>
+          {state?.errors?.handheld && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.handheld}</span>}
         </fieldset>
 
         {/* Prequel */}
@@ -248,9 +247,11 @@ export default function AddGameForm({
           </label>
           <div className="relative">
             <select
+              key={state?.formData?.prequel_id}
               id="prequel"
               name="prequel_id"
               className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              defaultValue={state?.formData?.prequel_id || ""}
             >
               <option value="">None</option>
               {allGames.map((game) => (

@@ -31,12 +31,16 @@ const FormSchema = z.object({
   play_method: z
     .string()
     .min(1, { message: "You must enter a platform."}),
-  retro: z.coerce.boolean({
-    invalid_type_error: "Select retro or modern.",
-  }),
-  handheld: z.coerce.boolean({
-    invalid_type_error: "Select handheld or television.",
-  }),
+  retro: z
+    .union([z.literal("true"), z.literal("")], {
+    errorMap: () => ({ message: "You must select retro or modern." }),
+  })
+  .pipe(z.coerce.boolean()),
+  handheld: z
+    .union([z.literal("true"), z.literal("")], {
+      errorMap: () => ({ message: "You must select handheld or television." }),
+    })
+    .pipe(z.coerce.boolean()),
   prequel_id: z.string(),
   hltb_time: z.string(),
   tried: z.coerce.boolean().nullable(),
@@ -48,14 +52,23 @@ const FormSchema = z.object({
 export type State = 
   | {
     errors?: {
-        name?: string[];
-        platform_id?: string[];
-        licence?: string[];
-        play_method?: string[];
-        retro?: string[];
-        handheld?: string[];
+      name?: string[];
+      platform_id?: string[];
+      licence?: string[];
+      play_method?: string[];
+      retro?: string[];
+      handheld?: string[];
     };
     message?: string | null;
+    formData?: {
+      name?: string;
+      platform_id?: string;
+      licence?: string;
+      play_method?: string;
+      retro?: string;
+      handheld?: string;
+      prequel_id?: string;
+    };
   }
   | undefined;
 
@@ -179,7 +192,7 @@ const CreateGame = FormSchema.omit({ game_id: true });
 export async function createGame(state: State, formData: FormData) {
   const previousPage = formData.get("previousPage") as string;
 
- const validatedFields = CreateGame.safeParse({
+  const validatedFields = CreateGame.safeParse({
     name: formData.get("name"),
     platform_id: formData.get("platform_id"),
     licence: formData.get("licence"),
@@ -197,6 +210,15 @@ export async function createGame(state: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
         errors: validatedFields.error.flatten().fieldErrors,
+        formData: {
+          name: formData.get("name") as string,
+          platform_id: formData.get("platform_id") as string,
+          licence: formData.get("licence") as string,
+          play_method: formData.get("play_method") as string,
+          retro: formData.get("retro") as string,
+          handheld: formData.get("handheld") as string,
+          prequel_id: formData.get("prequel_id") as string,
+        }
     };
   }
 
