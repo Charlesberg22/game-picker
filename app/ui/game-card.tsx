@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function GameCard({ game }: { game: GamesTable }) {
   return (
-    <div className="relative w-[300px] h-[450px] rounded-lg overflow-hidden ">
+    <div className="relative aspect-[2/3] rounded-lg overflow-hidden ">
       <Image
         src={game.img}
         alt={game.name}

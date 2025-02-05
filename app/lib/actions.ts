@@ -310,7 +310,7 @@ async function downloadImage(imageUrl: string, savePath: string) {
   });
 }
 
-const apiKey = process.env.STEAMGRIDDB_API_KEY || ""
+const apiKey = process.env.STEAMGRIDDB_API_KEY || "";
 
 export async function saveImagesToDb(game?: GamesTable) {
   const client = new SGDB(apiKey);
@@ -332,8 +332,13 @@ export async function saveImagesToDb(game?: GamesTable) {
     if (!game.img) {
       try {
         const steamGrid = await client.searchGame(game.name);
-        const steamGridId = steamGrid[0].id
-        const grids = await client.getGridsById(steamGridId, ["alternate"], ["600x900"], ["image/jpeg", "image/png"]);
+        const steamGridId = steamGrid[0].id;
+        const grids = await client.getGridsById(
+          steamGridId,
+          ["alternate"],
+          ["600x900"],
+          ["image/jpeg", "image/png"],
+        );
         const imageUrl = grids[0].url.toString();
         const cleanedName = removePunctuation(game.name);
         const savePath = path.join("/games", cleanedName.concat(".jpg"));

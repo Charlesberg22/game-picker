@@ -17,7 +17,7 @@ export default async function AllGamesTable({
     <div>
       {view ? (
         <div>
-          <div className="md:grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 p-4 justify-items-center hidden">
+          <div className="md:grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-4 p-4 justify-items-center hidden">
             {games.map((game) => (
               <div className="relative group" key={game.game_id}>
                 <GameCard game={game} />

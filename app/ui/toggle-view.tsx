@@ -3,13 +3,13 @@
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-const ToggleViewButton = () => {
+export default function ToggleViewButton() {
   const searchParams = useSearchParams();
   const currentView = searchParams.get("view") || "table";
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const toggleView = () => {
+  function toggleView() {
     const newView = currentView === "grid" ? "table" : "grid";
 
     const newParams = new URLSearchParams(searchParams);
@@ -19,7 +19,7 @@ const ToggleViewButton = () => {
       newParams.set("view", "grid");
     }
     replace(`${pathname}?${newParams.toString()}`);
-  };
+  }
 
   return (
     <button
@@ -32,6 +32,4 @@ const ToggleViewButton = () => {
       </span>
     </button>
   );
-};
-
-export default ToggleViewButton;
+}
