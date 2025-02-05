@@ -16,6 +16,7 @@ import {
 } from "./data";
 import { HowLongToBeatService } from "../hltb/howlongtobeat"; // Taken from https://github.com/ckatzorke/howlongtobeat/
 import path from "path";
+import SGDB from "steamgriddb";
 
 const FormSchema = z.object({
   game_id: z.string(),
@@ -280,8 +281,8 @@ async function downloadImage(imageUrl: string, savePath: string) {
     const options = {
       headers: {
         "User-Agent": new UserAgent().toString(),
-        origin: "https://howlongtobeat.com",
-        referer: "https://howlongtobeat.com",
+        origin: "https://steamgriddb.com",
+        referer: "https://steamgriddb.com",
       },
     };
 
@@ -309,18 +310,15 @@ async function downloadImage(imageUrl: string, savePath: string) {
   });
 }
 
+const apiKey = process.env.STEAMGRIDDB_API_KEY || ""
+
 export async function saveImagesToDb(game?: GamesTable) {
-  const hltbService = new HowLongToBeatService();
+  const client = new SGDB(apiKey);
   let games: GamesTable[] = [];
-  let searchKey: string;
   if (typeof game === "undefined") {
-    [games, searchKey] = await Promise.all([
-      fetchAllGames(),
-      hltbService.getSearchKey(),
-    ]);
+    games = await fetchAllGames();
   } else {
     games[0] = game;
-    searchKey = await hltbService.getSearchKey();
   }
 
   const updateQuery = `
@@ -333,8 +331,10 @@ export async function saveImagesToDb(game?: GamesTable) {
   for (const game of games) {
     if (!game.img) {
       try {
-        const result = await hltbService.search(game.name, searchKey);
-        const imageUrl = result[0].imageUrl;
+        const steamGrid = await client.searchGame(game.name);
+        const steamGridId = steamGrid[0].id
+        const grids = await client.getGridsById(steamGridId, ["alternate"], ["600x900"], ["image/jpeg", "image/png"]);
+        const imageUrl = grids[0].url.toString();
         const cleanedName = removePunctuation(game.name);
         const savePath = path.join("/games", cleanedName.concat(".jpg"));
         const values = [savePath, String(game.game_id)];
@@ -343,7 +343,7 @@ export async function saveImagesToDb(game?: GamesTable) {
           downloadImage(imageUrl, path.join(publicDir, savePath)),
         ]);
       } catch (error) {
-        console.error(`HLTB fetch error with ${game.name}:`, error);
+        console.error(`SteamGridDB fetch error with ${game.name}:`, error);
       }
     }
   }
