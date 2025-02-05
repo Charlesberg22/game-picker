@@ -4,13 +4,13 @@ import Image from "next/image";
 
 export default function SmallGameCard({ game }: { game: GamesTable }) {
   return (
-    <div className="relative w-[100px] h-[150px] rounded-sm overflow-hidden ">
+    <div className="relative aspect-[2/3] rounded-sm overflow-hidden ">
       <Link href={`/games/${game.game_id}/edit`}>
         <Image
           src={game.img}
           alt={game.name}
-          width={100}
-          height={150}
+          width={200}
+          height={300}
           className="object-cover"
         />
       </Link>
