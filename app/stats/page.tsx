@@ -1,7 +1,6 @@
 import { checkPlayedStats, checkUnplayedStats } from "@/app/lib/data";
 import { Metadata } from "next";
 import StatsTable from "../ui/stats-table";
-import Link from "next/link";
 import { DownloadImagesButton, UpdateHltbButton } from "../ui/update-buttons";
 
 export const metadata: Metadata = {

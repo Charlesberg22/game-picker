@@ -14,7 +14,6 @@ import {
   fetchLastRowId,
   GamesTable,
 } from "./data";
-import { HowLongToBeatService } from "../hltb/howlongtobeat"; // Taken from https://github.com/ckatzorke/howlongtobeat/
 import path from "path";
 import SGDB from "steamgriddb";
 
