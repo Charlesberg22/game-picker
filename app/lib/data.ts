@@ -81,18 +81,18 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
   if (query.includes("timeline")) {
     values.push("1", "1", "1", "%", "%", "timeline", "timeline");
   } else {
-    if (query.includes(" tried")) {
+    if (query.includes("tried")) {
       values.push("1", "1", "1");
     } else if (query.includes("avoided")) {
       values.push("0", "0", "0");
-    } else if (query.includes("untried")) {
+    } else if (query.includes("tbc")) {
       values.push("", "null", "");
     } else {
       values.push("%", "%", "%");
     }
-    if (query.includes(" finished")) {
+    if (query.includes("finished")) {
       values.push("1", "1");
-    } else if (query.includes("unfinished")) {
+    } else if (query.includes("abandoned")) {
       values.push("0", "0");
     } else {
       values.push("%", "%");
