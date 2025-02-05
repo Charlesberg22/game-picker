@@ -82,7 +82,11 @@ export default function AddGameForm({
             </select>
             <CpuChipIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
-          {state?.errors?.platform_id && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.platform_id}</span>}
+          {state?.errors?.platform_id && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.platform_id}
+            </span>
+          )}
         </div>
 
         {/* Game Name */}
@@ -104,7 +108,11 @@ export default function AddGameForm({
               <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {state?.errors?.name && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.name}</span>}
+          {state?.errors?.name && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.name}
+            </span>
+          )}
         </div>
 
         {/* Licence */}
@@ -125,7 +133,11 @@ export default function AddGameForm({
               <BookOpenIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {state?.errors?.licence && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.licence}</span>}
+          {state?.errors?.licence && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.licence}
+            </span>
+          )}
         </div>
 
         {/* Play method */}
@@ -149,7 +161,11 @@ export default function AddGameForm({
               <ComputerDesktopIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {state?.errors?.play_method && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.play_method}</span>}
+          {state?.errors?.play_method && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.play_method}
+            </span>
+          )}
         </div>
 
         {/* Retro or Modern */}
@@ -193,7 +209,11 @@ export default function AddGameForm({
               </div>
             </div>
           </div>
-          {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
+          {state?.errors?.retro && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.retro}
+            </span>
+          )}
         </fieldset>
 
         {/* Handheld or Desktop */}
@@ -237,7 +257,11 @@ export default function AddGameForm({
               </div>
             </div>
           </div>
-          {state?.errors?.handheld && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.handheld}</span>}
+          {state?.errors?.handheld && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.handheld}
+            </span>
+          )}
         </fieldset>
 
         {/* Prequel */}

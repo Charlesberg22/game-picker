@@ -19,23 +19,17 @@ import path from "path";
 
 const FormSchema = z.object({
   game_id: z.string(),
-  name: z
-    .string()
-    .min(1, { message: "You must enter a name."}),
+  name: z.string().min(1, { message: "You must enter a name." }),
   platform_id: z.string({
     invalid_type_error: "You must select a platform.",
   }),
-  licence: z
-    .string()
-    .min(1, { message: "You must enter a licence type."}),
-  play_method: z
-    .string()
-    .min(1, { message: "You must enter a platform."}),
+  licence: z.string().min(1, { message: "You must enter a licence type." }),
+  play_method: z.string().min(1, { message: "You must enter a platform." }),
   retro: z
     .union([z.literal("true"), z.literal("")], {
-    errorMap: () => ({ message: "You must select retro or modern." }),
-  })
-  .pipe(z.coerce.boolean()),
+      errorMap: () => ({ message: "You must select retro or modern." }),
+    })
+    .pipe(z.coerce.boolean()),
   handheld: z
     .union([z.literal("true"), z.literal("")], {
       errorMap: () => ({ message: "You must select handheld or television." }),
@@ -49,27 +43,27 @@ const FormSchema = z.object({
   when_played: z.string().nullable(),
 });
 
-export type State = 
+export type State =
   | {
-    errors?: {
-      name?: string[];
-      platform_id?: string[];
-      licence?: string[];
-      play_method?: string[];
-      retro?: string[];
-      handheld?: string[];
-    };
-    message?: string | null;
-    formData?: {
-      name?: string;
-      platform_id?: string;
-      licence?: string;
-      play_method?: string;
-      retro?: string;
-      handheld?: string;
-      prequel_id?: string;
-    };
-  }
+      errors?: {
+        name?: string[];
+        platform_id?: string[];
+        licence?: string[];
+        play_method?: string[];
+        retro?: string[];
+        handheld?: string[];
+      };
+      message?: string | null;
+      formData?: {
+        name?: string;
+        platform_id?: string;
+        licence?: string;
+        play_method?: string;
+        retro?: string;
+        handheld?: string;
+        prequel_id?: string;
+      };
+    }
   | undefined;
 
 export async function deleteGame(id: string) {
@@ -121,7 +115,7 @@ export async function updateGame(id: string, state: State, formData: FormData) {
 
   if (!validatedFields.success) {
     return {
-        errors: validatedFields.error.flatten().fieldErrors,
+      errors: validatedFields.error.flatten().fieldErrors,
     };
   }
 
@@ -209,16 +203,16 @@ export async function createGame(state: State, formData: FormData) {
 
   if (!validatedFields.success) {
     return {
-        errors: validatedFields.error.flatten().fieldErrors,
-        formData: {
-          name: formData.get("name") as string,
-          platform_id: formData.get("platform_id") as string,
-          licence: formData.get("licence") as string,
-          play_method: formData.get("play_method") as string,
-          retro: formData.get("retro") as string,
-          handheld: formData.get("handheld") as string,
-          prequel_id: formData.get("prequel_id") as string,
-        }
+      errors: validatedFields.error.flatten().fieldErrors,
+      formData: {
+        name: formData.get("name") as string,
+        platform_id: formData.get("platform_id") as string,
+        licence: formData.get("licence") as string,
+        play_method: formData.get("play_method") as string,
+        retro: formData.get("retro") as string,
+        handheld: formData.get("handheld") as string,
+        prequel_id: formData.get("prequel_id") as string,
+      },
     };
   }
 
@@ -235,7 +229,7 @@ export async function createGame(state: State, formData: FormData) {
     finished,
     rating,
     when_played,
-  } = validatedFields.data
+  } = validatedFields.data;
 
   const createQuery = `
         INSERT INTO games (name, platform_id, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played)

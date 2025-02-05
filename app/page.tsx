@@ -16,7 +16,8 @@ export default async function Page(props: {
   return (
     <div className="w-full">
       <div className="sticky top-[60px] pt-2 pb-4 pl-2 flex z-10 bg-neutral-950">
-        <AddGame /> <Search placeholder="Filter games..." /> <ToggleViewButton />
+        <AddGame /> <Search placeholder="Filter games..." />{" "}
+        <ToggleViewButton />
       </div>
       <AllGamesTable query={query} view={view} />
     </div>

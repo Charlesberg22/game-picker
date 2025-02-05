@@ -62,10 +62,10 @@ export class HltbSearch {
       // Abort request after 20 seconds
       setTimeout(() => controller.abort(), 20_000);
     }
-    let responseText = ""
+    let responseText = "";
     try {
       const searchUrlWithKey = HltbSearch.SEARCH_URL + searchKey;
-      const response =  await fetch(searchUrlWithKey, {
+      const response = await fetch(searchUrlWithKey, {
         method: "POST",
         body: JSON.stringify(search),
         headers: {
@@ -75,12 +75,12 @@ export class HltbSearch {
           referer: "https://howlongtobeat.com/",
         },
         signal,
-      })
-      const responseText = await response.text()
-      return JSON.parse(responseText)
+      });
+      const responseText = await response.text();
+      return JSON.parse(responseText);
     } catch (error) {
       if (error) {
-        console.log(responseText)
+        console.log(responseText);
         throw error;
       }
     }

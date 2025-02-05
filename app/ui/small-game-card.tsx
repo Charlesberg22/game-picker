@@ -7,11 +7,11 @@ export default function SmallGameCard({ game }: { game: GamesTable }) {
     <div className="relative w-[100px] h-[150px] rounded-sm overflow-hidden ">
       <Link href={`/games/${game.game_id}/edit`}>
         <Image
-            src={game.img}
-            alt={game.name}
-            width={100}
-            height={150}
-            className="object-cover"
+          src={game.img}
+          alt={game.name}
+          width={100}
+          height={150}
+          className="object-cover"
         />
       </Link>
       <div className="absolute rounded-md top-0 right-0 p-1">

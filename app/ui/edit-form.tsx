@@ -56,7 +56,7 @@ export default function EditGameForm({
       });
   }
 
-  const updateGameWithId = (state: State, formData: FormData) => 
+  const updateGameWithId = (state: State, formData: FormData) =>
     updateGame(String(game.game_id), state, formData);
   const [state, action] = useActionState(updateGameWithId, undefined);
 
@@ -87,7 +87,11 @@ export default function EditGameForm({
             </select>
             <CpuChipIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
-          {state?.errors?.platform_id && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.platform_id}</span>}
+          {state?.errors?.platform_id && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.platform_id}
+            </span>
+          )}
         </div>
 
         {/* Game Name */}
@@ -108,7 +112,11 @@ export default function EditGameForm({
               <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {state?.errors?.name && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.name}</span>}
+          {state?.errors?.name && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.name}
+            </span>
+          )}
         </div>
 
         {/* Licence */}
@@ -129,7 +137,11 @@ export default function EditGameForm({
               <BookOpenIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {state?.errors?.licence && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.licence}</span>}
+          {state?.errors?.licence && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.licence}
+            </span>
+          )}
         </div>
 
         {/* Play method */}
@@ -153,7 +165,11 @@ export default function EditGameForm({
               <ComputerDesktopIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {state?.errors?.play_method && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.play_method}</span>}
+          {state?.errors?.play_method && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.play_method}
+            </span>
+          )}
         </div>
 
         {/* Retro or Modern */}
@@ -197,7 +213,11 @@ export default function EditGameForm({
               </div>
             </div>
           </div>
-          {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
+          {state?.errors?.retro && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.retro}
+            </span>
+          )}
         </fieldset>
 
         {/* Handheld or Desktop */}
@@ -241,7 +261,11 @@ export default function EditGameForm({
               </div>
             </div>
           </div>
-          {state?.errors?.retro && <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">{state.errors.retro}</span>}
+          {state?.errors?.retro && (
+            <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+              {state.errors.retro}
+            </span>
+          )}
         </fieldset>
 
         {/* Prequel */}
