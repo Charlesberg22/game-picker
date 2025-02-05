@@ -2,7 +2,6 @@
 
 import { GamesTable, Platform } from "../lib/data";
 import { State, updateGame } from "../lib/actions";
-import Link from "next/link";
 import {
   BackwardIcon,
   BookOpenIcon,

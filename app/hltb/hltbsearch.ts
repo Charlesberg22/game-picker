@@ -62,7 +62,7 @@ export class HltbSearch {
       // Abort request after 20 seconds
       setTimeout(() => controller.abort(), 20_000);
     }
-    let responseText = "";
+    const responseText = "";
     try {
       const searchUrlWithKey = HltbSearch.SEARCH_URL + searchKey;
       const response = await fetch(searchUrlWithKey, {
