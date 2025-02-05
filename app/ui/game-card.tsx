@@ -27,7 +27,7 @@ export default function GameCard({ game }: { game: GamesTable }) {
       </div>
 
       <div className="absolute rounded-md top-0 right-0 p-2">
-        <p className="text-2xl text-center font-bold">
+        <p className="text-4xl text-center font-bold">
           {game.tried === null ? "" : "✅"}
         </p>
       </div>

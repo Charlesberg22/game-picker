@@ -17,7 +17,7 @@ export function UpdateGame({ id }: { id: string }) {
   return (
     <Link
       href={`/games/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-blue-500"
+      className="rounded-md border p-2 bg-black/50 hover:bg-blue-500"
     >
       <PencilIcon className="w-5" />
     </Link>
@@ -31,7 +31,7 @@ export async function DeleteGame({ id }: { id: string }) {
   }
   return (
     <form action={deleteGameWithId}>
-      <button className="rounded-md border p-2 hover:bg-red-600">
+      <button className="rounded-md border p-2 bg-black/50 hover:bg-red-600">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />
       </button>
