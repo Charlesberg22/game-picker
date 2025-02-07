@@ -23,9 +23,9 @@ export default async function StatsTable({
   return (
     <div className="flow-root bg-neutral-950">
       <div className="inline-block align-left">
-        <div className="rounded-lg bg-gray-900 px-2 pb-2 mx-2 pt-0">
+        <div className="rounded-lg bg-indigo-950 px-2 pb-2 mx-2 pt-0">
           <table className="text-gray-80 table">
-            <thead className="rounded-lg bg-gray-900 text-left text-sm font-normal">
+            <thead className="rounded-lg bg-indigo-950 text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-3 py-5 font-medium min-w-[300px]">
                   Description

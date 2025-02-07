@@ -19,7 +19,8 @@
     "date-fns": "^4.1.0",
     "fast-levenshtein": "^3.0.0",
     "next": "15.1.1",
-    "pnpm": "^9.15.5",
+    "node-gyp": "^11.0.0",
+    "pnpm": "^9.15.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sqlite3": "^5.1.7",
@@ -45,5 +46,10 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
-  "packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001"
+  "packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sqlite3"
+    ]
+  }
 }

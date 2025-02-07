@@ -12,10 +12,10 @@ export default function GenericGamesTable({
   return (
     <div className="flow-root bg-neutral-950">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-900 px-2 pt-0">
+        <div className="rounded-lg bg-indigo-950 px-2 pb-2 pt-0">
           <table className="min-w-full text-gray-80">
             <thead
-              className={`rounded-lg sticky top-[${vertPos}] bg-gray-900 text-left text-sm font-normal`}
+              className={`rounded-lg sticky top-[${vertPos}] bg-indigo-950 text-left text-sm font-normal`}
             >
               <tr>
                 <th
