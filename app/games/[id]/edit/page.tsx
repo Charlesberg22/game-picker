@@ -1,6 +1,6 @@
 import { fetchAllGames, fetchGameById, fetchPlatforms } from "@/app/lib/data";
 import { Metadata } from "next";
-import EditGameForm from "@/app/ui/edit-form";
+import EditGameForm, { ReplaceImageForm } from "@/app/ui/edit-form";
 import { headers } from "next/headers";
 
 export const metadata: Metadata = {

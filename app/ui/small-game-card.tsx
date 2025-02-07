@@ -1,5 +1,5 @@
-import { CheckBadgeIcon as SolidCheckBadgeIcon} from "@heroicons/react/24/solid";
-import { CheckBadgeIcon as OutlineCheckBadgeIcon} from "@heroicons/react/24/outline";
+import { CheckBadgeIcon as SolidCheckBadgeIcon } from "@heroicons/react/24/solid";
+import { CheckBadgeIcon as OutlineCheckBadgeIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { GamesTable } from "../lib/data";
 import Image from "next/image";

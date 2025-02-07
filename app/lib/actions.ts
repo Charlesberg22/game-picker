@@ -352,3 +352,47 @@ export async function saveImagesToDb(game?: GamesTable) {
     }
   }
 }
+
+export async function replaceImage(
+  id: string,
+  name: string,
+  imgPath: string,
+  formData: FormData,
+) {
+  const file = formData.get("image") as File;
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = new Uint8Array(arrayBuffer);
+
+  const updateQuery = `
+    UPDATE games
+    SET img = ?
+    WHERE game_id = ?
+  `;
+
+  const publicDir = path.join(process.cwd(), "public");
+
+  if (!imgPath) {
+    const cleanedName = removePunctuation(name);
+    const savePath = path.join("/games", cleanedName.concat(".jpg"));
+    const values = [savePath, String(id)];
+    await Promise.all([
+      dbRun(updateQuery, values),
+      fs.writeFile(path.join(publicDir, savePath), buffer, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          // file written successfully
+        }
+      }),
+    ]);
+  } else {
+    const savePath = imgPath;
+    fs.writeFile(path.join(publicDir, savePath), buffer, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        // file written successfully
+      }
+    });
+  }
+}
