@@ -370,8 +370,9 @@ export async function replaceImage(
   `;
 
   const publicDir = path.join(process.cwd(), "public");
+  console.log(imgPath);
 
-  if (!imgPath) {
+  if (imgPath == "null") {
     const cleanedName = removePunctuation(name);
     const savePath = path.join("/games", cleanedName.concat(".jpg"));
     const values = [savePath, String(id)];
