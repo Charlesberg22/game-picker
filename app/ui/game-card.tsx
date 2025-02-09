@@ -1,15 +1,17 @@
+import { CheckBadgeIcon as SolidCheckBadgeIcon } from "@heroicons/react/24/solid";
+import { CheckBadgeIcon as OutlineCheckBadgeIcon } from "@heroicons/react/24/outline";
 import { GamesTable } from "../lib/data";
-import Image from 'next/image';
+import Image from "next/image";
 
-export default function GameCard({game}: {game: GamesTable}) {
+export default function GameCard({ game }: { game: GamesTable }) {
   return (
-    <div className="relative w-[300px] h-[450px] rounded-lg overflow-hidden ">
-      <Image 
-        src={game.img} 
-        alt={game.name} 
-        width={300} 
-        height={450} 
-        className="object-cover" 
+    <div className="relative aspect-[2/3] rounded-lg overflow-hidden ">
+      <Image
+        src={game.img}
+        alt={game.name}
+        width={300}
+        height={450}
+        className="object-cover"
       />
 
       <div className="absolute rounded-md bottom-0 w-full bg-black/60 text-white p-2">
@@ -20,13 +22,25 @@ export default function GameCard({game}: {game: GamesTable}) {
         <p className="text-lg text-center font-bold">{game.name}</p>
         <div className="flex justify-between text-md">
           <span>{game.hltb_time} h</span>
-          <span>{game.retro ? '📼' : '💿'} {game.handheld ? '📱' : '📺'}</span>
+          <span>
+            {game.retro ? "📼" : "💿"} {game.handheld ? "📱" : "📺"}
+          </span>
         </div>
       </div>
 
-      <div className="absolute rounded-md top-0 right-0 p-2">
-        <p className="text-2xl text-center font-bold">{game.tried === null ? '' : '✅'}</p>
+      <div className="absolute -top-5 right-7 p-2">
+        <div className="">
+          {game.tried === null ? (
+            ""
+          ) : (
+            <div className="relative inline-block">
+              <span className="sr-only">Completed</span>
+              <SolidCheckBadgeIcon className="absolute w-8 m-0 fill-green-600" />
+              <OutlineCheckBadgeIcon className="absolute w-8 m-0 stroke-black" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
-  }
+}

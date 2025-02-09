@@ -1,8 +1,8 @@
-import { db } from "./database"
+import { db } from "./database";
 
 export const dbAll = async (query: string, values?: string[]) => {
   return await new Promise((resolve, reject) => {
-    db.all(query, values,  (error: Error, row: any) => {
+    db.all(query, values, (error: Error, row: any) => {
       if (error) {
         console.log(error);
         return reject(error);
@@ -14,7 +14,7 @@ export const dbAll = async (query: string, values?: string[]) => {
 
 export const dbGet = async (query: string, values?: string[]) => {
   return await new Promise((resolve, reject) => {
-    db.get(query, values,  (error: Error, row: any) => {
+    db.get(query, values, (error: Error, row: any) => {
       if (error) {
         console.log(error);
         return reject(error);

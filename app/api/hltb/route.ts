@@ -6,7 +6,10 @@ export async function GET(request: Request) {
   const gameName = searchParams.get("name");
 
   if (!gameName) {
-    return NextResponse.json({ error: "Game name is required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Game name is required" },
+      { status: 400 },
+    );
   }
 
   const hltbService = new HowLongToBeatService();
@@ -17,6 +20,9 @@ export async function GET(request: Request) {
     return NextResponse.json(result[0]);
   } catch (error) {
     console.error("HLTB fetch error:", error);
-    return NextResponse.json({ error: "Failed to fetch HLTB data" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch HLTB data" },
+      { status: 500 },
+    );
   }
 }

@@ -1,12 +1,12 @@
-import levenshtein from 'fast-levenshtein';
-import { HltbSearch } from './hltbsearch';
+import levenshtein from "fast-levenshtein";
+import { HltbSearch } from "./hltbsearch";
 
 // Taken from https://github.com/ckatzorke/howlongtobeat/
 
 export class HowLongToBeatService {
   private hltb: HltbSearch = new HltbSearch();
 
-  constructor() { }
+  constructor() {}
 
   /**
    * Get HowLongToBeatEntry from game id, by fetching the detail page like https://howlongtobeat.com/game.php?id=6974 and parsing it.
@@ -18,29 +18,38 @@ export class HowLongToBeatService {
     return await this.hltb.getSearchKey();
   }
 
-  async search(query: string, searchKey: string, signal?: AbortSignal): Promise<Array<HowLongToBeatEntry>> {
-    const searchTerms = query.split(' ');
-    const search = await this.hltb.search(
-      searchTerms,
-      searchKey,
-      signal
-    );
+  async search(
+    query: string,
+    searchKey: string,
+    signal?: AbortSignal,
+  ): Promise<Array<HowLongToBeatEntry>> {
+    const searchTerms = query.split(" ");
+    const search = await this.hltb.search(searchTerms, searchKey, signal);
     // console.log(`Found ${search.count} results`);
     const hltbEntries = new Array<HowLongToBeatEntry>();
     for (const resultEntry of search.data) {
-      hltbEntries.push(new HowLongToBeatEntry(
-        '' + resultEntry.game_id, // game id is now a number, but I want to keep the model stable
-        resultEntry.game_name,
-        '', // no description
-        resultEntry.profile_platform ? resultEntry.profile_platform.split(', ') : [],
-        HltbSearch.IMAGE_URL + resultEntry.game_image,
-        [["Main", "Main"] , ["Main + Extra", "Main + Extra"], ["Completionist", "Completionist"]],
-        Math.round(resultEntry.comp_main / 3600),
-        Math.round(resultEntry.comp_plus / 3600),
-        Math.round(resultEntry.comp_100 / 3600),
-        HowLongToBeatService.calcDistancePercentage(resultEntry.game_name, query),
-        query
-      ));
+      hltbEntries.push({
+        id: "" + resultEntry.game_id, // game id is now a number, but I want to keep the model stable
+        name: resultEntry.game_name,
+        description: "", // no description
+        platforms: resultEntry.profile_platform
+          ? resultEntry.profile_platform.split(", ")
+          : [],
+        imageUrl: HltbSearch.IMAGE_URL + resultEntry.game_image,
+        timeLabels: [
+          ["Main", "Main"],
+          ["Main + Extra", "Main + Extra"],
+          ["Completionist", "Completionist"],
+        ],
+        gameplayMain: Math.round(resultEntry.comp_main / 3600),
+        gameplayMainExtra: Math.round(resultEntry.comp_plus / 3600),
+        gameplayCompletionist: Math.round(resultEntry.comp_100 / 3600),
+        similarity: HowLongToBeatService.calcDistancePercentage(
+          resultEntry.game_name,
+          query,
+        ),
+        searchTerm: query,
+      });
     }
     return hltbEntries;
   }
@@ -73,24 +82,16 @@ export class HowLongToBeatService {
 /**
  * Encapsulates a game detail
  */
-export class HowLongToBeatEntry {
-  /* deprecated, since it was also renamed on the website, and platforms is much more suitable */
-  public readonly playableOn: string[];
-
-  constructor(
-    public readonly id: string,
-    public readonly name: string,
-    public readonly description: string,
-    /* replaces playableOn */
-    public readonly platforms: string[],
-    public readonly imageUrl: string,
-    public readonly timeLabels: Array<string[]>,
-    public readonly gameplayMain: number,
-    public readonly gameplayMainExtra: number,
-    public readonly gameplayCompletionist: number,
-    public readonly similarity: number,
-    public readonly searchTerm: string
-  ) {
-    this.playableOn = platforms;
-  }
-}
+export type HowLongToBeatEntry = {
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly platforms: string[];
+  readonly imageUrl: string;
+  readonly timeLabels: Array<string[]>;
+  readonly gameplayMain: number;
+  readonly gameplayMainExtra: number;
+  readonly gameplayCompletionist: number;
+  readonly similarity: number;
+  readonly searchTerm: string;
+};
