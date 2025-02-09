@@ -2,7 +2,7 @@ import UserAgent from "user-agents";
 import * as cheerio from "cheerio";
 
 // Taken from https://github.com/ckatzorke/howlongtobeat/
-// API key parsing from https://github.com/ckatzorke/howlongtobeat/pull/64 and https://github.com/ScrappyCocco/HowLongToBeat-PythonAPI
+// API key parsing based on https://github.com/ckatzorke/howlongtobeat/pull/64 and https://github.com/ScrappyCocco/HowLongToBeat-PythonAPI
 
 /**
  * Takes care about the http connection and response handling
