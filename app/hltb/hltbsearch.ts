@@ -10,11 +10,11 @@ import * as cheerio from "cheerio";
 export class HltbSearch {
   public static BASE_URL = "https://howlongtobeat.com/";
   public static DETAIL_URL = `${HltbSearch.BASE_URL}game?id=`;
-  public static SEARCH_URL = `${HltbSearch.BASE_URL}api/s/`;
+  public static SEARCH_URL = "";
   public static IMAGE_URL = `${HltbSearch.BASE_URL}games/`;
 
   private static readonly SEARCH_KEY_PATTERN =
-    /"\/api\/(?:s|game|user)\/".concat\("([a-zA-Z0-9]+)"\).concat\("([a-zA-Z0-9]+)"\)/g;
+    /"\/api\/([a-z]+)\/".concat\("([a-zA-Z0-9]+)"\).concat\("([a-zA-Z0-9]+)"\)/g;
 
   payload: any = {
     searchType: "games",
@@ -119,7 +119,12 @@ export class HltbSearch {
         }).then((res) => res.text());
 
         const matches = [...scriptText.matchAll(HltbSearch.SEARCH_KEY_PATTERN)];
-        return matches[0][1] + matches[0][2];
+        const apiPath = matches[0][1];
+        const keyPart1 = matches[0][2];
+        const keyPart2 = matches[0][3];
+
+        HltbSearch.SEARCH_URL = `${HltbSearch.BASE_URL}api/${apiPath}/`
+        return keyPart1 + keyPart2;
       } catch (error) {
         console.log(error);
         continue;
