@@ -327,30 +327,38 @@ export async function saveImagesToDb(game?: GamesTable) {
     `;
   const publicDir = path.join(process.cwd(), "public");
 
-  for (const game of games) {
-    if (!game.img) {
-      try {
-        const steamGrid = await client.searchGame(game.name);
-        const steamGridId = steamGrid[0].id;
-        const grids = await client.getGridsById(
-          steamGridId,
-          ["alternate"],
-          ["600x900"],
-          ["image/jpeg", "image/png"],
-        );
-        const imageUrl = grids[0].url.toString();
-        const cleanedName = removePunctuation(game.name);
-        const savePath = path.join("/games", cleanedName.concat(".jpg"));
-        const values = [savePath, String(game.game_id)];
-        await Promise.all([
-          dbRun(updateQuery, values),
-          downloadImage(imageUrl, path.join(publicDir, savePath)),
-        ]);
-      } catch (error) {
-        console.error(`SteamGridDB fetch error with ${game.name}:`, error);
+  const semaphore = new CountingSemaphore(5);
+
+  await Promise.all(
+    games.map(async (game) => {
+      if (!game.img) {
+        try {
+          await semaphore.acquire();
+
+          const steamGrid = await client.searchGame(game.name);
+          const steamGridId = steamGrid[0].id;
+          const grids = await client.getGridsById(
+            steamGridId,
+            ["alternate"],
+            ["600x900"],
+            ["image/jpeg", "image/png"],
+          );
+          const imageUrl = grids[0].url.toString();
+          const cleanedName = removePunctuation(game.name);
+          const savePath = path.join("/games", cleanedName.concat(".jpg"));
+          console.log(savePath);
+          const values = [savePath, String(game.game_id)];
+
+          await downloadImage(imageUrl, path.join(publicDir, savePath));
+          await dbRun(updateQuery, values);
+        } catch (error) {
+          console.error(`SteamGridDB fetch error with ${game.name}:`, error);
+        } finally {
+          semaphore.release();
+        }
       }
-    }
-  }
+    }),
+  );
 }
 
 export async function replaceImage(
