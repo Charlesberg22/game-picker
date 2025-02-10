@@ -109,7 +109,7 @@ export const games = [
   {
     platform_id: "1",
     name: "Mother",
-    licence: "Pirated ROM (remake/translation)",
+    licence: "ROM (remake/translation)",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -207,7 +207,7 @@ export const games = [
   {
     platform_id: "2",
     name: "Chrono Trigger",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -263,7 +263,7 @@ export const games = [
   {
     platform_id: "2",
     name: "Dragon Quest V",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -291,7 +291,7 @@ export const games = [
   {
     platform_id: "2",
     name: "Final Fantasy IV",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -305,7 +305,7 @@ export const games = [
   {
     platform_id: "2",
     name: "Final Fantasy VI",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -319,7 +319,7 @@ export const games = [
   {
     platform_id: "2",
     name: "Kirby Super Star",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -431,7 +431,7 @@ export const games = [
   {
     platform_id: "3",
     name: "Donkey Kong",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -445,7 +445,7 @@ export const games = [
   {
     platform_id: "3",
     name: "Mario's Picross",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -459,7 +459,7 @@ export const games = [
   {
     platform_id: "3",
     name: "Mole Mania",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -473,7 +473,7 @@ export const games = [
   {
     platform_id: "3",
     name: "Picross 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -515,7 +515,7 @@ export const games = [
   {
     platform_id: "3",
     name: "Wario Land 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -529,7 +529,7 @@ export const games = [
   {
     platform_id: "3",
     name: "Wario Land: Super Mario Land 3",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -557,7 +557,7 @@ export const games = [
   {
     platform_id: "4",
     name: "Castlevania: Symphony of the Night",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PS1 Emulation on PC",
     retro: "1",
     handheld: "0",
@@ -571,7 +571,7 @@ export const games = [
   {
     platform_id: "4",
     name: "Final Fantasy IX",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -585,7 +585,7 @@ export const games = [
   {
     platform_id: "4",
     name: "Final Fantasy Tactics",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "PSP Emulation on PC",
     retro: "1",
     handheld: "0",
@@ -599,7 +599,7 @@ export const games = [
   {
     platform_id: "4",
     name: "Final Fantasy VII",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -613,7 +613,7 @@ export const games = [
   {
     platform_id: "4",
     name: "Final Fantasy VIII",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -753,7 +753,7 @@ export const games = [
   {
     platform_id: "5",
     name: "Zelda: Majora's Mask",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -837,7 +837,7 @@ export const games = [
   {
     platform_id: "7",
     name: "Beyond Good & Evil",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -851,7 +851,7 @@ export const games = [
   {
     platform_id: "7",
     name: "Dragon Quest VIII",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -865,7 +865,7 @@ export const games = [
   {
     platform_id: "7",
     name: "Final Fantasy X/X-2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -879,7 +879,7 @@ export const games = [
   {
     platform_id: "7",
     name: "Final Fantasy XII: The Zodiac Age",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -893,7 +893,7 @@ export const games = [
   {
     platform_id: "8",
     name: "Fire Emblem: Path of Radiance",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -907,7 +907,7 @@ export const games = [
   {
     platform_id: "8",
     name: "Luigi's Mansion",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -921,7 +921,7 @@ export const games = [
   {
     platform_id: "8",
     name: "Metroid Prime 2: Echoes",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -963,7 +963,7 @@ export const games = [
   {
     platform_id: "8",
     name: "Pikmin",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -977,7 +977,7 @@ export const games = [
   {
     platform_id: "8",
     name: "Pikmin 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -991,7 +991,7 @@ export const games = [
   {
     platform_id: "8",
     name: "Skies of Arcadia Legends",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -1033,7 +1033,7 @@ export const games = [
   {
     platform_id: "8",
     name: "Zelda: Twilight Princess",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "Wii U",
     retro: "0",
     handheld: "0",
@@ -1117,7 +1117,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Drill Dozer",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -1145,7 +1145,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Fire Emblem: The Binding Blade",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -1159,7 +1159,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Fire Emblem: The Sacred Stones",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -1201,7 +1201,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Mario & Luigi: Superstar Saga",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -1215,7 +1215,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Mario Golf: Advance Tour",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -1257,7 +1257,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Metroid: Zero Mission",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -1271,7 +1271,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Mother 3",
-    licence: "Pirated ROM (with translation)",
+    licence: "ROM (with translation)",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -1313,7 +1313,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Wario Land 4",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -1341,7 +1341,7 @@ export const games = [
   {
     platform_id: "9",
     name: "Warioware, Inc.: Mega Microgame$!",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "GBA",
     retro: "1",
     handheld: "1",
@@ -1369,7 +1369,7 @@ export const games = [
   {
     platform_id: "10",
     name: "9 Hours, Nine Persons, Nine Doors",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1383,7 +1383,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Advance Wars: Days of Ruin",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1397,7 +1397,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Advance Wars: Dual Strike",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1411,7 +1411,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Castlevania: Dawn of Sorrow",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1425,7 +1425,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Castlevania: Order of Ecclesia",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1439,7 +1439,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Castlevania: Portrait of Ruin",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1453,7 +1453,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Elite Beat Agents",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1467,7 +1467,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Fire Emblem: New Mystery of the Emblem",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1481,7 +1481,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Fire Emblem: Shadow Dragon",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1495,7 +1495,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Ghost Trick: Phantom Detective",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1509,7 +1509,7 @@ export const games = [
   {
     platform_id: "10",
     name: "GTA: Chinatown Wars",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1523,7 +1523,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Hotel Dusk: Room 215",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1537,7 +1537,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Last Window: The Secret of Cape West",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1565,7 +1565,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Mario & Luigi: Partners in Time",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1579,7 +1579,7 @@ export const games = [
   {
     platform_id: "10",
     name: "New Super Mario Bros.",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1635,7 +1635,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Picross 3D",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1649,7 +1649,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Picross DS",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1719,7 +1719,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Professor Layton and Pandora's Box",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1733,7 +1733,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Professor Layton and the Curious Village",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1761,7 +1761,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Professor Layton and the Last Specter",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "0",
     handheld: "1",
@@ -1775,7 +1775,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Radiant Historia",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -1789,7 +1789,7 @@ export const games = [
   {
     platform_id: "10",
     name: "Rhythm Heaven",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1803,7 +1803,7 @@ export const games = [
   {
     platform_id: "10",
     name: "The World Ends With You",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1817,7 +1817,7 @@ export const games = [
   {
     platform_id: "10",
     name: "WarioWare Touched!",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "DS",
     retro: "1",
     handheld: "1",
@@ -1873,7 +1873,7 @@ export const games = [
   {
     platform_id: "11",
     name: "Final Fantasy XIII",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -1887,7 +1887,7 @@ export const games = [
   {
     platform_id: "11",
     name: "Final Fantasy XIII-2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -1915,7 +1915,7 @@ export const games = [
   {
     platform_id: "11",
     name: "The Last of Us Part 1",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -1929,7 +1929,7 @@ export const games = [
   {
     platform_id: "11",
     name: "Trails of Cold Steel",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -1985,7 +1985,7 @@ export const games = [
   {
     platform_id: "12",
     name: "Donkey Kong Country Returns",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "Switch",
     retro: "0",
     handheld: "0",
@@ -1999,7 +1999,7 @@ export const games = [
   {
     platform_id: "12",
     name: "Fire Emblem: Radiant Dawn",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2013,7 +2013,7 @@ export const games = [
   {
     platform_id: "12",
     name: "Kirby's Epic Yarn",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2027,7 +2027,7 @@ export const games = [
   {
     platform_id: "12",
     name: "Metroid Prime 3: Corruption",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2041,7 +2041,7 @@ export const games = [
   {
     platform_id: "12",
     name: "New Super Mario Bros. Wii",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2055,7 +2055,7 @@ export const games = [
   {
     platform_id: "12",
     name: "Resident Evil 4",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2069,7 +2069,7 @@ export const games = [
   {
     platform_id: "12",
     name: "Rhythm Heaven Fever",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2111,7 +2111,7 @@ export const games = [
   {
     platform_id: "12",
     name: "Super Paper Mario",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2125,7 +2125,7 @@ export const games = [
   {
     platform_id: "12",
     name: "Wario Land: Shake It!",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2139,7 +2139,7 @@ export const games = [
   {
     platform_id: "12",
     name: "WarioWare Smooth Moves",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "1",
     handheld: "0",
@@ -2167,7 +2167,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Etrian Odyssey IV",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2181,7 +2181,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Fire Emblem Echoes: Shadows of Valentia",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2195,7 +2195,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Fire Emblem Fates Special Edition",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2209,7 +2209,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Fire Emblem: Awakening",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2223,7 +2223,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Kirby: Planet Robobot",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2237,7 +2237,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Kirby: Triple Deluxe",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2251,7 +2251,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Luigi's Mansion 2",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "Switch",
     retro: "0",
     handheld: "0",
@@ -2265,7 +2265,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Mario & Luigi: Dream Team",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2279,7 +2279,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Mario & Luigi: Paper Jam",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2293,7 +2293,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Metroid: Samus Returns",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2307,7 +2307,7 @@ export const games = [
   {
     platform_id: "13",
     name: "New Super Mario Bros. 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2321,7 +2321,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Paper Mario: Sticker Star",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2335,7 +2335,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Picross 3D: Round 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2391,7 +2391,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Professor Layton and the Azran Legacy",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2419,7 +2419,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Pushmo",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2433,7 +2433,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Rhythm Heaven Megamix",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2447,7 +2447,7 @@ export const games = [
   {
     platform_id: "13",
     name: "Shovel Knight",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2475,7 +2475,7 @@ export const games = [
   {
     platform_id: "13",
     name: "WarioWare Gold",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "3DS",
     retro: "0",
     handheld: "1",
@@ -2531,7 +2531,7 @@ export const games = [
   {
     platform_id: "14",
     name: "New Super Mario Bros. U",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "0",
     handheld: "0",
@@ -2545,7 +2545,7 @@ export const games = [
   {
     platform_id: "14",
     name: "Paper Mario: Color Splash",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "0",
     handheld: "0",
@@ -2559,7 +2559,7 @@ export const games = [
   {
     platform_id: "14",
     name: "Pikmin 3",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "0",
     handheld: "0",
@@ -2573,7 +2573,7 @@ export const games = [
   {
     platform_id: "14",
     name: "Rayman Legends",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "0",
     handheld: "0",
@@ -2615,7 +2615,7 @@ export const games = [
   {
     platform_id: "14",
     name: "Yoshi's Woolly World",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Wii U",
     retro: "0",
     handheld: "0",
@@ -2643,7 +2643,7 @@ export const games = [
   {
     platform_id: "15",
     name: "Control",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -2671,7 +2671,7 @@ export const games = [
   {
     platform_id: "15",
     name: "Final Fantasy XV",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -2685,7 +2685,7 @@ export const games = [
   {
     platform_id: "15",
     name: "God of War",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -2993,7 +2993,7 @@ export const games = [
   {
     platform_id: "16",
     name: "Pikmin 4",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Switch",
     retro: "0",
     handheld: "0",
@@ -3119,7 +3119,7 @@ export const games = [
   {
     platform_id: "16",
     name: "The Great Ace Attorney Chronicles",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "Switch",
     retro: "0",
     handheld: "0",
@@ -3273,7 +3273,7 @@ export const games = [
   {
     platform_id: "17",
     name: "Final Fantasy XVI",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3469,7 +3469,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Alan Wake",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3483,7 +3483,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Alan Wake 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3511,7 +3511,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Atelier Sophie 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3539,7 +3539,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Baldur's Gate 3",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3637,7 +3637,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Dark Souls",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -3651,7 +3651,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Dark Souls 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "1",
     handheld: "0",
@@ -3665,7 +3665,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Dark Souls 3",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3693,7 +3693,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Digimon Story Cyber Sleuth",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3721,7 +3721,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Divinity Original Sin 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3735,7 +3735,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Dragon Quest XI S",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3833,7 +3833,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Indiana Jones and the Great Circle",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3847,7 +3847,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Kingdom Come: Deliverance",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3861,7 +3861,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Live A Live",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3931,7 +3931,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Metaphor: ReFantazio",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3945,7 +3945,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Monster Hunter Rise",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3959,7 +3959,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Monster Hunter World",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -3987,7 +3987,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Nier Automata",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4001,7 +4001,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Octopath Traveler",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4015,7 +4015,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Octopath Traveler II",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4029,7 +4029,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Resident Evil 4 Remake",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4057,7 +4057,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Sekiro: Shadows Die Twice",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4099,7 +4099,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Star Ocean: The Second Story R",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4113,7 +4113,7 @@ export const games = [
   {
     platform_id: "100",
     name: "System Shock",
-    licence: "Pirated ROM (remake)",
+    licence: "ROM (remake)",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4127,7 +4127,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Tales of Arise",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4211,7 +4211,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Triangle Strategy",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4239,7 +4239,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Valkyria Chronicles 4",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4267,7 +4267,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Wolfenstein II: The New Colossus",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4281,7 +4281,7 @@ export const games = [
   {
     platform_id: "100",
     name: "XCOM 2",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4295,7 +4295,7 @@ export const games = [
   {
     platform_id: "100",
     name: "XCOM Enemy Unknown",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4407,7 +4407,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Yakuza: Like A Dragon",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
@@ -4421,7 +4421,7 @@ export const games = [
   {
     platform_id: "100",
     name: "Ys VIII",
-    licence: "Pirated ROM",
+    licence: "ROM",
     play_method: "PC",
     retro: "0",
     handheld: "0",
