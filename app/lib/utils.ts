@@ -48,3 +48,26 @@ export function removeKeywords(word: string) {
 export function removePunctuation(name: string): string {
   return name.replace(/[^\w\s\-]|_/g, "").replace(/\s/g, "-");
 }
+
+export class CountingSemaphore {
+  constructor(private concurrency: number) {}
+
+  private queue: (() => void)[] = [];
+
+  async acquire() {
+    if (this.concurrency > 0) {
+      this.concurrency--;
+      return;
+    }
+
+    await new Promise<void>((resolve) => {
+      this.queue.push(resolve);
+    });
+  }
+
+  release() {
+    this.concurrency++;
+    const resolve = this.queue.shift();
+    resolve?.();
+  }
+}

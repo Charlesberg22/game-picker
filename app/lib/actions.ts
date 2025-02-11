@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import https from "https";
 import fs from "fs";
 import UserAgent from "user-agents";
-import { removePunctuation } from "./utils";
+import { CountingSemaphore, removePunctuation } from "./utils";
 import {
   fetchAllGames,
   fetchGameById,
