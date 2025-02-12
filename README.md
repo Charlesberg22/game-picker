@@ -41,6 +41,3 @@ And there's a stats page so I can see how long it will take to play all the game
 Desktop view|Mobile View
 ---|---
 ![Stats page on desktop](docs/desktop-stats.png)|![Stats page on mobile](docs/mobile-stats.jpg)
-
-### known issues ###
-When adding new cover images in the deployed container, the container has to be restarted for them to be accessible. This may be a permissions thing in unraid but I am not yet well-versed enough to troubleshoot fully. This issue isn't present when running the dev server.
