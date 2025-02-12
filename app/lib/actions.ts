@@ -16,6 +16,8 @@ import {
 } from "./data";
 import path from "path";
 import SGDB from "steamgriddb";
+import { exec } from "child_process";
+import { promisify } from "util";
 
 const FormSchema = z.object({
   game_id: z.string(),
@@ -310,6 +312,7 @@ async function downloadImage(imageUrl: string, savePath: string) {
 }
 
 const apiKey = process.env.STEAMGRIDDB_API_KEY || "";
+const execAsync = promisify(exec);
 
 export async function saveImagesToDb(game?: GamesTable) {
   const client = new SGDB(apiKey);
@@ -350,6 +353,7 @@ export async function saveImagesToDb(game?: GamesTable) {
           const values = [savePath, String(game.game_id)];
 
           await downloadImage(imageUrl, path.join(publicDir, savePath));
+          await execAsync(`chown 99:100 ${path.join(publicDir, savePath)}`);
           await dbRun(updateQuery, values);
         } catch (error) {
           console.error(`SteamGridDB fetch error with ${game.name}:`, error);

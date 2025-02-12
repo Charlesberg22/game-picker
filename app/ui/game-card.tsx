@@ -7,7 +7,7 @@ export default function GameCard({ game }: { game: GamesTable }) {
   return (
     <div className="relative aspect-[2/3] rounded-lg overflow-hidden ">
       <Image
-        src={game.img}
+        src={`/api${game.img}`}
         alt={game.name}
         width={300}
         height={450}

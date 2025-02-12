@@ -9,7 +9,7 @@ export default function SmallGameCard({ game }: { game: GamesTable }) {
     <div className="relative aspect-[2/3] rounded-sm overflow-hidden ">
       <Link href={`/games/${game.game_id}/edit`}>
         <Image
-          src={game.img}
+          src={`/api${game.img}`}
           alt={game.name}
           width={200}
           height={300}
