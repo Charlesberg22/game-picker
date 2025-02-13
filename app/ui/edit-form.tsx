@@ -17,7 +17,7 @@ import {
   TvIcon,
 } from "@heroicons/react/24/outline";
 import { useActionState, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 
 export default function EditGameForm({
@@ -71,6 +71,7 @@ export default function EditGameForm({
     
     return result;
   }
+  
   const [state, action] = useActionState(updateGameWithId, undefined);
 
   return (

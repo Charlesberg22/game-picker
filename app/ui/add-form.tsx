@@ -1,7 +1,7 @@
 "use client";
 
 import { GamesTable, Platform } from "../lib/data";
-import { createGame, State } from "../lib/actions";
+import { createGame, State, updateGame } from "../lib/actions";
 import {
   BackwardIcon,
   BookOpenIcon,
@@ -51,8 +51,23 @@ export default function AddGameForm({
       });
   }
 
-  const [state, action] = useActionState(createGame, undefined);
-  console.log(state?.formData.handheld);
+  async function createGameWithRefresh(state: State, formData: FormData) {
+
+    const result = await createGame(state, formData);
+
+    if (result == undefined || !result.errors) {
+      try {
+        await fetch("/api/series-map?refresh=true", { method: "GET" });
+      } catch (error) {
+        console.error(error);
+      }
+      router.back();
+    }
+    
+    return result;
+  }
+
+  const [state, action] = useActionState(createGameWithRefresh, undefined);
 
   return (
     <form action={action} className="">

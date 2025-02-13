@@ -267,7 +267,6 @@ export async function createGame(state: State, formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/stats");
-  redirect(previousPage || "/");
 }
 
 export async function refreshRandomGame() {
@@ -352,7 +351,7 @@ export async function saveImagesToDb(game?: GamesTable) {
           const values = [savePath, String(game.game_id)];
 
           await downloadImage(imageUrl, path.join(publicDir, savePath));
-          await execAsync(`chown 99:100 ${path.join(publicDir, savePath)}`);
+          // await execAsync(`chown 99:100 ${path.join(publicDir, savePath)}`);
           await dbRun(updateQuery, values);
         } catch (error) {
           console.error(`SteamGridDB fetch error with ${game.name}:`, error);
