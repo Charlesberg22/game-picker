@@ -1,7 +1,7 @@
 "use client";
 
 import { GamesTable, Platform } from "../lib/data";
-import { createGame } from "../lib/actions";
+import { createGame, State } from "../lib/actions";
 import {
   BackwardIcon,
   BookOpenIcon,
@@ -16,7 +16,7 @@ import {
   TvIcon,
 } from "@heroicons/react/24/outline";
 import { useActionState, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 export default function AddGameForm({
   platforms,
@@ -154,7 +154,7 @@ export default function AddGameForm({
                 id="play_method"
                 name="play_method"
                 type="string"
-                defaultValue={state?.formData?.retro || ""}
+                defaultValue={state?.formData?.play_method || ""}
                 placeholder="Enter play method"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />

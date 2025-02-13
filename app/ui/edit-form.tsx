@@ -17,7 +17,8 @@ import {
   TvIcon,
 } from "@heroicons/react/24/outline";
 import { useActionState, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+
 
 export default function EditGameForm({
   game,
@@ -47,7 +48,6 @@ export default function EditGameForm({
       .then((hltbData) => {
         const newTime = hltbData.gameplayMainExtra;
         setHltbTime(newTime);
-        console.log(hltbData.imageUrl);
         alert("Updated hltb time.");
       })
       .catch((error) => {
@@ -56,8 +56,21 @@ export default function EditGameForm({
       });
   }
 
-  const updateGameWithId = (state: State, formData: FormData) =>
-    updateGame(String(game.game_id), state, formData);
+  async function updateGameWithId (state: State, formData: FormData) {
+
+    const result = await updateGame(String(game.game_id), state, formData);
+
+    if (result == undefined || !result.errors) {
+      try {
+        await fetch("/api/series-map?refresh=true", { method: "GET" });
+      } catch (error) {
+        console.error(error);
+      }
+      router.back();
+    }
+    
+    return result;
+  }
   const [state, action] = useActionState(updateGameWithId, undefined);
 
   return (

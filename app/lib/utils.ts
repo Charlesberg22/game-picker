@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { enAU } from "date-fns/locale";
 import { NextApiRequest } from "next";
+import { GamesTable } from "./data";
 
 export function formatDate(dateStr: string): string | undefined {
   if (dateStr === "") {
@@ -71,3 +72,44 @@ export class CountingSemaphore {
     resolve?.();
   }
 }
+
+export function buildSeriesMap(games: GamesTable[]) {
+  const gameMap = new Map<number, GamesTable>(); // Lookup map for games by game_id
+  const sequelsMap = new Map<number, GamesTable[]>(); // Map of prequel_id -> direct sequels
+  const seriesMap = new Map<number, GamesTable[]>(); // Final series groups
+
+  // All game lookup map for efficiency
+  games.forEach((game) => gameMap.set(game.game_id, game));
+
+  // Build sequels map (prequel_id -> list of direct sequels which may be multiple due to branching)
+  games.forEach((game) => {
+    if (game.prequel_id) {
+      if (!sequelsMap.has(game.prequel_id)) {
+        sequelsMap.set(game.prequel_id, []);
+      }
+      sequelsMap.get(game.prequel_id)!.push(game);
+    }
+  });
+
+  // Find root games (those without a prequel_id)
+  const roots = games.filter((game) => !game.prequel_id);
+
+  // Function to recursively build the series chain
+  function buildChain(game: GamesTable, series: GamesTable[]) {
+    series.push(game);
+    if (sequelsMap.has(game.game_id)) {
+      for (const sequel of sequelsMap.get(game.game_id)!) {
+        buildChain(sequel, series);
+      }
+    }
+  };
+
+  // Process each root game and construct full chains
+  roots.forEach((root) => {
+    const series: GamesTable[] = [];
+    buildChain(root, series);
+    seriesMap.set(root.game_id, series);
+  });
+
+  return seriesMap;
+};

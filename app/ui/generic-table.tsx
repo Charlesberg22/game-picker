@@ -1,6 +1,7 @@
 import { GamesTable } from "../lib/data";
-import { DeleteGame, UpdateGame } from "./buttons";
+import { UpdateGame } from "./buttons";
 import { formatDate } from "@/app/lib/utils";
+import { DeleteGame } from "./delete-buttons";
 
 export default function GenericGamesTable({
   games,

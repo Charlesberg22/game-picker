@@ -180,7 +180,6 @@ export async function updateGame(id: string, state: State, formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/stats");
-  redirect(previousPage);
 }
 
 const CreateGame = FormSchema.omit({ game_id: true });

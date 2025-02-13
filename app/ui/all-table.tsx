@@ -1,8 +1,9 @@
 import { fetchFilteredGames } from "@/app/lib/data";
 import GenericGamesTable from "./generic-table";
 import GameCard from "./game-card";
-import { DeleteGame, UpdateGame } from "./buttons";
+import { UpdateGame } from "./buttons";
 import SmallGameCard from "./small-game-card";
+import { DeleteGame } from "./delete-buttons";
 
 export default async function AllGamesTable({
   query,
