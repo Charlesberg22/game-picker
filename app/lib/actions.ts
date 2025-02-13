@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { dbRun } from "../api/transactions";
-import { redirect } from "next/navigation";
 import https from "https";
 import fs from "fs";
 import UserAgent from "user-agents";
@@ -98,8 +97,6 @@ export async function deleteGame(id: string) {
 const UpdateGame = FormSchema.omit({ game_id: true });
 
 export async function updateGame(id: string, state: State, formData: FormData) {
-  const previousPage = formData.get("previousPage") as string;
-
   const validatedFields = UpdateGame.safeParse({
     name: formData.get("name"),
     platform_id: formData.get("platform_id"),
@@ -185,8 +182,6 @@ export async function updateGame(id: string, state: State, formData: FormData) {
 const CreateGame = FormSchema.omit({ game_id: true });
 
 export async function createGame(state: State, formData: FormData) {
-  const previousPage = formData.get("previousPage") as string;
-
   const validatedFields = CreateGame.safeParse({
     name: formData.get("name"),
     platform_id: formData.get("platform_id"),
@@ -351,7 +346,7 @@ export async function saveImagesToDb(game?: GamesTable) {
           const values = [savePath, String(game.game_id)];
 
           await downloadImage(imageUrl, path.join(publicDir, savePath));
-          // await execAsync(`chown 99:100 ${path.join(publicDir, savePath)}`);
+          await execAsync(`chown 99:100 ${path.join(publicDir, savePath)}`);
           await dbRun(updateQuery, values);
         } catch (error) {
           console.error(`SteamGridDB fetch error with ${game.name}:`, error);

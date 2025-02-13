@@ -8,7 +8,7 @@ const links = [
   { name: "Home", href: "/" },
   { name: "Randomiser", href: "/randomiser" },
   { name: "Stats", href: "/stats" },
-  { name: "Dependency", href: "/dependency"},
+  { name: "Series", href: "/series"},
 ];
 
 function NavLinks() {

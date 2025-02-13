@@ -1,7 +1,7 @@
 "use client";
 
 import { GamesTable, Platform } from "../lib/data";
-import { createGame, State, updateGame } from "../lib/actions";
+import { createGame, State } from "../lib/actions";
 import {
   BackwardIcon,
   BookOpenIcon,
@@ -16,7 +16,7 @@ import {
   TvIcon,
 } from "@heroicons/react/24/outline";
 import { useActionState, useRef, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function AddGameForm({
   platforms,
@@ -63,7 +63,7 @@ export default function AddGameForm({
       }
       router.back();
     }
-    
+
     return result;
   }
 

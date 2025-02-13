@@ -1,15 +1,25 @@
+"use client"
+
 import { GamesTable } from "../lib/data";
 import { UpdateGame } from "./buttons";
 import { formatDate } from "@/app/lib/utils";
 import { DeleteGame } from "./delete-buttons";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function GenericGamesTable({
   games,
   vertPos,
+  randomiser,
 }: {
   games: GamesTable[];
   vertPos: string;
+  randomiser: boolean;
 }) {
+  const { data: seriesData } = useSWR("/api/series-map", fetcher);
+  const seriesMap = new Map(seriesData) as Map<number, GamesTable[]>;
+
   return (
     <div className="flow-root bg-neutral-950">
       <div className="inline-block min-w-full align-middle">
@@ -91,6 +101,12 @@ export default function GenericGamesTable({
                 >
                   Date Played
                 </th>
+                {randomiser && <th
+                  scope="col"
+                  className="table-cell px-3 py-5 font-medium w-[80px]"
+                >
+                  <span className="hidden md:block">Unlocks #</span> 
+                </th>}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
@@ -138,6 +154,9 @@ export default function GenericGamesTable({
                   <td className="hidden md:table-cell whitespace-nowrap px-3 py-3">
                     {formatDate(game.when_played)}
                   </td>
+                  {randomiser && <td className="table-cell whitespace-nowrap px-3 py-3">
+                    {(seriesMap.get(game.game_id)?.length || 1) - 1 }
+                  </td>}
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateGame id={String(game.game_id)} />

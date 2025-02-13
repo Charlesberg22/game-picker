@@ -3,7 +3,7 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { deleteGame } from "../lib/actions";
 
-export function DeleteGame({ id }: { id: string }) {
+export function DeleteGame({ id }: { id: string }) {  
   async function deleteGameWithId() {
     await deleteGame(id);
     try {
