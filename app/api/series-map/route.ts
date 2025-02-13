@@ -8,7 +8,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const refresh = searchParams.get("refresh") === "true";
 
-  if (!cachedSeriesMap || refresh ) {
+  if (!cachedSeriesMap || refresh) {
     const games = await fetchAllGames(); // Fetch from database
     cachedSeriesMap = buildSeriesMap(games);
   }

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import useSWR from "swr";
 import { GamesTable } from "../lib/data";
@@ -20,15 +20,17 @@ export function SeriesView() {
         {groupedGames.map((series, index) => (
           <div key={index} className="overflow-x-auto scrollbar-hide">
             <div className="flex items-center space-x-4">
-              {series
-                .map((game) => (
-                  <div className="relative group min-w-[300px]" key={game.game_id}>
-                    <GameCard game={game} />
-                    <div className="absolute top-2 flex justify-start gap-4 text-sm font-semibold opacity-0 group-hover:opacity-100">
-                      <UpdateGame id={String(game.game_id)}/>
-                      <DeleteGame id={String(game.game_id)}/>
-                    </div>
+              {series.map((game) => (
+                <div
+                  className="relative group min-w-[300px]"
+                  key={game.game_id}
+                >
+                  <GameCard game={game} />
+                  <div className="absolute top-2 flex justify-start gap-4 text-sm font-semibold opacity-0 group-hover:opacity-100">
+                    <UpdateGame id={String(game.game_id)} />
+                    <DeleteGame id={String(game.game_id)} />
                   </div>
+                </div>
               ))}
             </div>
           </div>
@@ -38,11 +40,13 @@ export function SeriesView() {
         {groupedGames.map((series, index) => (
           <div key={index} className="overflow-x-auto scrollbar-hide">
             <div className="flex space-x-1">
-              {series
-                .map((game) => (
-                  <div className="relative group min-w-[100px] max-w-[100px]" key={game.game_id}>
-                    <SmallGameCard game={game} />
-                  </div>
+              {series.map((game) => (
+                <div
+                  className="relative group min-w-[100px] max-w-[100px]"
+                  key={game.game_id}
+                >
+                  <SmallGameCard game={game} />
+                </div>
               ))}
             </div>
           </div>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { GamesTable } from "../lib/data";
 import { UpdateGame } from "./buttons";
@@ -101,12 +101,14 @@ export default function GenericGamesTable({
                 >
                   Date Played
                 </th>
-                {randomiser && <th
-                  scope="col"
-                  className="table-cell px-3 py-5 font-medium w-[80px]"
-                >
-                  <span className="hidden md:block">Unlocks #</span> 
-                </th>}
+                {randomiser && (
+                  <th
+                    scope="col"
+                    className="table-cell px-3 py-5 font-medium w-[80px]"
+                  >
+                    <span className="hidden md:block">Unlocks #</span>
+                  </th>
+                )}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
@@ -154,9 +156,11 @@ export default function GenericGamesTable({
                   <td className="hidden md:table-cell whitespace-nowrap px-3 py-3">
                     {formatDate(game.when_played)}
                   </td>
-                  {randomiser && <td className="table-cell whitespace-nowrap px-3 py-3">
-                    {(seriesMap.get(game.game_id)?.length || 1) - 1 }
-                  </td>}
+                  {randomiser && (
+                    <td className="table-cell whitespace-nowrap px-3 py-3">
+                      {(seriesMap.get(game.game_id)?.length || 1) - 1}
+                    </td>
+                  )}
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateGame id={String(game.game_id)} />

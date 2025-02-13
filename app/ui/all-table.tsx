@@ -38,7 +38,7 @@ export default async function AllGamesTable({
           </div>
         </div>
       ) : (
-        <GenericGamesTable games={games} vertPos={"124px"} randomiser={false}/>
+        <GenericGamesTable games={games} vertPos={"124px"} randomiser={false} />
       )}
     </div>
   );

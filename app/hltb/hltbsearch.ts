@@ -123,7 +123,7 @@ export class HltbSearch {
         const keyPart1 = matches[0][2];
         const keyPart2 = matches[0][3];
 
-        HltbSearch.SEARCH_URL = `${HltbSearch.BASE_URL}api/${apiPath}/`
+        HltbSearch.SEARCH_URL = `${HltbSearch.BASE_URL}api/${apiPath}/`;
         return keyPart1 + keyPart2;
       } catch (error) {
         console.log(error);

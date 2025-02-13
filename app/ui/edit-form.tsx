@@ -19,7 +19,6 @@ import {
 import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 
-
 export default function EditGameForm({
   game,
   platforms,
@@ -56,8 +55,7 @@ export default function EditGameForm({
       });
   }
 
-  async function updateGameWithId (state: State, formData: FormData) {
-
+  async function updateGameWithId(state: State, formData: FormData) {
     const result = await updateGame(String(game.game_id), state, formData);
 
     if (result == undefined || !result.errors) {
@@ -68,10 +66,10 @@ export default function EditGameForm({
       }
       router.back();
     }
-    
+
     return result;
   }
-  
+
   const [state, action] = useActionState(updateGameWithId, undefined);
 
   return (

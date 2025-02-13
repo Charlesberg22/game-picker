@@ -52,7 +52,6 @@ export default function AddGameForm({
   }
 
   async function createGameWithRefresh(state: State, formData: FormData) {
-
     const result = await createGame(state, formData);
 
     if (result == undefined || !result.errors) {
