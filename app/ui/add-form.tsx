@@ -17,7 +17,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { useActionState, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { games } from "../lib/placeholder-data";
 
 export default function AddGameForm({
   platforms,

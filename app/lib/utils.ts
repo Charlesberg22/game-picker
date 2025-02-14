@@ -77,6 +77,7 @@ export function buildSeriesMap(games: GamesTable[]) {
   const gameMap = new Map<number, GamesTable>(); // map of all games for finding roots
   const sequelsMap = new Map<number, GamesTable[]>(); // Map of prequel_id -> games (direct sequels)
   const seriesMap = new Map<number, GamesTable[]>(); // Final series groups
+  const assignedGames = new Set<number>(); // track games so they are not both a root and in a series
 
   // Map all games by game_id for easy lookup
   games.forEach((game) => {
@@ -93,15 +94,17 @@ export function buildSeriesMap(games: GamesTable[]) {
     }
   });
 
-  // roots of unplayed series, game must be unplayed and it must either not have a prequel or have a prequel that doesn't exist
+  // roots of unplayed series, game must be unplayed and it must either not have a prequel or have a prequel that doesn't exist or have a prequel that was played
   const roots = games.filter(
     (game) =>
       game.tried === null &&
-      (!game.prequel_id || !gameMap.has(game.prequel_id)),
+      (!game.prequel_id || !gameMap.has(game.prequel_id) || gameMap.get(game.prequel_id)?.tried !== null),
   );
 
   // Function to recursively build the series chain
   function buildChain(game: GamesTable, series: GamesTable[]) {
+    // add every game to the assignedGames set
+    assignedGames.add(game.game_id);
     // add the game to the series, skip if played/skipped but continue the chain
     if (game.tried === null) {
       series.push(game);
@@ -118,11 +121,14 @@ export function buildSeriesMap(games: GamesTable[]) {
 
   // Process each root game and construct full chains
   roots.forEach((root) => {
-    const series: GamesTable[] = [];
-    // start at the root of each series, and build the sequel chain
-    buildChain(root, series);
-    // store as a map of root game IDs referring to the array of the series
-    seriesMap.set(root.game_id, series);
+    // only proceed to construct a chain if the game hasn't already shown up in a series
+    if (!assignedGames.has(root.game_id)) {
+      const series: GamesTable[] = [];
+      // start at the root of each series, and build the sequel chain
+      buildChain(root, series);
+      // store as a map of root game IDs referring to the array of the series
+      seriesMap.set(root.game_id, series);
+    }
   });
 
   return seriesMap;
