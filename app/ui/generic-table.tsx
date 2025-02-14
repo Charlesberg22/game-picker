@@ -77,36 +77,45 @@ export default function GenericGamesTable({
                 >
                   HLTB
                 </th>
-                <th
-                  scope="col"
-                  className="hidden md:table-cell px-3 py-5 font-medium w-10 text-center"
-                >
-                  Tried?
-                </th>
-                <th
-                  scope="col"
-                  className="hidden md:table-cell px-3 py-5 font-medium w-10 text-center"
-                >
-                  Finished?
-                </th>
-                <th
-                  scope="col"
-                  className="hidden md:table-cell px-3 py-5 font-medium w-16 text-center"
-                >
-                  Rating
-                </th>
-                <th
-                  scope="col"
-                  className="hidden md:table-cell px-3 py-5 font-medium w-[108px]"
-                >
-                  Date Played
-                </th>
+                {!randomiser && (
+                  <th
+                    scope="col"
+                    className="hidden md:table-cell px-3 py-5 font-medium w-10 text-center"
+                  >
+                    Tried?
+                  </th>
+                )}
+                {!randomiser && (
+                  <th
+                    scope="col"
+                    className="hidden md:table-cell px-3 py-5 font-medium w-10 text-center"
+                  >
+                    Finished?
+                  </th>
+                )}
+                {!randomiser && (
+                  <th
+                    scope="col"
+                    className="hidden md:table-cell px-3 py-5 font-medium w-16 text-center"
+                  >
+                    Rating
+                  </th>
+                )}
+                {!randomiser && (
+                  <th
+                    scope="col"
+                    className="hidden md:table-cell px-3 py-5 font-medium w-[108px]"
+                  >
+                    Date Played
+                  </th>
+                )}
                 {randomiser && (
                   <th
                     scope="col"
                     className="table-cell px-3 py-5 font-medium w-[80px]"
                   >
-                    <span className="hidden md:block">Unlocks #</span>
+                    <span className="hidden md:block">Sequels</span>
+                    <span className="block md:hidden">🔓</span>
                   </th>
                 )}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
@@ -144,20 +153,32 @@ export default function GenericGamesTable({
                   <td className="hidden md:table-cell whitespace-nowrap px-3 py-3 text-center">
                     {game.hltb_time}
                   </td>
-                  <td className="hidden md:table-cell whitespace-nowrap px-3 py-3 text-center">
-                    {game.tried ? "✔️" : game.tried === null ? "" : "❌"}
-                  </td>
-                  <td className="hidden md:table-cell whitespace-nowrap px-3 py-3 text-center">
-                    {game.finished ? "✔️" : game.finished === null ? "" : "❌"}
-                  </td>
-                  <td className="hidden md:table-cell whitespace-nowrap px-3 py-3 text-center">
-                    {game.rating}
-                  </td>
-                  <td className="hidden md:table-cell whitespace-nowrap px-3 py-3">
-                    {formatDate(game.when_played)}
-                  </td>
+                  {!randomiser && (
+                    <td className="hidden md:table-cell whitespace-nowrap px-3 py-3 text-center">
+                      {game.tried ? "✔️" : game.tried === null ? "" : "❌"}
+                    </td>
+                  )}
+                  {!randomiser && (
+                    <td className="hidden md:table-cell whitespace-nowrap px-3 py-3 text-center">
+                      {game.finished
+                        ? "✔️"
+                        : game.finished === null
+                          ? ""
+                          : "❌"}
+                    </td>
+                  )}
+                  {!randomiser && (
+                    <td className="hidden md:table-cell whitespace-nowrap px-3 py-3 text-center">
+                      {game.rating}
+                    </td>
+                  )}
+                  {!randomiser && (
+                    <td className="hidden md:table-cell whitespace-nowrap px-3 py-3">
+                      {formatDate(game.when_played)}
+                    </td>
+                  )}
                   {randomiser && (
-                    <td className="table-cell whitespace-nowrap px-3 py-3">
+                    <td className="table-cell whitespace-nowrap px-3 py-3 text-center">
                       {(seriesMap.get(game.game_id)?.length || 1) - 1}
                     </td>
                   )}

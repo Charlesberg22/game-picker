@@ -78,7 +78,7 @@ export function buildSeriesMap(games: GamesTable[]) {
   const sequelsMap = new Map<number, GamesTable[]>(); // Map of prequel_id -> games (direct sequels)
   const seriesMap = new Map<number, GamesTable[]>(); // Final series groups
 
-  // Map all games by game_id for easy lookup, only unplayed for this purpose
+  // Map all games by game_id for easy lookup
   games.forEach((game) => {
     gameMap.set(game.game_id, game);
   });
@@ -93,11 +93,11 @@ export function buildSeriesMap(games: GamesTable[]) {
     }
   });
 
-  // roots of unplayed series, game must be unplayed and it must either not have a prequel or have a prequel that was played/skipped
+  // roots of unplayed series, game must be unplayed and it must either not have a prequel or have a prequel that doesn't exist
   const roots = games.filter(
     (game) =>
       game.tried === null &&
-      (!game.prequel_id || gameMap.get(game.prequel_id)?.tried !== null),
+      (!game.prequel_id || !gameMap.has(game.prequel_id)),
   );
 
   // Function to recursively build the series chain

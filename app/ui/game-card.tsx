@@ -19,7 +19,7 @@ export default function GameCard({ game }: { game: GamesTable }) {
           <span>{game.platform_name}</span>
           <span>{game.play_method}</span>
         </div>
-        <p className="text-lg text-center font-bold">{game.name}</p>
+        <p className="text-lg truncate text-center font-bold">{game.name}</p>
         <div className="flex justify-between text-md">
           <span>{game.hltb_time} h</span>
           <span>

@@ -36,6 +36,11 @@ export default function EditGameForm({
     game.hltb_time || "",
   );
 
+  const collator = new Intl.Collator("en", {
+    numeric: true,
+    sensitivity: "base",
+  });
+
   function updateHltb(game: GamesTable) {
     fetch(`/api/hltb?name=${encodeURIComponent(game.name)}`)
       .then((response) => {
@@ -307,11 +312,13 @@ export default function EditGameForm({
                   defaultValue={game.prequel_id ?? ""}
                 >
                   <option value="">None</option>
-                  {allGames.map((game) => (
-                    <option key={game.game_id} value={game.game_id}>
-                      {game.name}
-                    </option>
-                  ))}
+                  {allGames
+                    .sort((a, b) => collator.compare(a.name, b.name))
+                    .map((game) => (
+                      <option key={game.game_id} value={game.game_id}>
+                        {game.name}
+                      </option>
+                    ))}
                 </select>
                 <BackwardIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
               </div>

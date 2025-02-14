@@ -17,6 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useActionState, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { games } from "../lib/placeholder-data";
 
 export default function AddGameForm({
   platforms,
@@ -31,6 +32,11 @@ export default function AddGameForm({
 
   const [hltbTime, setHltbTime] = useState<number | string>("");
   const nameInputRef = useRef<HTMLInputElement>(null);
+
+  const collator = new Intl.Collator("en", {
+    numeric: true,
+    sensitivity: "base",
+  });
 
   function updateHltb() {
     const nameFieldValue = nameInputRef.current?.value || "";
@@ -292,11 +298,13 @@ export default function AddGameForm({
               defaultValue={state?.formData?.prequel_id || ""}
             >
               <option value="">None</option>
-              {allGames.map((game) => (
-                <option key={game.game_id} value={game.game_id}>
-                  {game.name}
-                </option>
-              ))}
+              {allGames
+                .sort((a, b) => collator.compare(a.name, b.name))
+                .map((game) => (
+                  <option key={game.game_id} value={game.game_id}>
+                    {game.name}
+                  </option>
+                ))}
             </select>
             <BackwardIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
