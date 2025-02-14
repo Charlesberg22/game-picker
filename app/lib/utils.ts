@@ -94,7 +94,7 @@ export function buildSeriesMap(games: GamesTable[]) {
     }
   });
 
-  // roots of unplayed series, game must be unplayed and it must either not have a prequel or have a prequel that doesn't exist or have a prequel that was played
+  // roots of unplayed series, game must be unplayed and it must: not have a prequel or have a prequel that doesn't exist or have a prequel that was played/avoided
   const roots = games.filter(
     (game) =>
       game.tried === null &&
@@ -113,6 +113,10 @@ export function buildSeriesMap(games: GamesTable[]) {
     if (sequelsMap.has(game.game_id)) {
       // go through its direct sequels (continues through a full sequel branch before returning to the other branch)
       for (const sequel of sequelsMap.get(game.game_id)!) {
+        // delete the game from the seriesMap as a root if it shows up in another chain later (edge case of adding a game with higher game_id to the start of a series and playing its sequel first)
+        if (seriesMap.has(game.game_id)) {
+          seriesMap.delete(game.game_id)
+        }
         // and go to its sequel and continue the chain
         buildChain(sequel, series);
       }
