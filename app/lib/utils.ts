@@ -77,7 +77,7 @@ export function buildSeriesMap(games: GamesTable[]) {
   const gamesMap = new Map<number, GamesTable>();
   const prequelsMap = new Map<number, GamesTable[]>(); // game may have multiple sequels
   const seriesMap = new Map<number, GamesTable[]>(); // series will likely have multiple entries
-  const assignedGames = new Set<number>; // to keep track of roots that may show up in other series (does not need to be accessed with get, so is a set)
+  const assignedGames = new Set<number>(); // to keep track of roots that may show up in other series (does not need to be accessed with get, so is a set)
 
   // construct maps of games and prequels
   games.forEach((game) => {
@@ -98,7 +98,9 @@ export function buildSeriesMap(games: GamesTable[]) {
     (game) =>
       game.tried === null && // game must be unplayed to be a root, or it won't be shown
       // game must also either: not have a prequel, or have a prequel that does not exist in the list of games (i.e. was deleted), or have a prequel that was played (to be removed later if in middle of series)
-      (!game.prequel_id || !gamesMap.has(game.prequel_id) || gamesMap.get(game.prequel_id)?.tried !== null)
+      (!game.prequel_id ||
+        !gamesMap.has(game.prequel_id) ||
+        gamesMap.get(game.prequel_id)?.tried !== null),
   );
 
   // recursive function to build the series chain, called below in production of seriesMap
@@ -108,7 +110,7 @@ export function buildSeriesMap(games: GamesTable[]) {
     // add the game to the series chain only if unplayed (not relevant for root, but for the recursive cases)
     if (game.tried === null) {
       series.push(game);
-    };
+    }
     // if the game is a prequel and is therefore in prequelsMap:
     if (prequelsMap.has(game.game_id)) {
       // go to the sequels and continue building the chain for each of them
@@ -119,7 +121,7 @@ export function buildSeriesMap(games: GamesTable[]) {
         }
         // build the chain recursively
         buildSeriesChain(sequel, series);
-      })
+      });
     } // if game is not a prequel, chain stops (but series may continue from other branch in prequelsMap)
   }
 
@@ -134,7 +136,7 @@ export function buildSeriesMap(games: GamesTable[]) {
       // once the chain has been built, store the chain as a series in the seriesMap, with root as key
       seriesMap.set(root.game_id, series);
     }
-  })
+  });
 
   // return the seriesMap as a map
   return seriesMap;
