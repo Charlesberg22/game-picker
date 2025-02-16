@@ -8,8 +8,9 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const refresh = searchParams.get("refresh") === "true";
 
+  // return the cached seriesMap as long as it is stored, or until refresh api route is called (when games added/updated/deleted)
   if (!cachedSeriesMap || refresh) {
-    const games = await fetchAllGames(); // Fetch from database
+    const games = await fetchAllGames();
     cachedSeriesMap = buildSeriesMap(games);
   }
 
