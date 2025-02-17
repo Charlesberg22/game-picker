@@ -14,7 +14,7 @@ The original style of the app is based on the next.js tutorial app, but with a f
 The app is made with responsive web design in mind, so mobile and desktop views are different.
 
 #### Home page ####
-The home page displays a list of all the games, which is then filterable with a search that includes keywords like "retro", "handheld, "finished" etc.
+The home page displays a list of all the games, which is then filterable with a search that includes keywords like "retro", "handheld", "finished" etc.
 Desktop view|Mobile View
 ---|---
 ![Home page on desktop](docs/desktop-home.png)|![Home page on mobile](docs/mobile-home.jpg)
