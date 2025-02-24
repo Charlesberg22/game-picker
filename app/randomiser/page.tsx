@@ -102,7 +102,7 @@ export default async function Page() {
           <GameCard game={randomGame} />
         </label>
       </div>
-      <GenericGamesTable games={games} vertPos={"124px"} />
+      <GenericGamesTable games={games} vertPos={"124px"} randomiser={true} />
     </div>
   );
 }

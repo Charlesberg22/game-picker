@@ -1,7 +1,7 @@
 "use client";
 
 import { GamesTable, Platform } from "../lib/data";
-import { createGame } from "../lib/actions";
+import { createGame, State } from "../lib/actions";
 import {
   BackwardIcon,
   BookOpenIcon,
@@ -32,6 +32,11 @@ export default function AddGameForm({
   const [hltbTime, setHltbTime] = useState<number | string>("");
   const nameInputRef = useRef<HTMLInputElement>(null);
 
+  const collator = new Intl.Collator("en", {
+    numeric: true,
+    sensitivity: "base",
+  });
+
   function updateHltb() {
     const nameFieldValue = nameInputRef.current?.value || "";
     fetch(`/api/hltb?name=${encodeURIComponent(nameFieldValue)}`)
@@ -51,8 +56,22 @@ export default function AddGameForm({
       });
   }
 
-  const [state, action] = useActionState(createGame, undefined);
-  console.log(state?.formData.handheld);
+  async function createGameWithRefresh(state: State, formData: FormData) {
+    const result = await createGame(state, formData);
+
+    if (result == undefined || !result.errors) {
+      try {
+        await fetch("/api/series-map?refresh=true", { method: "GET" });
+      } catch (error) {
+        console.error(error);
+      }
+      router.back();
+    }
+
+    return result;
+  }
+
+  const [state, action] = useActionState(createGameWithRefresh, undefined);
 
   return (
     <form action={action} className="">
@@ -154,7 +173,7 @@ export default function AddGameForm({
                 id="play_method"
                 name="play_method"
                 type="string"
-                defaultValue={state?.formData?.retro || ""}
+                defaultValue={state?.formData?.play_method || ""}
                 placeholder="Enter play method"
                 className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -278,11 +297,13 @@ export default function AddGameForm({
               defaultValue={state?.formData?.prequel_id || ""}
             >
               <option value="">None</option>
-              {allGames.map((game) => (
-                <option key={game.game_id} value={game.game_id}>
-                  {game.name}
-                </option>
-              ))}
+              {allGames
+                .sort((a, b) => collator.compare(a.name, b.name))
+                .map((game) => (
+                  <option key={game.game_id} value={game.game_id}>
+                    {game.name}
+                  </option>
+                ))}
             </select>
             <BackwardIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>

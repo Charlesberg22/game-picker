@@ -36,6 +36,11 @@ export default function EditGameForm({
     game.hltb_time || "",
   );
 
+  const collator = new Intl.Collator("en", {
+    numeric: true,
+    sensitivity: "base",
+  });
+
   function updateHltb(game: GamesTable) {
     fetch(`/api/hltb?name=${encodeURIComponent(game.name)}`)
       .then((response) => {
@@ -47,7 +52,6 @@ export default function EditGameForm({
       .then((hltbData) => {
         const newTime = hltbData.gameplayMainExtra;
         setHltbTime(newTime);
-        console.log(hltbData.imageUrl);
         alert("Updated hltb time.");
       })
       .catch((error) => {
@@ -56,8 +60,21 @@ export default function EditGameForm({
       });
   }
 
-  const updateGameWithId = (state: State, formData: FormData) =>
-    updateGame(String(game.game_id), state, formData);
+  async function updateGameWithId(state: State, formData: FormData) {
+    const result = await updateGame(String(game.game_id), state, formData);
+
+    if (result == undefined || !result.errors) {
+      try {
+        await fetch("/api/series-map?refresh=true", { method: "GET" });
+      } catch (error) {
+        console.error(error);
+      }
+      router.back();
+    }
+
+    return result;
+  }
+
   const [state, action] = useActionState(updateGameWithId, undefined);
 
   return (
@@ -295,11 +312,13 @@ export default function EditGameForm({
                   defaultValue={game.prequel_id ?? ""}
                 >
                   <option value="">None</option>
-                  {allGames.map((game) => (
-                    <option key={game.game_id} value={game.game_id}>
-                      {game.name}
-                    </option>
-                  ))}
+                  {allGames
+                    .sort((a, b) => collator.compare(a.name, b.name))
+                    .map((game) => (
+                      <option key={game.game_id} value={game.game_id}>
+                        {game.name}
+                      </option>
+                    ))}
                 </select>
                 <BackwardIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
               </div>
