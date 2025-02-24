@@ -112,9 +112,8 @@ export function buildSeriesMap(games: GamesTable[]): Map<number, GamesTable[]> {
       series.push(game);
     }
     // if the game is a prequel and is therefore in prequelsMap:
-    if (prequelsMap.has(game.game_id)) {
-      // go to the sequels and continue building the chain for each of them
-      prequelsMap.get(game.game_id)!.forEach((sequel) => {
+    // go to the sequels and continue building the chain for each of them
+    prequelsMap.get(game.game_id)?.forEach((sequel) => {
         // if the game is already in seriesMap as a root, then we need to delete that series
         if (seriesMap.has(game.game_id)) {
           seriesMap.delete(game.game_id);
