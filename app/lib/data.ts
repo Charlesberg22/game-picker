@@ -1,41 +1,6 @@
 import { dbAll, dbGet } from "../api/transactions";
+import { GamesTable, Platform, Stats } from "./definitions";
 import { removeKeywords } from "./utils";
-
-export type GamesTable = {
-  game_id: number;
-  platform_id: number;
-  platform_name: string;
-  name: string;
-  licence: string;
-  play_method: string;
-  retro: boolean;
-  handheld: boolean;
-  prequel_id: number | null;
-  prequel_required: boolean;
-  hltb_time: number;
-  tried: boolean;
-  finished: boolean;
-  rating: string;
-  when_played: string;
-  img: string;
-};
-
-export type Platform = {
-  platform_id: number;
-  platform_name: string;
-};
-
-export type Stats = {
-  number_of_games: number;
-  total_length: number;
-  number_of_retro: number;
-  number_of_modern: number;
-  number_of_handheld: number;
-  number_of_desktop: number;
-  average_length: number;
-  ratio_modern_retro: number;
-  ratio_desktop_handheld: number;
-};
 
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {

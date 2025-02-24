@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { games, platforms } from "../lib/placeholder-data";
 import { dbAll, dbRun } from "../api/transactions";
-import { GamesTable } from "../lib/data";
+import { GamesTable } from "../lib/definitions";
 
 async function seedGames() {
   try {

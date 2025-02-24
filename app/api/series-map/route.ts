@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { fetchAllGames, GamesTable } from "@/app/lib/data";
+import { fetchAllGames } from "@/app/lib/data";
 import { buildSeriesMap } from "@/app/lib/utils";
+import { GamesTable } from "@/app/lib/definitions";
 
 let cachedSeriesMap: Map<number, GamesTable[]> | null = null;
 

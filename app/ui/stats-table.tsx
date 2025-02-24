@@ -1,4 +1,4 @@
-import { Stats } from "@/app/lib/data";
+import { Stats } from "@/app/lib/definitions";
 
 export default async function StatsTable({
   unplayedStats,

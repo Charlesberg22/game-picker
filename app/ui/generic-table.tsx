@@ -1,6 +1,6 @@
 "use client";
 
-import { GamesTable } from "../lib/data";
+import { GamesTable } from "../lib/definitions";
 import { UpdateGame } from "./buttons";
 import { formatDate } from "@/app/lib/utils";
 import { DeleteGame } from "./delete-buttons";

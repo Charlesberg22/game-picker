@@ -1,16 +1,14 @@
 "use client";
 
 import useSWR from "swr";
-import { GamesTable } from "../lib/data";
+import { FETCHER, GamesTable } from "../lib/definitions";
 import GameCard from "./game-card";
 import { UpdateGame } from "./buttons";
 import { DeleteGame } from "./delete-buttons";
 import SmallGameCard from "./small-game-card";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 export function SeriesView() {
-  const { data: seriesData } = useSWR("/api/series-map", fetcher);
+  const { data: seriesData } = useSWR("/api/series-map", FETCHER);
   const seriesMap = new Map(seriesData) as Map<number, GamesTable[]>;
   const groupedGames = Array.from(seriesMap.values());
 

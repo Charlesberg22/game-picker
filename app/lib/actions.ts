@@ -11,12 +11,12 @@ import {
   fetchAllGames,
   fetchGameById,
   fetchLastRowId,
-  GamesTable,
 } from "./data";
 import path from "path";
 import SGDB from "steamgriddb";
 import { exec } from "child_process";
 import { promisify } from "util";
+import { GamesTable, State } from "./definitions";
 
 const FormSchema = z.object({
   game_id: z.string(),
@@ -43,29 +43,6 @@ const FormSchema = z.object({
   rating: z.coerce.number().gte(0).lte(10),
   when_played: z.string().nullable(),
 });
-
-export type State =
-  | {
-      errors?: {
-        name?: string[];
-        platform_id?: string[];
-        licence?: string[];
-        play_method?: string[];
-        retro?: string[];
-        handheld?: string[];
-      };
-      message?: string | null;
-      formData?: {
-        name?: string;
-        platform_id?: string;
-        licence?: string;
-        play_method?: string;
-        retro?: string;
-        handheld?: string;
-        prequel_id?: string;
-      };
-    }
-  | undefined;
 
 export async function deleteGame(id: string) {
   const deleteQuery = `

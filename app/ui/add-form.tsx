@@ -1,7 +1,7 @@
 "use client";
 
-import { GamesTable, Platform } from "../lib/data";
-import { createGame, State } from "../lib/actions";
+import { COLLATOR, GamesTable, Platform, State } from "../lib/definitions";
+import { createGame} from "../lib/actions";
 import {
   BackwardIcon,
   BookOpenIcon,
@@ -31,11 +31,6 @@ export default function AddGameForm({
 
   const [hltbTime, setHltbTime] = useState<number | string>("");
   const nameInputRef = useRef<HTMLInputElement>(null);
-
-  const collator = new Intl.Collator("en", {
-    numeric: true,
-    sensitivity: "base",
-  });
 
   function updateHltb() {
     const nameFieldValue = nameInputRef.current?.value || "";
@@ -298,7 +293,7 @@ export default function AddGameForm({
             >
               <option value="">None</option>
               {allGames
-                .sort((a, b) => collator.compare(a.name, b.name))
+                .sort((a, b) => COLLATOR.compare(a.name, b.name))
                 .map((game) => (
                   <option key={game.game_id} value={game.game_id}>
                     {game.name}

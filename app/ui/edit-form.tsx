@@ -1,7 +1,7 @@
 "use client";
 
-import { GamesTable, Platform } from "../lib/data";
-import { replaceImage, State, updateGame } from "../lib/actions";
+import { COLLATOR, GamesTable, Platform, State } from "../lib/definitions";
+import { replaceImage, updateGame } from "../lib/actions";
 import {
   BackwardIcon,
   BookOpenIcon,
@@ -35,11 +35,6 @@ export default function EditGameForm({
   const [hltbTime, setHltbTime] = useState<number | string>(
     game.hltb_time || "",
   );
-
-  const collator = new Intl.Collator("en", {
-    numeric: true,
-    sensitivity: "base",
-  });
 
   function updateHltb(game: GamesTable) {
     fetch(`/api/hltb?name=${encodeURIComponent(game.name)}`)
@@ -313,7 +308,7 @@ export default function EditGameForm({
                 >
                   <option value="">None</option>
                   {allGames
-                    .sort((a, b) => collator.compare(a.name, b.name))
+                    .sort((a, b) => COLLATOR.compare(a.name, b.name))
                     .map((game) => (
                       <option key={game.game_id} value={game.game_id}>
                         {game.name}

@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { enAU } from "date-fns/locale";
 import { NextApiRequest } from "next";
-import { GamesTable } from "./data";
+import { GamesTable, keywords } from "./definitions";
 
 export function formatDate(dateStr: string): string | undefined {
   if (dateStr === "") {
@@ -26,21 +26,6 @@ export const getBaseUrl = (req?: NextApiRequest) => {
   // Fallback for server-side without `req` (e.g., for build time only, as otherwise will error APPARENTLY)
   return process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 };
-
-const keywords = [
-  "retro",
-  "modern",
-  "handheld",
-  "desktop",
-  "tried",
-  "tbc",
-  "avoided",
-  "finished",
-  "abandoned",
-  "timeline",
-  "playable",
-  "prequel",
-];
 
 export function removeKeywords(word: string) {
   return !keywords.includes(word);
@@ -97,7 +82,7 @@ export function buildSeriesMap(games: GamesTable[]): Map<number, GamesTable[]> {
   const roots = games.filter(
     (game) =>
       game.tried === null && // game must be unplayed to be a root, or it won't be shown
-      // game must also either: not have a prequel, or have a prequel that does not exist in the list of games (i.e. was deleted), or have a prequel that was played (to be removed later if in middle of series)
+      // game must also either: not have a prequel, or have a prequel that does not exist in the list of games (i.e. was deleted), or have a prequel that was played/avoided (to be removed later if in middle of series)
       (!game.prequel_id ||
         !gamesMap.has(game.prequel_id) ||
         gamesMap.get(game.prequel_id)?.tried !== null),
@@ -119,7 +104,7 @@ export function buildSeriesMap(games: GamesTable[]): Map<number, GamesTable[]> {
         // build the chain recursively
         buildSeriesChain(sequel, series);
       });
-    } // if game is not a prequel, chain stops (but series may continue from other branch in prequelsMap)
+    // if game is not a prequel, chain stops (but series may continue from other branch in prequelsMap)
   }
 
   // roots begin series, so go through them to construct series chains

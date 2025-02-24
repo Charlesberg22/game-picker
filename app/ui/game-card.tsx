@@ -1,6 +1,6 @@
 import { CheckBadgeIcon as SolidCheckBadgeIcon } from "@heroicons/react/24/solid";
 import { CheckBadgeIcon as OutlineCheckBadgeIcon } from "@heroicons/react/24/outline";
-import { GamesTable } from "../lib/data";
+import { GamesTable } from "../lib/definitions";
 import Image from "next/image";
 
 export default function GameCard({ game }: { game: GamesTable }) {
