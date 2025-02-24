@@ -73,7 +73,7 @@ export class CountingSemaphore {
   }
 }
 
-export function buildSeriesMap(games: GamesTable[]) {
+export function buildSeriesMap(games: GamesTable[]): Map<number, GamesTable[]> {
   const gamesMap = new Map<number, GamesTable>();
   const prequelsMap = new Map<number, GamesTable[]>(); // game may have multiple sequels
   const seriesMap = new Map<number, GamesTable[]>(); // series will likely have multiple entries
