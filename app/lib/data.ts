@@ -212,14 +212,14 @@ export async function checkUnplayedStats(): Promise<Stats> {
   }
 }
 
-// number_of_games is both played and ignored, for use in total no. of games, not only played
+// number_of_games is just played, excludes ignored from totals
 export async function checkPlayedStats(): Promise<Stats> {
   try {
     const response = (await dbGet(`
       SELECT (
         SELECT COUNT(*)
         FROM games
-        WHERE tried IS NOT NULL
+        WHERE tried = 1
       ) AS number_of_games,
       ( SELECT COUNT(*)
         FROM games
@@ -241,12 +241,10 @@ export async function checkPlayedStats(): Promise<Stats> {
     if (!response) throw new Error("Failed to fetch platforms");
 
     response.ratio_modern_retro =
-      Math.round((response.number_of_modern / response.number_of_retro) * 10) /
-      10;
+      response.number_of_modern / response.number_of_retro;
+
     response.ratio_desktop_handheld =
-      Math.round(
-        (response.number_of_desktop / response.number_of_handheld) * 10,
-      ) / 10;
+      response.number_of_desktop / response.number_of_handheld;
 
     return response;
   } catch (error) {

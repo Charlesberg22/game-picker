@@ -19,12 +19,16 @@ export default async function Page() {
     checkPlayedStats(),
   ]);
 
+  // overall ratio of modern to retro including played and unplayed (but not skipped)
   const overall_ratio_modern_retro =
     (unplayedStats.number_of_modern + playedStats.number_of_modern) /
     (unplayedStats.number_of_retro + playedStats.number_of_retro);
 
+  // boolean testing whether the ratio of played modern:retro games is greater than the overall ratio of modern: retro games
   const moreModernGamesPlayed =
     overall_ratio_modern_retro < playedStats.ratio_modern_retro;
+
+  // determines count of games of modern/retro type to be played to get the ratio of played and overall games to match
   const remainingByEra = moreModernGamesPlayed
     ? {
         type: "retro",
@@ -41,6 +45,7 @@ export default async function Page() {
         ),
       };
 
+  // as above for desktop:handheld
   const overall_ratio_desktop_handheld =
     (unplayedStats.number_of_desktop + playedStats.number_of_desktop) /
     (unplayedStats.number_of_handheld + playedStats.number_of_handheld);

@@ -16,7 +16,7 @@ export default async function Page() {
   return (
     <main>
       <div className="md:flex">
-        <StatsTable unplayedStats={unplayedStats} playedStats={playedStats} />
+        <StatsTable unplayedStats={unplayedStats} playedStats={playedStats}/>
         <div className="my-2 mx-2 grid grid-cols-2 md:flex gap-4">
           <DownloadImagesButton />
           <UpdateHltbButton />

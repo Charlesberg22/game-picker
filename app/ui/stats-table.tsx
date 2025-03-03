@@ -102,7 +102,7 @@ export default async function StatsTable({
                   Ratio of Modern to Retro Games Played
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
-                  {playedStats.ratio_modern_retro}
+                  {Math.round(playedStats.ratio_modern_retro * 10) / 10}
                 </td>
               </tr>
               <tr className="w-full py-3 border-b text-sm">
@@ -118,7 +118,7 @@ export default async function StatsTable({
                   Ratio of Desktop to Handheld Games Played
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
-                  {playedStats.ratio_desktop_handheld}
+                  {Math.round(playedStats.ratio_desktop_handheld * 10) / 10}
                 </td>
               </tr>
             </tbody>
