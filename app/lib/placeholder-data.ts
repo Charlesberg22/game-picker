@@ -239,7 +239,7 @@ export const games = [
     play_method: "DS",
     retro: "1",
     handheld: "1",
-    prequel_name: "Pokemon Heartgold",
+    prequel_name: "Pokemon HeartGold",
     hltb_time: "61.5",
     tried: null,
     finished: null,
