@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { games, platforms } from "../lib/placeholder-data";
 import { dbAll, dbRun } from "../api/transactions";
 import { GamesTable } from "../lib/definitions";
+import { saveImagesToDb } from "../lib/actions";
 
 async function seedGames() {
   try {
@@ -93,6 +94,7 @@ export async function GET() {
   try {
     await seedPlatforms();
     await seedGames();
+    await saveImagesToDb();
     return NextResponse.json({ message: "Database seeded successfully" });
   } catch (error: any) {
     console.error("Error:", error.message);
