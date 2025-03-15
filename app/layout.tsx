@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={`${inter.className} antialiased`}>
         <div className="flex sticky top-0 z-50 bg-neutral-950 pb-4 md:pb-0">
           <TopNav />
