@@ -1,5 +1,7 @@
 # Backlog Tracker / Game Picker
 
+Find a demo [here](https://games.charlieweidner.com)!
+
 ## Background ##
 I made this dockerised next.js app to improve upon a backlog tracking spreadsheet I had, and I am self-hosting it in unraid.
 This is my first experience with next.js and typescript, and first use of sqlite outside of CS50.
