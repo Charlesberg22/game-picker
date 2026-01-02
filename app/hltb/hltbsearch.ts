@@ -14,8 +14,8 @@ export class HltbSearch {
   public static SEARCH_URL = "";
   public static IMAGE_URL = `${HltbSearch.BASE_URL}games/`;
 
-  private static readonly SEARCH_KEY_PATTERN =
-    /"\/api\/([a-z]+)\/".concat\("([a-zA-Z0-9]+)"\).concat\("([a-zA-Z0-9]+)"\)/g;
+  // private static readonly SEARCH_KEY_PATTERN =
+  //   /"\/api\/([a-z]+)\/".concat\("([a-zA-Z0-9]+)"\).concat\("([a-zA-Z0-9]+)"\)/g; no longer required but kept for prosperity
 
   payload: any = {
     searchType: "games",
@@ -86,27 +86,18 @@ export class HltbSearch {
   }
 
   async getSearchKey(): Promise<string | null> {
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
+    const url = `https://howlongtobeat.com/api/search/init?t=${Date.now()}`;
+    const headers = {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+      referer: "https://howlongtobeat.com/",
+    };
 
-      // Add a user agent so the site behaves normally
-    await page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
-    );
+    const res = await fetch(url, { headers });
+    if (!res.ok) return null;
 
-    const url = 'https://howlongtobeat.com/api/search/init' + Date.now();
-    console.log("url:", url);
-    await page.goto(url, { waitUntil: 'networkidle2' });
-
-    const html = await page.content();
-    console.log("html:", html);
-
-    const token = await page.evaluate(() => {
-      // HLTB stores it in some JS variable, often window.__INITIAL_STATE__ or similar
-      return (window as any).__INITIAL_STATE__?.search?.token || null;
-    });
-
-    await browser.close();
-    return token;
+    const data = await res.json();
+    console.log("HLTB search key data:", data);
+    return data.token || null;
   }
 }
