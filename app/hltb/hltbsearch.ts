@@ -1,5 +1,6 @@
 import UserAgent from "user-agents";
 import * as cheerio from "cheerio";
+import puppeteer from "puppeteer";
 
 // Taken from https://github.com/ckatzorke/howlongtobeat/
 // API key parsing based on https://github.com/ckatzorke/howlongtobeat/pull/64 and https://github.com/ScrappyCocco/HowLongToBeat-PythonAPI
@@ -48,89 +49,64 @@ export class HltbSearch {
     },
   };
 
-  async search(
+    async search(
     query: Array<string>,
     searchKey: string,
-    signal?: AbortSignal,
+    signal?: AbortSignal
   ): Promise<any> {
-    // Use built-in javascript URLSearchParams as a drop-in replacement to create axios.post required data param
     const search = { ...this.payload };
     search.searchTerms = query;
+
     if (!signal) {
       const controller = new AbortController();
       signal = controller.signal;
-      // Abort request after 20 seconds
       setTimeout(() => controller.abort(), 20_000);
     }
-    const responseText = "";
+
     try {
-      const searchUrlWithKey = HltbSearch.SEARCH_URL + searchKey;
-      const response = await fetch(searchUrlWithKey, {
+      const response = await fetch('https://howlongtobeat.com/api/search', {
         method: "POST",
         body: JSON.stringify(search),
         headers: {
           "User-Agent": new UserAgent().toString(),
           "content-type": "application/json",
+          'x-auth-token': searchKey,
           origin: "https://howlongtobeat.com/",
           referer: "https://howlongtobeat.com/",
         },
         signal,
       });
+
       const responseText = await response.text();
       return JSON.parse(responseText);
     } catch (error) {
-      if (error) {
-        console.log(responseText);
-        throw error;
-      }
+      console.error("HLTB search error:", error);
+      throw error;
     }
   }
 
-  async getSearchKey(checkAllScripts: boolean = false): Promise<string> {
-    const html = await fetch(HltbSearch.BASE_URL, {
-      next: { revalidate: 300 },
-      headers: {
-        "User-Agent": new UserAgent().toString(),
-        origin: "https://howlongtobeat.com",
-        referer: "https://howlongtobeat.com",
-      },
-    }).then((res) => res.text());
-    const $ = cheerio.load(html);
+  async getSearchKey(): Promise<string | null> {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
 
-    const scripts = $("script[src]");
+      // Add a user agent so the site behaves normally
+    await page.setUserAgent(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+    );
 
-    for (const el of scripts) {
-      const src = $(el).attr("src") as string;
+    const url = 'https://howlongtobeat.com/api/search/init' + Date.now();
+    console.log("url:", url);
+    await page.goto(url, { waitUntil: 'networkidle2' });
 
-      if (!checkAllScripts && !src.includes("_app-")) {
-        continue;
-      }
+    const html = await page.content();
+    console.log("html:", html);
 
-      const scriptUrl = HltbSearch.BASE_URL + src;
+    const token = await page.evaluate(() => {
+      // HLTB stores it in some JS variable, often window.__INITIAL_STATE__ or similar
+      return (window as any).__INITIAL_STATE__?.search?.token || null;
+    });
 
-      try {
-        const scriptText = await fetch(scriptUrl, {
-          next: { revalidate: 300 },
-          headers: {
-            "User-Agent": new UserAgent().toString(),
-            origin: "https://howlongtobeat.com",
-            referer: "https://howlongtobeat.com",
-          },
-        }).then((res) => res.text());
-
-        const matches = [...scriptText.matchAll(HltbSearch.SEARCH_KEY_PATTERN)];
-        const apiPath = matches[0][1];
-        const keyPart1 = matches[0][2];
-        const keyPart2 = matches[0][3];
-
-        HltbSearch.SEARCH_URL = `${HltbSearch.BASE_URL}api/${apiPath}/`;
-        return keyPart1 + keyPart2;
-      } catch (error) {
-        console.log(error);
-        continue;
-      }
-    }
-
-    throw new Error("Could not find search key");
+    await browser.close();
+    return token;
   }
 }

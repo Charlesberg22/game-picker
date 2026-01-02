@@ -25,7 +25,7 @@ export class HowLongToBeatService {
   ): Promise<Array<HowLongToBeatEntry>> {
     const searchTerms = query.split(" ");
     const search = await this.hltb.search(searchTerms, searchKey, signal);
-    // console.log(`Found ${search.count} results`);
+    console.log(`Found ${search.count} results`);
     const hltbEntries = new Array<HowLongToBeatEntry>();
     for (const resultEntry of search.data) {
       hltbEntries.push({
