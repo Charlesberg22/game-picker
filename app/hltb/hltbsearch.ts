@@ -1,6 +1,4 @@
 import UserAgent from "user-agents";
-import * as cheerio from "cheerio";
-import puppeteer from "puppeteer";
 
 // Taken from https://github.com/ckatzorke/howlongtobeat/
 // API key parsing based on https://github.com/ckatzorke/howlongtobeat/pull/64 and https://github.com/ScrappyCocco/HowLongToBeat-PythonAPI
@@ -85,7 +83,7 @@ export class HltbSearch {
     }
   }
 
-  async getSearchKey(): Promise<string | null> {
+  async getSearchKey(): Promise<string> {
     const url = `https://howlongtobeat.com/api/search/init?t=${Date.now()}`;
     const headers = {
       "User-Agent":
@@ -94,10 +92,9 @@ export class HltbSearch {
     };
 
     const res = await fetch(url, { headers });
-    if (!res.ok) return null;
+    if (!res.ok) return "";
 
     const data = await res.json();
-    console.log("HLTB search key data:", data);
-    return data.token || null;
+    return data.token || "";
   }
 }
