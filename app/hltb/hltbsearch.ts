@@ -2,8 +2,6 @@ import UserAgent from "user-agents";
 import { HltbSearchInfo } from "../lib/definitions";
 import * as cheerio from "cheerio";
 
-
-
 // Taken from https://github.com/ckatzorke/howlongtobeat/
 // API key parsing based on https://github.com/ckatzorke/howlongtobeat/pull/64 and https://github.com/ScrappyCocco/HowLongToBeat-PythonAPI
 
@@ -18,6 +16,8 @@ export class HltbSearch {
 
   private static readonly SEARCH_KEY_PATTERN =
     /fetch\s*\(\s*["']\/api\/([a-zA-Z0-9_/]+)[^"']*["']\s*,\s*{[^}]*method:\s*["']POST["'][^}]*}/gis;
+
+  private ua = new UserAgent().toString();
 
   payload: any = {
 
@@ -77,7 +77,7 @@ export class HltbSearch {
         method: "POST",
         body: JSON.stringify(search),
         headers: {
-          "User-Agent": new UserAgent().toString(),
+          "User-Agent": this.ua,
           "content-type": "application/json",
           "x-auth-token": searchInfo.searchKey,
           "x-hp-key": searchInfo.authKey,
@@ -115,7 +115,7 @@ export class HltbSearch {
     const html = await fetch(HltbSearch.BASE_URL, {
       next: { revalidate: 300 },
       headers: {
-        "User-Agent": new UserAgent().toString(),
+        "User-Agent": this.ua,
         origin: "https://howlongtobeat.com",
         referer: "https://howlongtobeat.com",
       },
@@ -137,18 +137,18 @@ export class HltbSearch {
         const scriptText = await fetch(scriptUrl, {
           next: { revalidate: 300 },
           headers: {
-            "User-Agent": new UserAgent().toString(),
+            "User-Agent": this.ua,
             origin: "https://howlongtobeat.com",
             referer: "https://howlongtobeat.com",
           },
         }).then((res) => res.text());
 
         const matches = [...scriptText.matchAll(HltbSearch.SEARCH_KEY_PATTERN)];
-        if (matches.length === 0) {
+        if (matches.length === 0 || matches[0][1].includes("error")) {
           continue;
         }
-        console.log("Found endpoint:", matches[0][1]);
         HltbSearch.SEARCH_URL = `api/${matches[0][1]}`
+        break;
       } catch (error) {
         console.log(error);
         continue;
@@ -157,13 +157,9 @@ export class HltbSearch {
 
     const url = `${HltbSearch.BASE_URL}${HltbSearch.SEARCH_URL}/init?t=${Date.now()}`;
     const headers = {
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+      "User-Agent": this.ua,
       referer: "https://howlongtobeat.com/",
     };
-
-    console.log("SEARCH_URL:", HltbSearch.SEARCH_URL);
-    console.log("INIT URL:", url);
         
     const res = await fetch(url, { headers });
     if (!res.ok) {
