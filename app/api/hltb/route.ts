@@ -15,8 +15,8 @@ export async function GET(request: Request) {
   const hltbService = new HowLongToBeatService();
 
   try {
-    const searchKey = await hltbService.getSearchKey();
-    const result = await hltbService.search(gameName, searchKey);
+    const searchInfo = await hltbService.getSearchInfo();
+    const result = await hltbService.search(gameName, searchInfo);
     return NextResponse.json(result[0]);
   } catch (error) {
     console.error("HLTB fetch error:", error);

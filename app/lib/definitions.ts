@@ -78,3 +78,9 @@ export const keywords = [
   "playable",
   "prequel",
 ];
+
+export interface HltbSearchInfo {
+  searchKey: string;
+  authKey: string;
+  authValue: string;
+}

@@ -1,5 +1,6 @@
 import levenshtein from "fast-levenshtein";
 import { HltbSearch } from "./hltbsearch";
+import { HltbSearchInfo } from "../lib/definitions";
 
 // Taken from https://github.com/ckatzorke/howlongtobeat/
 
@@ -14,17 +15,17 @@ export class HowLongToBeatService {
    * @return Promise<HowLongToBeatEntry> the promise that, when fullfilled, returns the game
    */
 
-  async getSearchKey() {
-    return await this.hltb.getSearchKey();
+  async getSearchInfo() {
+    return await this.hltb.getSearchInfo();
   }
 
   async search(
     query: string,
-    searchKey: string,
+    searchInfo: HltbSearchInfo,
     signal?: AbortSignal,
   ): Promise<Array<HowLongToBeatEntry>> {
     const searchTerms = query.split(" ");
-    const search = await this.hltb.search(searchTerms, searchKey, signal);
+    const search = await this.hltb.search(searchTerms, searchInfo, signal);
     console.log(`Found ${search.count} results`);
     const hltbEntries = new Array<HowLongToBeatEntry>();
     for (const resultEntry of search.data) {
@@ -55,7 +56,7 @@ export class HowLongToBeatService {
   }
 
   /**
-   * Calculates the similarty of two strings based on the levenshtein distance in relation to the string lengths.
+   * Calculates the similarity of two strings based on the Levenshtein distance in relation to the string lengths.
    * It is used to see how similar the search term is to the game name. This, of course has only relevance if the search term is really specific and matches the game name as good as possible.
    * When using a proper search index, this would be the ranking/rating and much more sophisticated than this helper.
    * @param text the text to compare to

@@ -5,9 +5,9 @@ import { dbRun } from "../../transactions";
 
 async function updateFromHltb() {
   const hltbService = new HowLongToBeatService();
-  const [games, searchKey] = await Promise.all([
+  const [games, searchInfo] = await Promise.all([
     fetchAllGames(),
-    hltbService.getSearchKey(),
+    hltbService.getSearchInfo(),
   ]);
   const updateQuery = `
     UPDATE games
@@ -18,7 +18,7 @@ async function updateFromHltb() {
   // not promise.all to avoid overloading external API
   for (const game of games) {
     try {
-      const result = await hltbService.search(game.name, searchKey);
+      const result = await hltbService.search(game.name, searchInfo);
       const newTime = result[0].gameplayMainExtra;
       const values = [String(newTime), String(game.game_id)];
       await dbRun(updateQuery, values);

@@ -1,10 +1,14 @@
 import UserAgent from "user-agents";
+import { HltbSearchInfo } from "../lib/definitions";
+import * as cheerio from "cheerio";
+
+
 
 // Taken from https://github.com/ckatzorke/howlongtobeat/
 // API key parsing based on https://github.com/ckatzorke/howlongtobeat/pull/64 and https://github.com/ScrappyCocco/HowLongToBeat-PythonAPI
 
 /**
- * Takes care about the http connection and response handling
+ * Handles the http connection and response handling
  */
 export class HltbSearch {
   public static BASE_URL = "https://howlongtobeat.com/";
@@ -12,10 +16,11 @@ export class HltbSearch {
   public static SEARCH_URL = "";
   public static IMAGE_URL = `${HltbSearch.BASE_URL}games/`;
 
-  // private static readonly SEARCH_KEY_PATTERN =
-  //   /"\/api\/([a-z]+)\/".concat\("([a-zA-Z0-9]+)"\).concat\("([a-zA-Z0-9]+)"\)/g; no longer required but kept for prosperity
+  private static readonly SEARCH_KEY_PATTERN =
+    /fetch\s*\(\s*["']\/api\/([a-zA-Z0-9_/]+)[^"']*["']\s*,\s*{[^}]*method:\s*["']POST["'][^}]*}/gis;
 
   payload: any = {
+
     searchType: "games",
     searchTerms: [],
     searchPage: 1,
@@ -49,11 +54,16 @@ export class HltbSearch {
 
     async search(
     query: Array<string>,
-    searchKey: string,
+    searchInfo: HltbSearchInfo,
     signal?: AbortSignal
   ): Promise<any> {
+    
     const search = { ...this.payload };
     search.searchTerms = query;
+      
+    if (searchInfo.authKey && searchInfo.authValue) {
+      search[searchInfo.authKey] = searchInfo.authValue;
+    }
 
     if (!signal) {
       const controller = new AbortController();
@@ -61,14 +71,17 @@ export class HltbSearch {
       setTimeout(() => controller.abort(), 20_000);
     }
 
+      console.log("searchInfo:", searchInfo);
     try {
-      const response = await fetch('https://howlongtobeat.com/api/search', {
+      const response = await fetch(`${HltbSearch.BASE_URL}${HltbSearch.SEARCH_URL}`, {
         method: "POST",
         body: JSON.stringify(search),
         headers: {
           "User-Agent": new UserAgent().toString(),
           "content-type": "application/json",
-          'x-auth-token': searchKey,
+          "x-auth-token": searchInfo.searchKey,
+          "x-hp-key": searchInfo.authKey,
+          "x-hp-val": searchInfo.authValue,
           origin: "https://howlongtobeat.com/",
           referer: "https://howlongtobeat.com/",
         },
@@ -76,6 +89,11 @@ export class HltbSearch {
       });
 
       const responseText = await response.text();
+
+      console.log("Search status:", response.status);
+      console.log("Search URL:", `${HltbSearch.BASE_URL}${HltbSearch.SEARCH_URL}`);
+      console.log("Search response:", responseText);
+
       return JSON.parse(responseText);
     } catch (error) {
       console.error("HLTB search error:", error);
@@ -83,18 +101,87 @@ export class HltbSearch {
     }
   }
 
-  async getSearchKey(): Promise<string> {
-    const url = `https://howlongtobeat.com/api/search/init?t=${Date.now()}`;
+/**
+ * Get the Search Key from the search init page. Now also gets auth key and auth value.
+ * @returns searchKey as Promise<string>
+ */ 
+  async getSearchInfo(checkAllScripts = true): Promise<HltbSearchInfo> {
+    const searchInfo: HltbSearchInfo = {
+      searchKey: "",
+      authKey: "",
+      authValue: "",
+    };
+
+    const html = await fetch(HltbSearch.BASE_URL, {
+      next: { revalidate: 300 },
+      headers: {
+        "User-Agent": new UserAgent().toString(),
+        origin: "https://howlongtobeat.com",
+        referer: "https://howlongtobeat.com",
+      },
+    }).then((res) => res.text());
+    const $ = cheerio.load(html);
+
+    const scripts = $("script[src]");
+
+    for (const el of scripts) {
+      const src = $(el).attr("src") as string;
+
+      if (!checkAllScripts && !src.includes("_app-")) {
+        continue;
+      }
+
+      const scriptUrl = HltbSearch.BASE_URL + src;
+
+      try {
+        const scriptText = await fetch(scriptUrl, {
+          next: { revalidate: 300 },
+          headers: {
+            "User-Agent": new UserAgent().toString(),
+            origin: "https://howlongtobeat.com",
+            referer: "https://howlongtobeat.com",
+          },
+        }).then((res) => res.text());
+
+        const matches = [...scriptText.matchAll(HltbSearch.SEARCH_KEY_PATTERN)];
+        if (matches.length === 0) {
+          continue;
+        }
+        console.log("Found endpoint:", matches[0][1]);
+        HltbSearch.SEARCH_URL = `api/${matches[0][1]}`
+      } catch (error) {
+        console.log(error);
+        continue;
+      }
+    }
+
+    const url = `${HltbSearch.BASE_URL}${HltbSearch.SEARCH_URL}/init?t=${Date.now()}`;
     const headers = {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
       referer: "https://howlongtobeat.com/",
     };
 
+    console.log("SEARCH_URL:", HltbSearch.SEARCH_URL);
+    console.log("INIT URL:", url);
+        
     const res = await fetch(url, { headers });
-    if (!res.ok) return "";
+    if (!res.ok) {
+      throw new Error(`Failed to get HLTB search info: ${res.status}`);
+    }
 
     const data = await res.json();
-    return data.token || "";
+    searchInfo.searchKey = data.token || "";
+
+    for (const [fieldName, fieldValue] of Object.entries(data)) {
+      const lower = fieldName.toLowerCase();
+
+      if (/key/.test(lower)) {
+        searchInfo.authKey = String(fieldValue);
+      } else if (/val/.test(lower)) {
+        searchInfo.authValue = String(fieldValue);
+      }
+}
+    return searchInfo;
   }
 }
