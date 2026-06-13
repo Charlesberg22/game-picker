@@ -13,6 +13,7 @@ import {
   DevicePhoneMobileIcon,
   DocumentTextIcon,
   FolderIcon,
+  LinkIcon,
   NoSymbolIcon,
   TvIcon,
 } from "@heroicons/react/24/outline";
@@ -495,6 +496,7 @@ export default function EditGameForm({
           </div>
           <input type="submit" id="submit-form" className="hidden" />
         </form>
+        <DownloadImageForm game={game} />
         <ReplaceImageForm game={game} />
       </div>
       <div className="my-4 flex justify-end gap-4">
@@ -523,6 +525,7 @@ export function ReplaceImageForm({ game }: { game: GamesTable }) {
       String(game.name),
       String(game.img),
       formData,
+      false,
     );
 
   return (
@@ -548,6 +551,46 @@ export function ReplaceImageForm({ game }: { game: GamesTable }) {
             className="flex h-10 items-center rounded-lg bg-indigo-500 px-4 text-sm font-medium text-white transition-colors hover:bg-indigo-800"
           >
             Upload
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+export function DownloadImageForm({ game }: { game: GamesTable }) {
+  const replaceImageWithId = (formData: FormData) =>
+    replaceImage(
+      String(game.game_id),
+      String(game.name),
+      String(game.img),
+      formData,
+      true,
+    );
+
+  return (
+    <form action={replaceImageWithId} className="flex flex-col gap-4">
+      <div className="mb-4">
+        <label htmlFor="url" className="mb-2 block text-sm font-medium">
+          Replace image file from URL
+        </label>
+        <div className="relative flex gap-2 mt-2 rounded-md">
+          <div className="relative w-full">
+            <input
+              id="url"
+              name="url"
+              type="url"
+              placeholder="https://example.com/image.jpg"
+              className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              required
+            />
+            <LinkIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+          </div>
+          <button
+            type="submit"
+            className="flex h-10 items-center rounded-lg bg-indigo-500 px-4 text-sm font-medium text-white transition-colors hover:bg-indigo-800"
+          >
+            Download
           </button>
         </div>
       </div>
