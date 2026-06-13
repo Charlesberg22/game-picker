@@ -11,7 +11,7 @@ export default async function Page(props: {
 }) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
-  const view = searchParams?.view === "grid";
+  const view = searchParams?.view !== "table"; // Default to grid view if no view param or if view is not "table"
 
   return (
     <div className="w-full">
