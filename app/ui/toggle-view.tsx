@@ -5,18 +5,18 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 export default function ToggleViewButton() {
   const searchParams = useSearchParams();
-  const currentView = searchParams.get("view") || "table";
+  const currentView = searchParams.get("view") || "grid";
   const pathname = usePathname();
   const { replace } = useRouter();
 
   function toggleView() {
-    const newView = currentView === "grid" ? "table" : "grid";
+    const newView = currentView === "table" ? "grid" : "table";
 
     const newParams = new URLSearchParams(searchParams);
-    if (newView === "table") {
-      newParams.delete("view"); // Remove ?view=grid
+    if (newView === "grid") {
+      newParams.delete("view"); // Remove ?view=table
     } else {
-      newParams.set("view", "grid");
+      newParams.set("view", "table");
     }
     replace(`${pathname}?${newParams.toString()}`);
   }
