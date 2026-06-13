@@ -4,3 +4,6 @@ node_modules
 Dockerfile
 /public/games
 /docs
+.env
+.env.local
+.env.*
