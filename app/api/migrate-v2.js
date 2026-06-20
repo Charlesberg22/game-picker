@@ -1,17 +1,30 @@
 // migrate-v2.ts
 
 import { db } from "./database.js";
+import { licences } from "../lib/licences.ts";
 
 db.serialize(() => {
   db.run("PRAGMA foreign_keys = OFF");
 
   // Create new licences table
   db.run(`
-    CREATE TABLE licences (
+    CREATE TABLE IF NOT EXISTS licences (
       licence_id INTEGER PRIMARY KEY,
       licence_name TEXT NOT NULL UNIQUE
     )
   `);
+
+  const stmt = db.prepare(`
+    INSERT OR IGNORE INTO licences
+    (licence_id, licence_name)
+    VALUES (?, ?)
+  `);
+
+  licences.forEach((licence) => {
+    stmt.run(licence.licence_id, licence.licence_name);
+  });
+
+  stmt.finalize();
 
   // Create new games table
   db.run(`
@@ -31,8 +44,8 @@ db.serialize(() => {
       release_date DATE,
       img TEXT,
       FOREIGN KEY(platform_id) REFERENCES platforms(platform_id),
-      FOREIGN KEY(play_platform_id) REFERENCES platforms(platform_id)
-      FoREIGN KEY(licence_id) REFERENCES licences(licence_id)
+      FOREIGN KEY(play_platform_id) REFERENCES platforms(platform_id),
+      FOREIGN KEY(licence_id) REFERENCES licences(licence_id)
     )
   `);
 
@@ -43,7 +56,7 @@ db.serialize(() => {
       platform_id,
       play_platform_id,
       name,
-      licence,
+      licence_id,
       retro,
       handheld,
       prequel_id,
@@ -58,7 +71,7 @@ db.serialize(() => {
       g.platform_id,
       p.platform_id,
       g.name,
-      g.licence,
+      6 AS licence_id, -- Default to "Other" for existing entries
       g.retro,
       g.handheld,
       g.prequel_id,
@@ -74,7 +87,7 @@ db.serialize(() => {
 
   // Create play history
   db.run(`
-    CREATE TABLE play_history (
+    CREATE TABLE IF NOT EXISTS play_history (
       play_id INTEGER PRIMARY KEY AUTOINCREMENT,
       game_id INTEGER NOT NULL,
       when_played DATE NOT NULL,
@@ -90,6 +103,7 @@ db.serialize(() => {
     SELECT game_id, when_played
     FROM games
     WHERE when_played IS NOT NULL
+      AND when_played != '';
   `);
 
   db.run("DROP TABLE games");

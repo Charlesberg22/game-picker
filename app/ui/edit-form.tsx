@@ -19,6 +19,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
+import { licences } from "../lib/licences";
 
 export default function EditGameForm({
   game,
@@ -79,6 +80,31 @@ export default function EditGameForm({
         <form action={action} key={game.game_id}>
           <input type="hidden" name="previousPage" value={referrer} />
           <div className="">
+            {/* Game Name */}
+            <div className="mb-4">
+              <label htmlFor="name" className="mb-2 block text-sm font-medium">
+                Game name
+              </label>
+              <div className="relative mt-2 rounded-md">
+                <div className="relative">
+                  <input
+                    id="name"
+                    name="name"
+                    type="string"
+                    defaultValue={game.name}
+                    placeholder="Enter name"
+                    className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  />
+                  <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                </div>
+              </div>
+              {state?.errors?.name && (
+                <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
+                  {state.errors.name}
+                </span>
+              )}
+            </div>
+
             {/* Platform Name */}
             <div className="mb-4">
               <label
@@ -115,31 +141,6 @@ export default function EditGameForm({
               )}
             </div>
 
-            {/* Game Name */}
-            <div className="mb-4">
-              <label htmlFor="name" className="mb-2 block text-sm font-medium">
-                Game name
-              </label>
-              <div className="relative mt-2 rounded-md">
-                <div className="relative">
-                  <input
-                    id="name"
-                    name="name"
-                    type="string"
-                    defaultValue={game.name}
-                    placeholder="Enter name"
-                    className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                  />
-                  <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-                </div>
-              </div>
-              {state?.errors?.name && (
-                <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
-                  {state.errors.name}
-                </span>
-              )}
-            </div>
-
             {/* Ownership details */}
             <div className="mb-4">
               <label
@@ -150,20 +151,30 @@ export default function EditGameForm({
               </label>
               <div className="relative mt-2 rounded-md">
                 <div className="relative">
-                  <input
-                    id="licence"
-                    name="licence"
-                    type="string"
-                    defaultValue={game.licence}
-                    placeholder="Enter licensing details"
-                    className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                  />
+                <select
+                  id="licence"
+                  name="licence_id"
+                  className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  defaultValue={game.licence_id}
+                >
+                  <option value="" disabled>
+                    Select the platform
+                  </option>
+                  {licences.map((licence) => (
+                    <option
+                      key={licence.licence_id}
+                      value={licence.licence_id}
+                    >
+                      {licence.licence_name}
+                    </option>
+                  ))}
+                </select>
                   <BookOpenIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                 </div>
               </div>
-              {state?.errors?.licence && (
+              {state?.errors?.licence_id && (
                 <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
-                  {state.errors.licence}
+                  {state.errors.licence_id}
                 </span>
               )}
             </div>
@@ -171,17 +182,17 @@ export default function EditGameForm({
             {/* Play method */}
             <div className="mb-4">
               <label
-                htmlFor="play_method"
+                htmlFor="play_platform"
                 className="mb-2 block text-sm font-medium"
               >
                 Platform to play on
               </label>
               <div className="relative">
                 <select
-                  id="play_method"
-                  name="play_method"
+                  id="play_platform"
+                  name="play_platform_id"
                   className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                  defaultValue={game.play_method}
+                  defaultValue={game.play_platform_id}
                 >
                   <option value="" disabled>
                     Select the platform
@@ -197,9 +208,9 @@ export default function EditGameForm({
                 </select>
                 <CpuChipIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
               </div>
-              {state?.errors?.play_method && (
+              {state?.errors?.play_platform_id && (
                 <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
-                  {state.errors.play_method}
+                  {state.errors.play_platform_id}
                 </span>
               )}
             </div>
@@ -486,13 +497,13 @@ export default function EditGameForm({
                     name="when_played"
                     type="date"
                     defaultValue={(() => {
-                      // Attempt to parse `game.when_played`
+                      if (!game.when_played) return "";
+
                       const whenPlayedDate = new Date(game.when_played);
-                      // If valid, format to YYYY-MM-DD; otherwise, use today's date
-                      return whenPlayedDate instanceof Date &&
-                        !isNaN(whenPlayedDate.getTime())
-                        ? whenPlayedDate.toISOString().split("T")[0]
-                        : "";
+
+                      if (isNaN(whenPlayedDate.getTime())) return "";
+
+                      return whenPlayedDate.toISOString().split("T")[0];
                     })()}
                     placeholder="Enter date played"
                     className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
