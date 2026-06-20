@@ -85,7 +85,7 @@ export default function EditGameForm({
                 htmlFor="platform"
                 className="mb-2 block text-sm font-medium"
               >
-                Platform
+                Platform of release
               </label>
               <div className="relative">
                 <select
@@ -140,13 +140,13 @@ export default function EditGameForm({
               )}
             </div>
 
-            {/* Licence */}
+            {/* Ownership details */}
             <div className="mb-4">
               <label
                 htmlFor="licence"
                 className="mb-2 block text-sm font-medium"
               >
-                Game licence (how do you own it or otherwise)
+                Ownership details
               </label>
               <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -174,20 +174,28 @@ export default function EditGameForm({
                 htmlFor="play_method"
                 className="mb-2 block text-sm font-medium"
               >
-                Play method (what platform will you actually play it on)
+                Platform to play on
               </label>
-              <div className="relative mt-2 rounded-md">
-                <div className="relative">
-                  <input
-                    id="play_method"
-                    name="play_method"
-                    type="string"
-                    defaultValue={game.play_method}
-                    placeholder="Enter play method"
-                    className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                  />
-                  <ComputerDesktopIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-                </div>
+              <div className="relative">
+                <select
+                  id="play_method"
+                  name="play_method"
+                  className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  defaultValue={game.play_method}
+                >
+                  <option value="" disabled>
+                    Select the platform
+                  </option>
+                  {platforms.map((platform) => (
+                    <option
+                      key={platform.platform_id}
+                      value={platform.platform_id}
+                    >
+                      {platform.platform_name}
+                    </option>
+                  ))}
+                </select>
+                <CpuChipIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
               </div>
               {state?.errors?.play_method && (
                 <span className="text-sm px-2 py-1 rounded-lg bg-blue-300 text-black">
