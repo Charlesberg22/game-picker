@@ -24,8 +24,12 @@ const FormSchema = z.object({
   platform_id: z.string({
     invalid_type_error: "You must select a platform.",
   }),
-  licence: z.string().min(1, { message: "You must enter a licence type." }),
-  play_method: z.string().min(1, { message: "You must enter a platform." }),
+  licence_id: z.string({
+    invalid_type_error: "You must select a licence type.",
+  }),
+  play_platform_id: z.string({
+    invalid_type_error: "You must select a platform.",
+  }),
   retro: z
     .union([z.literal("true"), z.literal("")], {
       errorMap: () => ({ message: "You must select retro or modern." }),
@@ -77,8 +81,8 @@ export async function updateGame(id: string, state: State, formData: FormData) {
   const validatedFields = UpdateGame.safeParse({
     name: formData.get("name"),
     platform_id: formData.get("platform_id"),
-    licence: formData.get("licence"),
-    play_method: formData.get("play_method"),
+    licence_id: formData.get("licence_id"),
+    play_platform_id: formData.get("play_platform_id"),
     retro: formData.get("retro"),
     handheld: formData.get("handheld"),
     prequel_id: formData.get("prequel_id"),
@@ -98,8 +102,8 @@ export async function updateGame(id: string, state: State, formData: FormData) {
   const {
     name,
     platform_id,
-    licence,
-    play_method,
+    licence_id,
+    play_platform_id,
     retro,
     handheld,
     prequel_id,
@@ -107,31 +111,30 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     tried,
     finished,
     rating,
-    when_played,
+    when_played
   } = validatedFields.data;
 
   const updateQuery = `
         UPDATE games
         SET name = ?,
           platform_id = ?,
-          licence = ?,
-          play_method = ?,
+          licence_id = ?,
+          play_platform_id = ?,
           retro = ?,
           handheld = ?,
           prequel_id = CASE WHEN ? = "" THEN NULL ELSE ? END,
           hltb_time = ?,
           tried = ?,
           finished = ?,
-          rating = CASE WHEN ? <= 0 THEN NULL ELSE ? END,
-          when_played = ?
+          rating = CASE WHEN ? <= 0 THEN NULL ELSE ? END
         WHERE game_id = ?
     `;
 
   const values = [
     name,
     platform_id,
-    licence,
-    play_method,
+    licence_id,
+    play_platform_id,
     retro,
     handheld,
     prequel_id,
@@ -141,12 +144,20 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     finished,
     rating,
     rating,
-    when_played,
     id,
   ] as string[];
 
   try {
     await dbRun(updateQuery, values);
+
+    await dbRun(`DELETE FROM play_history WHERE game_id = ?`, [id]);
+
+    if (when_played?.trim()) {
+    await dbRun(
+    `INSERT INTO play_history (game_id, when_played) VALUES (?, ?)`,
+    [id, when_played],
+      );
+    }
   } catch (error: any) {
     console.error("Error updating game:", error.message);
     throw error;
@@ -162,8 +173,8 @@ export async function createGame(state: State, formData: FormData) {
   const validatedFields = CreateGame.safeParse({
     name: formData.get("name"),
     platform_id: formData.get("platform_id"),
-    licence: formData.get("licence"),
-    play_method: formData.get("play_method"),
+    licence_id: formData.get("licence_id"),
+    play_platform_id: formData.get("play_platform_id"),
     retro: formData.get("retro"),
     handheld: formData.get("handheld"),
     prequel_id: formData.get("prequel_id"),
@@ -180,8 +191,8 @@ export async function createGame(state: State, formData: FormData) {
       formData: {
         name: formData.get("name") as string,
         platform_id: formData.get("platform_id") as string,
-        licence: formData.get("licence") as string,
-        play_method: formData.get("play_method") as string,
+        licence_id: formData.get("licence_id") as string,
+        play_platform_id: formData.get("play_platform_id") as string,
         retro: formData.get("retro") as string,
         handheld: formData.get("handheld") as string,
         prequel_id: formData.get("prequel_id") as string,
@@ -192,8 +203,8 @@ export async function createGame(state: State, formData: FormData) {
   const {
     name,
     platform_id,
-    licence,
-    play_method,
+    licence_id,
+    play_platform_id,
     retro,
     handheld,
     prequel_id,
@@ -201,19 +212,18 @@ export async function createGame(state: State, formData: FormData) {
     tried,
     finished,
     rating,
-    when_played,
   } = validatedFields.data;
 
   const createQuery = `
-        INSERT INTO games (name, platform_id, licence, play_method, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played)
-        VALUES (?, ?, ?, ?, ?, ?, CASE WHEN ? = "" THEN NULL ELSE ? END, ?, ?, ?, CASE WHEN ? <= 0 THEN NULL ELSE ? END, ?)
+        INSERT INTO games (name, platform_id, licence_id, play_platform_id, retro, handheld, prequel_id, hltb_time, tried, finished, rating)
+        VALUES (?, ?, ?, ?, ?, ?, CASE WHEN ? = "" THEN NULL ELSE ? END, ?, ?, ?, CASE WHEN ? <= 0 THEN NULL ELSE ? END)
     `;
 
   const values = [
     name,
     platform_id,
-    licence,
-    play_method,
+    licence_id,
+    play_platform_id,
     retro,
     handheld,
     prequel_id,
@@ -223,7 +233,6 @@ export async function createGame(state: State, formData: FormData) {
     finished,
     rating,
     rating,
-    when_played,
   ] as string[];
 
   // unavoidable promise waterfall as each relies on the last

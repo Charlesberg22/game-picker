@@ -3,8 +3,8 @@ export type GamesTable = {
   platform_id: number;
   platform_name: string;
   name: string;
-  licence: string;
-  play_method: string;
+  licence_id: number;
+  play_platform_id: number;
   retro: boolean;
   handheld: boolean;
   prequel_id: number | null;
@@ -39,8 +39,8 @@ export type State =
       errors?: {
         name?: string[];
         platform_id?: string[];
-        licence?: string[];
-        play_method?: string[];
+        licence_id?: string[];
+        play_platform_id?: string[];
         retro?: string[];
         handheld?: string[];
       };
@@ -48,8 +48,8 @@ export type State =
       formData?: {
         name?: string;
         platform_id?: string;
-        licence?: string;
-        play_method?: string;
+        licence_id?: string;
+        play_platform_id?: string;
         retro?: string;
         handheld?: string;
         prequel_id?: string;
