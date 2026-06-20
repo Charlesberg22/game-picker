@@ -168,7 +168,7 @@ export default function AddGameForm({
         {/* Play method */}
         <div className="mb-4">
           <label
-            htmlFor="play_method"
+            htmlFor="play_platform"
             className="mb-2 block text-sm font-medium"
           >
             Platform to play on

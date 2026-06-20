@@ -17,7 +17,7 @@ export default function GameCard({ game }: { game: GamesTable }) {
       <div className="absolute rounded-md bottom-0 w-full bg-black/60 text-white p-2">
         <div className="flex justify-between text-sm font-semibold">
           <span>{game.platform_name}</span>
-          <span>{game.play_method}</span>
+          <span>{game.play_platform_id}</span>
         </div>
         <p className="text-lg truncate text-center font-bold">{game.name}</p>
         <div className="flex justify-between text-md">
