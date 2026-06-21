@@ -401,7 +401,7 @@ export default function EditGameForm({
                       name="tried"
                       type="radio"
                       value=""
-                      defaultChecked={game.tried === false}
+                      defaultChecked={game.tried == false}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -473,7 +473,7 @@ export default function EditGameForm({
                     name="rating"
                     type="number"
                     step="0.5"
-                    defaultValue={Number(game.rating)}
+                    defaultValue={game.rating !== null ? Number(game.rating) : ""}
                     placeholder="Enter rating once played"
                     className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   />
