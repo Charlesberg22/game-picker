@@ -5,7 +5,7 @@ import { removeKeywords } from "./utils";
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {
     const response = (await dbAll(`
-    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
     FROM games
     JOIN platforms p_release ON games.platform_id = p_release.platform_id
     JOIN licences ON games.licence_id = licences.licence_id
@@ -77,6 +77,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
         games.platform_id,
         p_release.platform_name AS platform_name,
         p_play.platform_name AS play_platform_name,
+        licences.licence_name AS licence_name,
         games.name, games.licence_id,
         games.play_platform_id,
         retro,
@@ -277,7 +278,7 @@ export async function fetchGameOptions(
   try {
     const response = (await dbAll(
       `
-      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, games.licence_id, games.play_platform_id, retro, handheld, prequel_id, hltb_time, tried, finished, rating, img
+      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, licences.licence_name AS licence_name, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, tried, finished, rating, img
       FROM games
       JOIN platforms p_release ON games.platform_id = p_release.platform_id
       JOIN licences ON games.licence_id = licences.licence_id

@@ -51,7 +51,7 @@ export default function GenericGamesTable({
                   scope="col"
                   className="hidden md:table-cell px-3 py-5 font-medium w-[180px]"
                 >
-                  Play Method
+                  Play Platform
                 </th>
                 <th
                   scope="col"
@@ -136,10 +136,10 @@ export default function GenericGamesTable({
                   </td>
                   <td className="whitespace-normal px-3 py-3">{game.name}</td>
                   <td className="hidden md:table-cell whitespace-nowrap px-3 py-3">
-                    {game.licence_id}
+                    {game.licence_name}
                   </td>
                   <td className="hidden md:table-cell whitespace-nowrap px-3 py-3">
-                    {game.play_platform_id}
+                    {game.play_platform_name}
                   </td>
                   <td className="hidden md:table-cell whitespace-nowrap px-3 py-3">
                     {game.retro ? "✔️" : "❌"}

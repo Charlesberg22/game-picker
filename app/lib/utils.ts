@@ -4,7 +4,7 @@ import { NextApiRequest } from "next";
 import { GamesTable, keywords } from "./definitions";
 
 export function formatDate(dateStr: string): string | undefined {
-  if (dateStr === "") {
+  if (dateStr === "" || dateStr === null) {
     return;
   }
 

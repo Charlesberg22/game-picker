@@ -15,6 +15,8 @@ export type GamesTable = {
   rating: string;
   when_played: string;
   img: string;
+  play_platform_name: string;
+  licence_name: string;
 };
 
 export type Platform = {
