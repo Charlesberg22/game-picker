@@ -5,6 +5,6 @@ export const licences = [
   { licence_id: 2, licence_name: "Owned Digital Copy" },
   { licence_id: 3, licence_name: "Nintendo Switch Online" },
   { licence_id: 4, licence_name: "Emulated" },
-  { licence_id: 5, licence_name: "Free Download" },
-  { licence_id: 6, licence_name: "Other" },
+  { licence_id: 5, licence_name: "Not Owned" },
+  { licence_id: 6, licence_name: "TBC" },
 ];
