@@ -1,7 +1,7 @@
 "use client";
 
 import { COLLATOR, GamesTable, Platform, State } from "../lib/definitions";
-import { replaceImage, updateGame } from "../lib/actions";
+import { replaceImage, updateGame, createGame } from "../lib/actions";
 import {
   BackwardIcon,
   BookOpenIcon,
@@ -17,17 +17,19 @@ import {
   NoSymbolIcon,
   TvIcon,
 } from "@heroicons/react/24/outline";
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { licences } from "../lib/licences";
 
-export default function EditGameForm({
+export default function GameForm({
+  mode,
   game,
   platforms,
   allGames,
   referrer,
 }: {
-  game: GamesTable;
+  mode: "add" | "edit";
+  game?: GamesTable;
   platforms: Platform[];
   allGames: GamesTable[];
   referrer: string;
@@ -35,11 +37,12 @@ export default function EditGameForm({
   const router = useRouter();
 
   const [hltbTime, setHltbTime] = useState<number | string>(
-    game.hltb_time || "",
+    game?.hltb_time || "",
   );
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
-  function updateHltb(game: GamesTable) {
-    fetch(`/api/hltb?name=${encodeURIComponent(game.name)}`)
+  function updateHltb(nameFieldValue: string) {
+    fetch(`/api/hltb?name=${encodeURIComponent(nameFieldValue)}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch HLTB data");
@@ -57,8 +60,10 @@ export default function EditGameForm({
       });
   }
 
-  async function updateGameWithId(state: State, formData: FormData) {
-    const result = await updateGame(String(game.game_id), state, formData);
+  async function useGameFormAction(state: State, formData: FormData) {
+    const result = game
+      ? await updateGame(String(game.game_id), state, formData)
+      : await createGame(state, formData);
 
     if (result == undefined || !result.errors) {
       try {
@@ -72,12 +77,12 @@ export default function EditGameForm({
     return result;
   }
 
-  const [state, action] = useActionState(updateGameWithId, undefined);
+  const [state, action] = useActionState(useGameFormAction, undefined);
 
   return (
     <div>
       <div className="rounded-md bg-green-900 p-4 md:p-6">
-        <form action={action} key={game.game_id}>
+        <form action={action}> {/* key={game.game_id} was here */} 
           <input type="hidden" name="previousPage" value={referrer} />
           <div className="">
             {/* Game Name */}
@@ -91,7 +96,8 @@ export default function EditGameForm({
                     id="name"
                     name="name"
                     type="string"
-                    defaultValue={game.name}
+                    defaultValue={game?.name ?? ""} // return state?.formData?.name first if want preserve inputs on validation fail
+                    ref={nameInputRef}
                     placeholder="Enter name"
                     className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   />
@@ -118,7 +124,7 @@ export default function EditGameForm({
                   id="platform"
                   name="platform_id"
                   className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                  defaultValue={game.platform_id}
+                  defaultValue={game?.platform_id ?? ""} // return state?.formData?.platform_id first if want preserve inputs on validation fail
                 >
                   <option value="" disabled>
                     Select the platform
@@ -155,7 +161,7 @@ export default function EditGameForm({
                   id="licence"
                   name="licence_id"
                   className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                  defaultValue={game.licence_id}
+                  defaultValue={game?.licence_id ?? ""} // return state?.formData?.licence_id first if want preserve inputs on validation fail
                 >
                   <option value="" disabled>
                     Select the platform
@@ -192,7 +198,7 @@ export default function EditGameForm({
                   id="play_platform"
                   name="play_platform_id"
                   className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                  defaultValue={game.play_platform_id}
+                  defaultValue={game?.play_platform_id ?? ""} // return state?.formData?.play_platform_id first if want preserve inputs on validation fail
                 >
                   <option value="" disabled>
                     Select the platform
@@ -228,7 +234,7 @@ export default function EditGameForm({
                       name="retro"
                       type="radio"
                       value="true"
-                      defaultChecked={game.retro}
+                      defaultChecked={game?.retro ?? false}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -244,7 +250,7 @@ export default function EditGameForm({
                       name="retro"
                       type="radio"
                       value=""
-                      defaultChecked={!game.retro}
+                      defaultChecked={game?.retro !== true}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -276,7 +282,7 @@ export default function EditGameForm({
                       name="handheld"
                       type="radio"
                       value="true"
-                      defaultChecked={game.handheld}
+                      defaultChecked={game?.handheld ?? false}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -292,7 +298,7 @@ export default function EditGameForm({
                       name="handheld"
                       type="radio"
                       value=""
-                      defaultChecked={!game.handheld}
+                      defaultChecked={game?.handheld !== true}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -324,7 +330,7 @@ export default function EditGameForm({
                   id="prequel"
                   name="prequel_id"
                   className="peer block w-full cursor-pointer rounded-md bg-green-50 text-black border border-gray-800 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                  defaultValue={game.prequel_id ?? ""}
+                  defaultValue={game?.prequel_id ?? ""} // return state?.formData?.prequel_id first if want preserve inputs on validation fail
                 >
                   <option value="">None</option>
                   {allGames
@@ -350,7 +356,7 @@ export default function EditGameForm({
                   className="underline"
                   onClick={(e) => {
                     e.preventDefault();
-                    updateHltb(game);
+                    updateHltb(nameInputRef.current?.value ?? game?.name ?? "");
                   }}
                 >
                   Update from hltb.com
@@ -385,7 +391,7 @@ export default function EditGameForm({
                       name="tried"
                       type="radio"
                       value="true"
-                      defaultChecked={game.tried}
+                      defaultChecked={game?.tried}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -401,7 +407,7 @@ export default function EditGameForm({
                       name="tried"
                       type="radio"
                       value=""
-                      defaultChecked={game.tried == false}
+                      defaultChecked={game?.tried == false}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -428,7 +434,7 @@ export default function EditGameForm({
                       name="finished"
                       type="radio"
                       value="true"
-                      defaultChecked={game.finished}
+                      defaultChecked={game?.finished}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -444,7 +450,7 @@ export default function EditGameForm({
                       name="finished"
                       type="radio"
                       value=""
-                      defaultChecked={game.finished == false}
+                      defaultChecked={game?.finished == false}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
@@ -473,7 +479,7 @@ export default function EditGameForm({
                     name="rating"
                     type="number"
                     step="0.5"
-                    defaultValue={game.rating !== null ? Number(game.rating) : ""}
+                    defaultValue={game?.rating !== null ? Number(game?.rating) : ""}
                     placeholder="Enter rating once played"
                     className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   />
@@ -497,7 +503,7 @@ export default function EditGameForm({
                     name="when_played"
                     type="date"
                     defaultValue={(() => {
-                      if (!game.when_played) return "";
+                      if (!game?.when_played) return "";
 
                       const whenPlayedDate = new Date(game.when_played);
 
@@ -515,8 +521,12 @@ export default function EditGameForm({
           </div>
           <input type="submit" id="submit-form" className="hidden" />
         </form>
-        <DownloadImageForm game={game} />
-        <ReplaceImageForm game={game} />
+        {mode === "edit" && game && (
+          <>
+            <DownloadImageForm game={game} />
+            <ReplaceImageForm game={game} />
+          </>
+        )}
       </div>
       <div className="my-4 flex justify-end gap-4">
         <button

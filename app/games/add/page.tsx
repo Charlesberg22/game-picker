@@ -1,6 +1,6 @@
 import { fetchAllGames, fetchPlatforms } from "@/app/lib/data";
 import { Metadata } from "next";
-import AddGameForm from "@/app/ui/add-form";
+import GameForm from "@/app/ui/game-form";
 import { headers } from "next/headers";
 
 export const metadata: Metadata = {
@@ -18,7 +18,8 @@ export default async function Page() {
 
   return (
     <main>
-      <AddGameForm
+      <GameForm
+        mode="add"
         platforms={platforms}
         allGames={allGames}
         referrer={referrer}

@@ -1,6 +1,6 @@
 import { fetchAllGames, fetchGameById, fetchPlatforms } from "@/app/lib/data";
 import { Metadata } from "next";
-import EditGameForm from "@/app/ui/edit-form";
+import GameForm from "@/app/ui/game-form";
 import { headers } from "next/headers";
 
 export const metadata: Metadata = {
@@ -19,7 +19,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   return (
     <main>
-      <EditGameForm
+      <GameForm
+        mode="edit"
         game={game}
         platforms={platforms}
         allGames={allGames}
