@@ -212,6 +212,7 @@ export async function createGame(state: State, formData: FormData) {
     tried,
     finished,
     rating,
+    when_played
   } = validatedFields.data;
 
   const createQuery = `
@@ -240,6 +241,12 @@ export async function createGame(state: State, formData: FormData) {
     await dbRun(createQuery, values);
     const id = await fetchLastRowId();
     const game = await fetchGameById(id);
+    if (when_played?.trim()) {
+    await dbRun(
+    `INSERT INTO play_history (game_id, when_played) VALUES (?, ?)`,
+    [id, when_played],
+      );
+    }
     await saveImagesToDb(game);
   } catch (error: any) {
     console.error("Error creating game:", error.message);
