@@ -81,11 +81,11 @@ export function buildSeriesMap(games: GamesTable[]): Map<number, GamesTable[]> {
   // construct array of root games of series
   const roots = games.filter(
     (game) =>
-      game.tried === null && // game must be unplayed to be a root, or it won't be shown
+      game.to_play == true && // game must be to play to be a root, or it won't be shown
       // game must also either: not have a prequel, or have a prequel that does not exist in the list of games (i.e. was deleted), or have a prequel that was played/avoided (to be removed later if in middle of series)
       (!game.prequel_id ||
         !gamesMap.has(game.prequel_id) ||
-        gamesMap.get(game.prequel_id)?.tried !== null),
+        gamesMap.get(game.prequel_id)?.to_play == false),
   );
 
   // recursive function to build the series chain, called below in production of seriesMap
@@ -93,7 +93,7 @@ export function buildSeriesMap(games: GamesTable[]): Map<number, GamesTable[]> {
     // add every game to the assigned games so it cannot show up as a root (in the future, past covered later)
     assignedGames.add(game.game_id);
     // add the game to the series chain only if unplayed (not relevant for root, but for the recursive cases)
-    if (game.tried === null) {
+    if (game.to_play == true) {
       series.push(game);
     }
     // if the game is a prequel and is therefore in prequelsMap:

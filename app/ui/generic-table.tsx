@@ -80,9 +80,9 @@ export default function GenericGamesTable({
                 {!randomiser && (
                   <th
                     scope="col"
-                    className="hidden md:table-cell px-3 py-5 font-medium w-10 text-center"
+                    className="hidden md:table-cell px-3 py-5 font-medium w-16 text-center"
                   >
-                    Tried?
+                    To play?
                   </th>
                 )}
                 {!randomiser && (
@@ -155,7 +155,7 @@ export default function GenericGamesTable({
                   </td>
                   {!randomiser && (
                     <td className="hidden md:table-cell whitespace-nowrap px-3 py-3 text-center">
-                      {game.tried ? "✔️" : game.tried === null ? "" : "❌"}
+                      {game.to_play ? "✔️" : "❌"}
                     </td>
                   )}
                   {!randomiser && (

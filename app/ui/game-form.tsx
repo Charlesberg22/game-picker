@@ -378,43 +378,43 @@ export default function GameForm({
               </div>
             </div>
 
-            {/* Tried? */}
+            {/* To play? */}
             <fieldset>
               <legend className="mb-2 block text-sm font-medium">
-                Have or will you try it?
+                Is this game to be played?
               </legend>
               <div className="rounded-md mb-4 border border-gray-200 bg-green-50 px-[14px] py-3">
                 <div className="flex gap-4">
                   <div className="flex items-center">
                     <input
-                      id="tried"
-                      name="tried"
+                      id="to_play"
+                      name="to_play"
                       type="radio"
                       value="true"
-                      defaultChecked={game?.tried}
+                      defaultChecked={game?.to_play}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
-                      htmlFor="tried"
+                      htmlFor="to_play"
                       className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-purple-500 px-3 py-1.5 text-xs font-medium text-white"
                     >
-                      Tried <CheckIcon className="h-4 w-4" />
+                      To play <CheckIcon className="h-4 w-4" />
                     </label>
                   </div>
                   <div className="flex items-center">
                     <input
-                      id="untried"
-                      name="tried"
+                      id="not_to_play"
+                      name="to_play"
                       type="radio"
                       value=""
-                      defaultChecked={game?.tried == false}
+                      defaultChecked={game?.to_play == false}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
-                      htmlFor="untried"
+                      htmlFor="not_to_play"
                       className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-500 px-3 py-1.5 text-xs font-medium text-white"
                     >
-                      Will not try <NoSymbolIcon className="h-4 w-4" />
+                      Not to play (right now) <NoSymbolIcon className="h-4 w-4" />
                     </label>
                   </div>
                 </div>

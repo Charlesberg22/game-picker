@@ -30,7 +30,7 @@ export default function GameCard({ game }: { game: GamesTable }) {
 
       <div className="absolute -top-5 right-7 p-2">
         <div className="">
-          {game.tried === null ? (
+          {game.to_play == true ? (
             ""
           ) : (
             <div className="relative inline-block">

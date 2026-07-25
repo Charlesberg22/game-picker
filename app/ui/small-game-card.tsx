@@ -18,7 +18,7 @@ export default function SmallGameCard({ game }: { game: GamesTable }) {
       </Link>
       <div className="absolute -top-5 right-7 p-2">
         <div className="">
-          {game.tried === null ? (
+          {game.to_play == true ? (
             ""
           ) : (
             <div className="relative inline-block">

@@ -4,6 +4,7 @@ import { dbAll, dbRun } from "../api/transactions";
 import { GamesTable } from "../lib/definitions";
 import { saveImagesToDb } from "../lib/actions";
 
+// fix for demo-picker
 async function seedGames() {
   try {
     // Insert games without prequel_id
