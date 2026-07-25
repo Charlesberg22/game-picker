@@ -1,6 +1,6 @@
 "use client";
 
-import { COLLATOR, GamesTable, Platform, State } from "../lib/definitions";
+import { COLLATOR, GamesTable, Licence, Platform, State } from "../lib/definitions";
 import { replaceImage, updateGame, createGame } from "../lib/actions";
 import {
   BackwardIcon,
@@ -19,18 +19,19 @@ import {
 } from "@heroicons/react/24/outline";
 import { useActionState, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { licences } from "../lib/licences";
 
 export default function GameForm({
   mode,
   game,
   platforms,
+  licences,
   allGames,
   referrer,
 }: {
   mode: "add" | "edit";
   game?: GamesTable;
   platforms: Platform[];
+  licences: Licence[];
   allGames: GamesTable[];
   referrer: string;
 }) {
@@ -424,7 +425,7 @@ export default function GameForm({
             {/* Finished? */}
             <fieldset>
               <legend className="mb-2 block text-sm font-medium">
-                When you played it, did you finish it?
+                Have you finished it?
               </legend>
               <div className="rounded-md mb-4 border border-gray-200 bg-green-50 px-[14px] py-3">
                 <div className="flex gap-4">
@@ -522,10 +523,10 @@ export default function GameForm({
           <input type="submit" id="submit-form" className="hidden" />
         </form>
         {mode === "edit" && game && (
-          <>
+          <div className="grid grid-cols-2 gap-4">
             <DownloadImageForm game={game} />
             <ReplaceImageForm game={game} />
-          </>
+          </div>
         )}
       </div>
       <div className="my-4 flex justify-end gap-4">
@@ -561,7 +562,7 @@ export function ReplaceImageForm({ game }: { game: GamesTable }) {
     <form action={replaceImageWithId} className="flex flex-col gap-4">
       <div className="mb-4">
         <label htmlFor="image" className="mb-2 block text-sm font-medium">
-          Replace image file
+          Replace image from file
         </label>
         <div className="relative flex gap-2 mt-2 rounded-md">
           <div className="relative w-full">
@@ -570,7 +571,7 @@ export function ReplaceImageForm({ game }: { game: GamesTable }) {
               name="image"
               type="file"
               accept="image/*"
-              className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              className="peer block w-full h-10 rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               required
             />
             <FolderIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -601,7 +602,7 @@ export function DownloadImageForm({ game }: { game: GamesTable }) {
     <form action={replaceImageWithId} className="flex flex-col gap-4">
       <div className="mb-4">
         <label htmlFor="url" className="mb-2 block text-sm font-medium">
-          Replace image file from URL
+          Replace image from URL
         </label>
         <div className="relative flex gap-2 mt-2 rounded-md">
           <div className="relative w-full">
@@ -610,7 +611,7 @@ export function DownloadImageForm({ game }: { game: GamesTable }) {
               name="url"
               type="url"
               placeholder="https://example.com/image.jpg"
-              className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              className="peer block w-full h-10 rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               required
             />
             <LinkIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />

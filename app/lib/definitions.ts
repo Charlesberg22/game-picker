@@ -24,6 +24,11 @@ export type Platform = {
   platform_name: string;
 };
 
+export type Licence = {
+  licence_id: number;
+  licence_name: string;
+};
+
 export type Stats = {
   number_of_games: number;
   total_length: number;

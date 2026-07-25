@@ -1,5 +1,5 @@
 import { dbAll, dbGet } from "../api/transactions";
-import { GamesTable, Platform, Stats } from "./definitions";
+import { GamesTable, Licence, Platform, Stats } from "./definitions";
 import { removeKeywords } from "./utils";
 
 export async function fetchAllGames(): Promise<GamesTable[]> {
@@ -177,6 +177,17 @@ export async function fetchPlatforms(): Promise<Platform[]> {
     return response;
   } catch (error) {
     console.error("Error fetching platforms:", error);
+    throw error;
+  }
+}
+
+export async function fetchLicences(): Promise<Licence[]> {
+  try {
+    const response = (await dbAll(`SELECT * FROM licences`)) as Licence[];
+    if (!response) throw new Error("Failed to fetch licences");
+    return response;
+  } catch (error) {
+    console.error("Error fetching licences:", error);
     throw error;
   }
 }
