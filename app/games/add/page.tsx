@@ -1,15 +1,17 @@
-import { fetchAllGames, fetchPlatforms } from "@/app/lib/data";
+import { fetchAllGames, fetchLicences, fetchPlatforms } from "@/app/lib/data";
 import { Metadata } from "next";
 import GameForm from "@/app/ui/game-form";
 import { headers } from "next/headers";
+import { licences } from "@/app/lib/licences";
 
 export const metadata: Metadata = {
   title: "Add Game",
 };
 
 export default async function Page() {
-  const [platforms, allGames] = await Promise.all([
+  const [platforms, licences, allGames] = await Promise.all([
     fetchPlatforms(),
+    fetchLicences(),
     fetchAllGames(),
   ]);
 
@@ -21,6 +23,7 @@ export default async function Page() {
       <GameForm
         mode="add"
         platforms={platforms}
+        licences={licences}
         allGames={allGames}
         referrer={referrer}
       />
