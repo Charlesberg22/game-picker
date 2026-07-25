@@ -10,7 +10,7 @@ export type GamesTable = {
   prequel_id: number | null;
   prequel_required: boolean;
   hltb_time: number;
-  tried: boolean;
+  to_play: boolean;
   finished: boolean;
   rating: string;
   when_played: string;
@@ -22,6 +22,11 @@ export type GamesTable = {
 export type Platform = {
   platform_id: number;
   platform_name: string;
+};
+
+export type Licence = {
+  licence_id: number;
+  licence_name: string;
 };
 
 export type Stats = {

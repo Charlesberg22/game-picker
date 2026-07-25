@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "ts-node src/app/api/migrations.ts"
+    "migrate": "node ./app/api/migrate-v3.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -46,6 +46,7 @@
     "prettier": "^3.7.4",
     "tailwindcss": "^3.4.19",
     "ts-node": "^10.9.2",
+    "tsx": "^4.23.1",
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001",

@@ -42,7 +42,7 @@ const FormSchema = z.object({
     .pipe(z.coerce.boolean()),
   prequel_id: z.string(),
   hltb_time: z.string(),
-  tried: z.coerce.boolean().nullable(),
+  to_play: z.coerce.boolean(),
   finished: z.coerce.boolean().nullable(),
   rating: z.coerce.number().gte(0).lte(10),
   when_played: z.string().nullable(),
@@ -87,7 +87,7 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     handheld: formData.get("handheld"),
     prequel_id: formData.get("prequel_id"),
     hltb_time: formData.get("hltb_time"),
-    tried: formData.get("tried"),
+    to_play: formData.get("to_play"),
     finished: formData.get("finished"),
     rating: formData.get("rating"),
     when_played: formData.get("when_played"),
@@ -108,7 +108,7 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     handheld,
     prequel_id,
     hltb_time,
-    tried,
+    to_play,
     finished,
     rating,
     when_played
@@ -124,7 +124,7 @@ export async function updateGame(id: string, state: State, formData: FormData) {
           handheld = ?,
           prequel_id = CASE WHEN ? = "" THEN NULL ELSE ? END,
           hltb_time = ?,
-          tried = ?,
+          to_play = ?,
           finished = ?,
           rating = CASE WHEN ? <= 0 THEN NULL ELSE ? END
         WHERE game_id = ?
@@ -140,7 +140,7 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     prequel_id,
     prequel_id,
     hltb_time,
-    tried,
+    to_play,
     finished,
     rating,
     rating,
@@ -179,7 +179,7 @@ export async function createGame(state: State, formData: FormData) {
     handheld: formData.get("handheld"),
     prequel_id: formData.get("prequel_id"),
     hltb_time: formData.get("hltb_time"),
-    tried: formData.get("tried"),
+    to_play: formData.get("to_play"),
     finished: formData.get("finished"),
     rating: formData.get("rating"),
     when_played: formData.get("when_played"),
@@ -209,14 +209,14 @@ export async function createGame(state: State, formData: FormData) {
     handheld,
     prequel_id,
     hltb_time,
-    tried,
+    to_play,
     finished,
     rating,
     when_played
   } = validatedFields.data;
 
   const createQuery = `
-        INSERT INTO games (name, platform_id, licence_id, play_platform_id, retro, handheld, prequel_id, hltb_time, tried, finished, rating)
+        INSERT INTO games (name, platform_id, licence_id, play_platform_id, retro, handheld, prequel_id, hltb_time, to_play, finished, rating)
         VALUES (?, ?, ?, ?, ?, ?, CASE WHEN ? = "" THEN NULL ELSE ? END, ?, ?, ?, CASE WHEN ? <= 0 THEN NULL ELSE ? END)
     `;
 
@@ -230,7 +230,7 @@ export async function createGame(state: State, formData: FormData) {
     prequel_id,
     prequel_id,
     hltb_time,
-    tried,
+    to_play,
     finished,
     rating,
     rating,

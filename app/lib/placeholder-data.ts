@@ -1,3 +1,5 @@
+// fix this whole thing for demo-picker
+
 export const platforms = [
   {
     platform_id: "1",
@@ -87,7 +89,7 @@ export const games = [
     handheld: "0",
     prequel_name: null,
     hltb_time: "2",
-    tried: "1",
+    to_play: "0",
     finished: "1",
     rating: "7.5",
     when_played: "2023-08-27",

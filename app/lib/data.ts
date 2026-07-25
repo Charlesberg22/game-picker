@@ -1,11 +1,11 @@
 import { dbAll, dbGet } from "../api/transactions";
-import { GamesTable, Platform, Stats } from "./definitions";
+import { GamesTable, Licence, Platform, Stats } from "./definitions";
 import { removeKeywords } from "./utils";
 
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {
     const response = (await dbAll(`
-    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, when_played, img
     FROM games
     JOIN platforms p_release ON games.platform_id = p_release.platform_id
     JOIN licences ON games.licence_id = licences.licence_id
@@ -49,7 +49,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
   if (query.includes("timeline")) {
     values.push("1", "1", "1", "%", "%", "timeline", "timeline");
   } else {
-    if (query.includes("tried")) {
+    if (query.includes("tried")) { //fix this shit
       values.push("1", "1", "1");
     } else if (query.includes("avoided")) {
       values.push("0", "0", "0");
@@ -68,7 +68,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
     values.push("", "");
   }
 
-  // tried and finished are treated differently due to their nullability
+  // finished are treated differently due to their nullability
   try {
     const response = (await dbAll(
       `
@@ -84,7 +84,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
         handheld,
         prequel_id,
         hltb_time,
-        tried,
+        to_play,
         finished,
         rating,
         when_played,
@@ -93,7 +93,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
           SELECT
             CASE
               WHEN prequel.game_id = games.prequel_id
-              AND prequel.tried IS NULL
+              AND prequel.to_play IS 1
                 THEN 1
               ELSE 0
             END
@@ -114,7 +114,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
       AND retro LIKE ?
       AND handheld LIKE ?
       AND prequel_required LIKE ?
-      AND (? = '%' OR (? = 'null' AND tried IS NULL) OR tried LIKE ?)
+      AND (? = '%' OR (? = 'null' AND to_play IS NULL) OR to_play LIKE ?)
       AND (finished = ? OR ? = '%')
       ORDER BY 
         CASE
@@ -181,33 +181,44 @@ export async function fetchPlatforms(): Promise<Platform[]> {
   }
 }
 
+export async function fetchLicences(): Promise<Licence[]> {
+  try {
+    const response = (await dbAll(`SELECT * FROM licences`)) as Licence[];
+    if (!response) throw new Error("Failed to fetch licences");
+    return response;
+  } catch (error) {
+    console.error("Error fetching licences:", error);
+    throw error;
+  }
+}
+
 export async function checkUnplayedStats(): Promise<Stats> {
   try {
     const response = (await dbGet(`
       SELECT (
         SELECT COUNT(*)
         FROM games
-        WHERE tried IS NULL
+        WHERE to_play = 1
       ) AS number_of_games,
       ( SELECT SUM(hltb_time)
 	      FROM games
-	      WHERE tried IS NULL
+	      WHERE to_play = 1
       ) AS total_length,
       ( SELECT COUNT(*)
         FROM games
-        WHERE tried IS NULL AND retro = 1
+        WHERE to_play = 1 AND retro = 1
       ) AS number_of_retro,
       ( SELECT COUNT(*)
         FROM games
-        WHERE tried IS NULL AND retro = 0
+        WHERE to_play = 1 AND retro = 0
       ) AS number_of_modern,
       ( SELECT COUNT(*)
         FROM games
-        WHERE tried IS NULL AND handheld = 1
+        WHERE to_play = 1 AND handheld = 1
       ) AS number_of_handheld,
       ( SELECT COUNT(*)
         FROM games
-        WHERE tried IS NULL AND handheld = 0
+        WHERE to_play = 1 AND handheld = 0
       ) AS number_of_desktop
     `)) as Stats;
     if (!response) throw new Error("Failed to fetch platforms");
@@ -230,30 +241,30 @@ export async function checkUnplayedStats(): Promise<Stats> {
   }
 }
 
-// number_of_games is just played, excludes ignored from totals
+// number_of_games is just played, excludes ignored from totals TODO: fix to_play to use play history
 export async function checkPlayedStats(): Promise<Stats> {
   try {
     const response = (await dbGet(`
       SELECT (
         SELECT COUNT(*)
         FROM games
-        WHERE tried = 1
+        WHERE to_play = 0
       ) AS number_of_games,
       ( SELECT COUNT(*)
         FROM games
-        WHERE tried = 1 AND retro = 1
+        WHERE to_play = 0 AND retro = 1
       ) AS number_of_retro,
       ( SELECT COUNT(*)
         FROM games
-        WHERE tried = 1 AND retro = 0
+        WHERE to_play = 0 AND retro = 0
       ) AS number_of_modern,
       ( SELECT COUNT(*)
         FROM games
-        WHERE tried = 1 AND handheld = 1
+        WHERE to_play = 0 AND handheld = 1
       ) AS number_of_handheld,
       ( SELECT COUNT(*)
         FROM games
-        WHERE tried = 1 AND handheld = 0
+        WHERE to_play = 0 AND handheld = 0
       ) AS number_of_desktop
     `)) as Stats;
     if (!response) throw new Error("Failed to fetch platforms");
@@ -278,20 +289,20 @@ export async function fetchGameOptions(
   try {
     const response = (await dbAll(
       `
-      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, licences.licence_name AS licence_name, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, tried, finished, rating, img
+      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, licences.licence_name AS licence_name, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, img
       FROM games
       JOIN platforms p_release ON games.platform_id = p_release.platform_id
       JOIN licences ON games.licence_id = licences.licence_id
       JOIN platforms p_play ON games.play_platform_id = p_play.platform_id
       WHERE retro = ?
       AND handheld = ?
-      AND tried IS NULL
+      AND to_play = 1
       AND (prequel_id IS NULL OR
           EXISTS (
               SELECT 1
               FROM games AS prequel
               WHERE prequel.game_id = games.prequel_id
-              AND prequel.tried IS NOT NULL
+              AND prequel.to_play = 0
           )
       )`,
       [String(Number(retro)), String(Number(handheld))],
@@ -304,16 +315,17 @@ export async function fetchGameOptions(
   }
 }
 
+// fix to_play and use when_played
 export async function fetchGameTimeline(): Promise<GamesTable[]> {
   try {
     const response = (await dbAll(`
-      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, games.licence_id, games.play_platform_id, retro, handheld, prequel_id, hltb_time, tried, finished, rating, when_played, img
+      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, games.licence_id, games.play_platform_id, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, when_played, img
       FROM games
       JOIN platforms p_release ON games.platform_id = p_release.platform_id
       JOIN licences ON games.licence_id = licences.licence_id
       JOIN platforms p_play ON games.play_platform_id = p_play.platform_id
       LEFT JOIN play_history ON play_history.game_id = games.game_id
-      WHERE tried = 1
+      WHERE to_play = 0
       ORDER by when_played, hltb_time DESC
     `)) as GamesTable[];
     if (!response) throw new Error("Failed to fetch game");
