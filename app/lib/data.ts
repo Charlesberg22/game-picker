@@ -1,3 +1,4 @@
+import { endOfToday } from "date-fns";
 import { dbAll, dbGet } from "../api/transactions";
 import { GamesTable, Licence, Platform, Stats } from "./definitions";
 import { removeKeywords } from "./utils";
@@ -5,7 +6,7 @@ import { removeKeywords } from "./utils";
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {
     const response = (await dbAll(`
-    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, when_played, img
+    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, when_played, img, release_date
     FROM games
     JOIN platforms p_release ON games.platform_id = p_release.platform_id
     JOIN licences ON games.licence_id = licences.licence_id
@@ -89,6 +90,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
         rating,
         when_played,
         img,
+        release_date,
         COALESCE((
           SELECT
             CASE
@@ -289,7 +291,7 @@ export async function fetchGameOptions(
   try {
     const response = (await dbAll(
       `
-      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, licences.licence_name AS licence_name, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, img
+      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, licences.licence_name AS licence_name, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, img, release_date
       FROM games
       JOIN platforms p_release ON games.platform_id = p_release.platform_id
       JOIN licences ON games.licence_id = licences.licence_id
@@ -304,8 +306,12 @@ export async function fetchGameOptions(
               WHERE prequel.game_id = games.prequel_id
               AND prequel.to_play = 0
           )
+      )
+      AND (
+        release_date IS NULL
+        OR release_date <= ?
       )`,
-      [String(Number(retro)), String(Number(handheld))],
+      [String(Number(retro)), String(Number(handheld)), new Date().toISOString().split("T")[0]],
     )) as GamesTable[];
     if (!response) throw new Error("Failed to fetch game");
     return response;
@@ -319,7 +325,7 @@ export async function fetchGameOptions(
 export async function fetchGameTimeline(): Promise<GamesTable[]> {
   try {
     const response = (await dbAll(`
-      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, games.licence_id, games.play_platform_id, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, when_played, img
+      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, games.licence_id, games.play_platform_id, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, when_played, img, release_date
       FROM games
       JOIN platforms p_release ON games.platform_id = p_release.platform_id
       JOIN licences ON games.licence_id = licences.licence_id

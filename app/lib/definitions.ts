@@ -17,6 +17,7 @@ export type GamesTable = {
   img: string;
   play_platform_name: string;
   licence_name: string;
+  release_date: string;
 };
 
 export type Platform = {

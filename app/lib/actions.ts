@@ -46,6 +46,7 @@ const FormSchema = z.object({
   finished: z.coerce.boolean().nullable(),
   rating: z.coerce.number().gte(0).lte(10),
   when_played: z.string().nullable(),
+  release_date: z.string().nullable(),
 });
 
 export async function deleteGame(id: string) {
@@ -91,6 +92,7 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     finished: formData.get("finished"),
     rating: formData.get("rating"),
     when_played: formData.get("when_played"),
+    release_date: formData.get("release_date"),
   });
 
   if (!validatedFields.success) {
@@ -111,7 +113,8 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     to_play,
     finished,
     rating,
-    when_played
+    when_played,
+    release_date,
   } = validatedFields.data;
 
   const updateQuery = `
@@ -126,7 +129,8 @@ export async function updateGame(id: string, state: State, formData: FormData) {
           hltb_time = ?,
           to_play = ?,
           finished = ?,
-          rating = CASE WHEN ? <= 0 THEN NULL ELSE ? END
+          rating = CASE WHEN ? <= 0 THEN NULL ELSE ? END,
+          release_date = ?
         WHERE game_id = ?
     `;
 
@@ -144,6 +148,7 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     finished,
     rating,
     rating,
+    release_date,
     id,
   ] as string[];
 
@@ -183,6 +188,7 @@ export async function createGame(state: State, formData: FormData) {
     finished: formData.get("finished"),
     rating: formData.get("rating"),
     when_played: formData.get("when_played"),
+    release_date: formData.get("release_date"),
   });
 
   if (!validatedFields.success) {
@@ -196,6 +202,7 @@ export async function createGame(state: State, formData: FormData) {
         retro: formData.get("retro") as string,
         handheld: formData.get("handheld") as string,
         prequel_id: formData.get("prequel_id") as string,
+        release_date: formData.get("release_date") as string,
       },
     };
   }
@@ -212,12 +219,13 @@ export async function createGame(state: State, formData: FormData) {
     to_play,
     finished,
     rating,
-    when_played
+    when_played,
+    release_date,
   } = validatedFields.data;
 
   const createQuery = `
-        INSERT INTO games (name, platform_id, licence_id, play_platform_id, retro, handheld, prequel_id, hltb_time, to_play, finished, rating)
-        VALUES (?, ?, ?, ?, ?, ?, CASE WHEN ? = "" THEN NULL ELSE ? END, ?, ?, ?, CASE WHEN ? <= 0 THEN NULL ELSE ? END)
+        INSERT INTO games (name, platform_id, licence_id, play_platform_id, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, release_date)
+        VALUES (?, ?, ?, ?, ?, ?, CASE WHEN ? = "" THEN NULL ELSE ? END, ?, ?, ?, CASE WHEN ? <= 0 THEN NULL ELSE ? END, ?)
     `;
 
   const values = [
@@ -234,6 +242,7 @@ export async function createGame(state: State, formData: FormData) {
     finished,
     rating,
     rating,
+    release_date,
   ] as string[];
 
   // unavoidable promise waterfall as each relies on the last

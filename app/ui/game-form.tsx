@@ -222,6 +222,37 @@ export default function GameForm({
               )}
             </div>
 
+            {/* Release Date */}
+            <div className="mb-4">
+              <label
+                htmlFor="release_date"
+                className="mb-2 block text-sm font-medium"
+              >
+                Release date (of original or remake)
+              </label>
+              <div className="relative mt-2 rounded-md">
+                <div className="relative">
+                  <input
+                    id="release_date"
+                    name="release_date"
+                    type="date"
+                    defaultValue={(() => {
+                      if (!game?.release_date) return "";
+
+                      const releaseDate = new Date(game.release_date);
+
+                      if (isNaN(releaseDate.getTime())) return "";
+
+                      return releaseDate.toISOString().split("T")[0];
+                    })()}
+                    placeholder="Enter release date"
+                    className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  />
+                  <CalendarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                </div>
+              </div>
+            </div>
+
             {/* Retro or Modern */}
             <fieldset className="mb-4">
               <legend className="mb-2 block text-sm font-medium">
@@ -480,7 +511,7 @@ export default function GameForm({
                     name="rating"
                     type="number"
                     step="0.5"
-                    defaultValue={game?.rating !== null ? Number(game?.rating) : ""}
+                    defaultValue={game?.rating != null ? Number(game?.rating) : ""}
                     placeholder="Enter rating once played"
                     className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   />
