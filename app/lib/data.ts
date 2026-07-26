@@ -1,3 +1,4 @@
+import { endOfToday } from "date-fns";
 import { dbAll, dbGet } from "../api/transactions";
 import { GamesTable, Licence, Platform, Stats } from "./definitions";
 import { removeKeywords } from "./utils";
@@ -305,8 +306,12 @@ export async function fetchGameOptions(
               WHERE prequel.game_id = games.prequel_id
               AND prequel.to_play = 0
           )
+      )
+      AND (
+        release_date IS NULL
+        OR release_date <= ?
       )`,
-      [String(Number(retro)), String(Number(handheld))],
+      [String(Number(retro)), String(Number(handheld)), new Date().toISOString().split("T")[0]],
     )) as GamesTable[];
     if (!response) throw new Error("Failed to fetch game");
     return response;
