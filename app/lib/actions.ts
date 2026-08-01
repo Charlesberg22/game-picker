@@ -45,7 +45,6 @@ const FormSchema = z.object({
   to_play: z.coerce.boolean(),
   finished: z.coerce.boolean().nullable(),
   rating: z.coerce.number().gte(0).lte(10),
-  when_played: z.string().nullable(),
   release_date: z.string().nullable(),
 });
 
@@ -79,6 +78,8 @@ export async function deleteGame(id: string) {
 const UpdateGame = FormSchema.omit({ game_id: true });
 
 export async function updateGame(id: string, state: State, formData: FormData) {
+  const whenPlayed = formData.getAll("when_played") as string[];
+  
   const validatedFields = UpdateGame.safeParse({
     name: formData.get("name"),
     platform_id: formData.get("platform_id"),
@@ -91,7 +92,6 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     to_play: formData.get("to_play"),
     finished: formData.get("finished"),
     rating: formData.get("rating"),
-    when_played: formData.get("when_played"),
     release_date: formData.get("release_date"),
   });
 
@@ -113,7 +113,6 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     to_play,
     finished,
     rating,
-    when_played,
     release_date,
   } = validatedFields.data;
 
@@ -157,11 +156,13 @@ export async function updateGame(id: string, state: State, formData: FormData) {
 
     await dbRun(`DELETE FROM play_history WHERE game_id = ?`, [id]);
 
-    if (when_played?.trim()) {
-    await dbRun(
-    `INSERT INTO play_history (game_id, when_played) VALUES (?, ?)`,
-    [id, when_played],
-      );
+    if (whenPlayed) {
+      for (const date of whenPlayed) {
+        await dbRun(
+        `INSERT INTO play_history (game_id, when_played) VALUES (?, ?)`,
+        [id, date],
+          );
+      }
     }
   } catch (error: any) {
     console.error("Error updating game:", error.message);
@@ -175,6 +176,8 @@ export async function updateGame(id: string, state: State, formData: FormData) {
 const CreateGame = FormSchema.omit({ game_id: true });
 
 export async function createGame(state: State, formData: FormData) {
+  const whenPlayed = formData.getAll("when_played") as string[];
+
   const validatedFields = CreateGame.safeParse({
     name: formData.get("name"),
     platform_id: formData.get("platform_id"),
@@ -187,7 +190,6 @@ export async function createGame(state: State, formData: FormData) {
     to_play: formData.get("to_play"),
     finished: formData.get("finished"),
     rating: formData.get("rating"),
-    when_played: formData.get("when_played"),
     release_date: formData.get("release_date"),
   });
 
@@ -219,7 +221,6 @@ export async function createGame(state: State, formData: FormData) {
     to_play,
     finished,
     rating,
-    when_played,
     release_date,
   } = validatedFields.data;
 
@@ -250,11 +251,13 @@ export async function createGame(state: State, formData: FormData) {
     await dbRun(createQuery, values);
     const id = await fetchLastRowId();
     const game = await fetchGameById(id);
-    if (when_played?.trim()) {
-    await dbRun(
-    `INSERT INTO play_history (game_id, when_played) VALUES (?, ?)`,
-    [id, when_played],
-      );
+    if (whenPlayed) {
+      for (const date of whenPlayed) {
+        await dbRun(
+        `INSERT INTO play_history (game_id, when_played) VALUES (?, ?)`,
+        [id, date],
+          );
+      }
     }
     await saveImagesToDb(game);
   } catch (error: any) {

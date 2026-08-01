@@ -6,12 +6,13 @@ import { removeKeywords } from "./utils";
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {
     const response = (await dbAll(`
-    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, when_played, img, release_date
+    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, MAX(play_history.when_played) AS when_played, img, release_date
     FROM games
     JOIN platforms p_release ON games.platform_id = p_release.platform_id
     JOIN licences ON games.licence_id = licences.licence_id
     JOIN platforms p_play ON games.play_platform_id = p_play.platform_id
     LEFT JOIN play_history ON play_history.game_id = games.game_id
+    GROUP BY games.game_id
     `)) as GamesTable[];
     if (!response) throw new Error("Failed to fetch games");
     return response;
@@ -88,7 +89,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
         to_play,
         finished,
         rating,
-        when_played,
+        MAX(play_history.when_played) as when_played,
         img,
         release_date,
         COALESCE((
@@ -118,6 +119,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
       AND prequel_required LIKE ?
       AND (? = '%' OR (? = 'null' AND to_play IS NULL) OR to_play LIKE ?)
       AND (finished = ? OR ? = '%')
+      GROUP BY games.game_id
       ORDER BY 
         CASE
           WHEN ? = 'timeline' THEN when_played
@@ -139,22 +141,35 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
 }
 
 export async function fetchGameById(id: string): Promise<GamesTable> {
+  type GameRow = Omit<GamesTable, "when_played"> & {
+    when_played: string | null;
+  };
+
   try {
-    const response = (await dbGet(
+    const response = (await dbAll(
       `
       SELECT
         games.*,
-        MAX(play_history.when_played) AS when_played
+        play_history.when_played
       FROM games
       LEFT JOIN play_history
         ON play_history.game_id = games.game_id
       WHERE games.game_id = ?
-      GROUP BY games.game_id
       `,
       [id],
-    )) as GamesTable;
+    )) as (GameRow)[];
     if (!response) throw new Error("Failed to fetch game");
-    return response;
+    const game = response[0];
+
+    console.log(response);
+    console.log(Array.isArray(response));
+
+    return {
+      ...game,
+      when_played: response
+        .map((row) => row.when_played)
+        .filter((date): date is string => date !== null),
+    };
   } catch (error) {
     console.error("Error fetching game:", error);
     throw error;

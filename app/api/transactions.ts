@@ -2,12 +2,12 @@ import { db } from "./database";
 
 export const dbAll = async (query: string, values?: string[]) => {
   return await new Promise((resolve, reject) => {
-    db.all(query, values, (error: Error, row: any) => {
+    db.all(query, values, (error: Error, rows: any[]) => {
       if (error) {
         console.log(error);
         return reject(error);
       }
-      return resolve(row);
+      return resolve(rows);
     });
   });
 };
