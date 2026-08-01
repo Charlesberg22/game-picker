@@ -13,7 +13,7 @@ export type GamesTable = {
   to_play: boolean;
   finished: boolean;
   rating: string;
-  when_played: string;
+  when_played: string[];
   img: string;
   play_platform_name: string;
   licence_name: string;

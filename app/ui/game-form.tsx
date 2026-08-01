@@ -40,6 +40,12 @@ export default function GameForm({
   const [hltbTime, setHltbTime] = useState<number | string>(
     game?.hltb_time || "",
   );
+
+  const [playDates, setPlayDates] = useState<string[]>(
+    game?.when_played ?? []
+  );
+  const [newPlayDate, setNewPlayDate] = useState("");
+
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   function updateHltb(nameFieldValue: string) {
@@ -79,6 +85,11 @@ export default function GameForm({
   }
 
   const [state, action] = useActionState(useGameFormAction, undefined);
+
+  function formatDate(date: string) {
+  const [year, month, day] = date.split("-");
+  return `${day}/${month}/${year}`;
+}
 
   return (
     <div>
@@ -526,28 +537,61 @@ export default function GameForm({
                 htmlFor="when_played"
                 className="mb-2 block text-sm font-medium"
               >
-                When did you finish playing it?
+                When did you play it?
               </label>
-              <div className="relative mt-2 rounded-md">
-                <div className="relative">
+
+              {/* Existing dates */}
+              <div className="mb-2 flex flex-wrap gap-2">
+                {playDates.map((date) => (
+                  <div
+                    key={date}
+                    className="flex items-center gap-2 rounded-full bg-purple-500 px-3 py-1.5 text-sm text-white"
+                  >
+                  {formatDate(date)}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setPlayDates(playDates.filter((d) => d !== date))
+                    }
+                    className="font-bold"
+                  >
+                    x
+                  </button>
+
                   <input
-                    id="when_played"
+                    type="hidden"
                     name="when_played"
-                    type="date"
-                    defaultValue={(() => {
-                      if (!game?.when_played) return "";
-
-                      const whenPlayedDate = new Date(game.when_played);
-
-                      if (isNaN(whenPlayedDate.getTime())) return "";
-
-                      return whenPlayedDate.toISOString().split("T")[0];
-                    })()}
-                    placeholder="Enter date played"
-                    className="peer block w-full rounded-md bg-green-50 text-black border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                    value={date}
                   />
-                  <CalendarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                 </div>
+                ))}
+              </div>
+
+              {/* Add date */}
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="date"
+                    value={newPlayDate}
+                    onChange={(e) => setNewPlayDate(e.target.value)}
+                    className="peer block h-10 w-full rounded-md border border-gray-200 bg-green-50 py-2 pl-10 text-sm text-black"
+                  />
+
+                  <CalendarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!newPlayDate || playDates.includes(newPlayDate)) return;
+
+                    setPlayDates([...playDates, newPlayDate]);
+                    setNewPlayDate("");
+                  }}
+                  className="h-10 rounded-lg bg-indigo-500 px-4 text-sm font-medium text-white hover:bg-indigo-800"
+                >
+                  Add
+                </button>
               </div>
             </div>
           </div>

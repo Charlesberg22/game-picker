@@ -139,22 +139,35 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
 }
 
 export async function fetchGameById(id: string): Promise<GamesTable> {
+  type GameRow = Omit<GamesTable, "when_played"> & {
+    when_played: string | null;
+  };
+
   try {
-    const response = (await dbGet(
+    const response = (await dbAll(
       `
       SELECT
         games.*,
-        MAX(play_history.when_played) AS when_played
+        play_history.when_played
       FROM games
       LEFT JOIN play_history
         ON play_history.game_id = games.game_id
       WHERE games.game_id = ?
-      GROUP BY games.game_id
       `,
       [id],
-    )) as GamesTable;
+    )) as (GameRow)[];
     if (!response) throw new Error("Failed to fetch game");
-    return response;
+    const game = response[0];
+
+    console.log(response);
+    console.log(Array.isArray(response));
+
+    return {
+      ...game,
+      when_played: response
+        .map((row) => row.when_played)
+        .filter((date): date is string => date !== null),
+    };
   } catch (error) {
     console.error("Error fetching game:", error);
     throw error;

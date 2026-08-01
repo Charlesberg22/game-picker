@@ -91,7 +91,6 @@ export async function updateGame(id: string, state: State, formData: FormData) {
     to_play: formData.get("to_play"),
     finished: formData.get("finished"),
     rating: formData.get("rating"),
-    when_played: formData.get("when_played"),
     release_date: formData.get("release_date"),
   });
 
@@ -157,11 +156,13 @@ export async function updateGame(id: string, state: State, formData: FormData) {
 
     await dbRun(`DELETE FROM play_history WHERE game_id = ?`, [id]);
 
-    if (when_played?.trim()) {
-    await dbRun(
-    `INSERT INTO play_history (game_id, when_played) VALUES (?, ?)`,
-    [id, when_played],
-      );
+    if (when_played) {
+      for (const date of when_played) {
+        await dbRun(
+        `INSERT INTO play_history (game_id, when_played) VALUES (?, ?)`,
+        [id, date],
+          );
+      }
     }
   } catch (error: any) {
     console.error("Error updating game:", error.message);
