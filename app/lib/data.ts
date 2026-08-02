@@ -6,7 +6,7 @@ import { removeKeywords } from "./utils";
 export async function fetchAllGames(): Promise<GamesTable[]> {
   try {
     const response = (await dbAll(`
-    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, MAX(play_history.when_played) AS when_played, img, release_date
+    SELECT games.game_id, p_release.platform_name, name, games.licence_id, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, MAX(play_history.when_played) AS latest_played, img, release_date
     FROM games
     JOIN platforms p_release ON games.platform_id = p_release.platform_id
     JOIN licences ON games.licence_id = licences.licence_id
@@ -89,7 +89,7 @@ export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
         to_play,
         finished,
         rating,
-        MAX(play_history.when_played) as when_played,
+        MAX(play_history.when_played) as latest_played,
         img,
         release_date,
         COALESCE((
@@ -160,9 +160,6 @@ export async function fetchGameById(id: string): Promise<GamesTable> {
     )) as (GameRow)[];
     if (!response) throw new Error("Failed to fetch game");
     const game = response[0];
-
-    console.log(response);
-    console.log(Array.isArray(response));
 
     return {
       ...game,
