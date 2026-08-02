@@ -14,6 +14,7 @@ export type GamesTable = {
   finished: boolean;
   rating: string;
   when_played: string[];
+  latest_played: string;
   img: string;
   play_platform_name: string;
   licence_name: string;
