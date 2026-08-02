@@ -174,7 +174,7 @@ export default function GenericGamesTable({
                   )}
                   {!randomiser && (
                     <td className="hidden md:table-cell whitespace-nowrap px-3 py-3">
-                      {formatDate(game.when_played[0])}
+                      {formatDate(game?.when_played[0])}
                     </td>
                   )}
                   {randomiser && (
