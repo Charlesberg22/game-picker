@@ -1,7 +1,7 @@
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import {
   checkPlayedStats,
-  checkUnplayedStats,
+  checkToPlayStats,
   fetchGameOptions,
 } from "../lib/data";
 import GenericGamesTable from "../ui/generic-table";
@@ -14,15 +14,15 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const [unplayedStats, playedStats] = await Promise.all([
-    checkUnplayedStats(),
+  const [toPlayStats, playedStats] = await Promise.all([
+    checkToPlayStats(),
     checkPlayedStats(),
   ]);
 
   // overall ratio of modern to retro including played and unplayed (but not skipped)
   const overall_ratio_modern_retro =
-    (unplayedStats.number_of_modern + playedStats.number_of_modern) /
-    (unplayedStats.number_of_retro + playedStats.number_of_retro);
+    (toPlayStats.number_of_modern + playedStats.number_of_modern) /
+    (toPlayStats.number_of_retro + playedStats.number_of_retro);
 
   // boolean testing whether the ratio of played modern:retro games is greater than the overall ratio of modern: retro games
   const moreModernGamesPlayed =
@@ -47,8 +47,8 @@ export default async function Page() {
 
   // as above for desktop:handheld
   const overall_ratio_desktop_handheld =
-    (unplayedStats.number_of_desktop + playedStats.number_of_desktop) /
-    (unplayedStats.number_of_handheld + playedStats.number_of_handheld);
+    (toPlayStats.number_of_desktop + playedStats.number_of_desktop) /
+    (toPlayStats.number_of_handheld + playedStats.number_of_handheld);
 
   const moreDesktopGamesPlayed =
     overall_ratio_desktop_handheld < playedStats.ratio_desktop_handheld;

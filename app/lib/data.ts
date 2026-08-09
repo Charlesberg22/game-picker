@@ -206,7 +206,7 @@ export async function fetchLicences(): Promise<Licence[]> {
   }
 }
 
-export async function checkUnplayedStats(): Promise<Stats> {
+export async function checkToPlayStats(): Promise<Stats> {
   try {
     const response = (await dbGet(`
       SELECT (
@@ -255,30 +255,72 @@ export async function checkUnplayedStats(): Promise<Stats> {
   }
 }
 
-// number_of_games is just played, excludes ignored from totals TODO: fix to_play to use play history
+// number_of_games is just played, excludes ignored from totals
 export async function checkPlayedStats(): Promise<Stats> {
+  try {
+    const response = (await dbGet(`
+      SELECT (
+        SELECT COUNT(DISTINCT game_id)
+        FROM play_history
+      ) AS number_of_games,
+      ( SELECT COUNT(*)
+        FROM play_history
+        INNER JOIN games ON games.game_id = play_history.game_id
+        WHERE retro = 1
+      ) AS number_of_retro,
+      ( SELECT COUNT(*)
+        FROM play_history
+        INNER JOIN games ON games.game_id = play_history.game_id
+        WHERE retro = 0
+      ) AS number_of_modern,
+      ( SELECT COUNT(*)
+        FROM play_history
+        INNER JOIN games ON games.game_id = play_history.game_id
+        WHERE handheld = 1
+      ) AS number_of_handheld,
+      ( SELECT COUNT(*)
+        FROM play_history
+        INNER JOIN games ON games.game_id = play_history.game_id
+        WHERE handheld = 0
+      ) AS number_of_desktop
+    `)) as Stats;
+    if (!response) throw new Error("Failed to fetch platforms");
+
+    response.ratio_modern_retro =
+      response.number_of_modern / response.number_of_retro;
+
+    response.ratio_desktop_handheld =
+      response.number_of_desktop / response.number_of_handheld;
+
+    return response;
+  } catch (error) {
+    console.error("Error fetching platforms:", error);
+    return {} as Stats;
+  }
+}
+
+export async function checkBaselineStats(): Promise<Stats> {
   try {
     const response = (await dbGet(`
       SELECT (
         SELECT COUNT(*)
         FROM games
-        WHERE to_play = 0
       ) AS number_of_games,
       ( SELECT COUNT(*)
         FROM games
-        WHERE to_play = 0 AND retro = 1
+        WHERE retro = 1
       ) AS number_of_retro,
       ( SELECT COUNT(*)
         FROM games
-        WHERE to_play = 0 AND retro = 0
+        WHERE retro = 0
       ) AS number_of_modern,
       ( SELECT COUNT(*)
         FROM games
-        WHERE to_play = 0 AND handheld = 1
+        WHERE handheld = 1
       ) AS number_of_handheld,
       ( SELECT COUNT(*)
         FROM games
-        WHERE to_play = 0 AND handheld = 0
+        WHERE handheld = 0
       ) AS number_of_desktop
     `)) as Stats;
     if (!response) throw new Error("Failed to fetch platforms");
