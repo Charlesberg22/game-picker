@@ -1,22 +1,24 @@
 import { Stats } from "@/app/lib/definitions";
 
 export default async function StatsTable({
-  unplayedStats,
+  toPlayStats,
   playedStats,
+  baselineStats,
 }: {
-  unplayedStats: Stats;
+  toPlayStats: Stats;
   playedStats: Stats;
+  baselineStats: Stats;
 }) {
   const overall_ratio_modern_retro =
     Math.round(
-      ((unplayedStats.number_of_modern + playedStats.number_of_modern) /
-        (unplayedStats.number_of_retro + playedStats.number_of_retro)) *
+      ((toPlayStats.number_of_modern + playedStats.number_of_modern) /
+        (toPlayStats.number_of_retro + playedStats.number_of_retro)) *
         10,
     ) / 10;
   const overall_ratio_desktop_handheld =
     Math.round(
-      ((unplayedStats.number_of_desktop + playedStats.number_of_desktop) /
-        (unplayedStats.number_of_handheld + playedStats.number_of_handheld)) *
+      ((toPlayStats.number_of_desktop + playedStats.number_of_desktop) /
+        (toPlayStats.number_of_handheld + playedStats.number_of_handheld)) *
         10,
     ) / 10;
 
@@ -41,34 +43,34 @@ export default async function StatsTable({
             <tbody className="bg-black">
               <tr className="w-full border-b py-3 text-sm">
                 <td className="whitespace-nowrap py-3 px-3">
-                  Total Number of Games
+                  Total Number of Games in Database
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
-                  {unplayedStats.number_of_games + playedStats.number_of_games}
+                  {baselineStats.number_of_games}
                 </td>
               </tr>
               <tr className="w-full border-b py-3 text-sm">
                 <td className="whitespace-nowrap py-3 px-3">
-                  Total Number of Games Remaining
+                  Number of Games To Play
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
-                  {unplayedStats.number_of_games}
+                  {toPlayStats.number_of_games}
                 </td>
               </tr>
               <tr className="w-full border-b py-3 text-sm">
                 <td className="whitespace-nowrap py-3 px-3">
-                  Total Unplayed Runtime
+                  Total To Play Runtime
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
-                  {unplayedStats.total_length} h
+                  {toPlayStats.total_length} h
                 </td>
               </tr>
               <tr className="w-full border-b py-3 text-sm">
                 <td className="whitespace-nowrap py-3 px-3">
-                  Average Unplayed Runtime
+                  Average To Play Runtime
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
-                  {unplayedStats.average_length} h
+                  {toPlayStats.average_length} h
                 </td>
               </tr>
               <tr className="w-full border-b py-3 text-sm">
@@ -76,8 +78,8 @@ export default async function StatsTable({
                   Number of Retro/Modern Games Remaining
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
-                  {unplayedStats.number_of_retro} /{" "}
-                  {unplayedStats.number_of_modern}
+                  {toPlayStats.number_of_retro} /{" "}
+                  {toPlayStats.number_of_modern}
                 </td>
               </tr>
               <tr className="w-full py-3 border-b text-sm">
@@ -85,8 +87,8 @@ export default async function StatsTable({
                   Number of Handheld/Desktop Games Remaining
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-end">
-                  {unplayedStats.number_of_handheld} /{" "}
-                  {unplayedStats.number_of_desktop}
+                  {toPlayStats.number_of_handheld} /{" "}
+                  {toPlayStats.number_of_desktop}
                 </td>
               </tr>
               <tr className="w-full py-3 border-b text-sm">
