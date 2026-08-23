@@ -338,21 +338,23 @@ export async function checkBaselineStats(): Promise<Stats> {
   }
 }
 
-export async function fetchGameOptions(
-  retro: boolean,
-  handheld: boolean,
-): Promise<GamesTable[]> {
+export async function fetchGameOptions(): Promise<GamesTable[]> {
   try {
     const response = (await dbAll(
       `
-      SELECT game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, licences.licence_name AS licence_name, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, img, release_date
+      SELECT games.game_id, games.platform_id, p_release.platform_name AS platform_name, games.name, licences.licence_name AS licence_name, p_play.platform_name AS play_platform_name, retro, handheld, prequel_id, hltb_time, to_play, finished, rating, img, release_date, play_history.when_played as latest_played
       FROM games
       JOIN platforms p_release ON games.platform_id = p_release.platform_id
       JOIN licences ON games.licence_id = licences.licence_id
       JOIN platforms p_play ON games.play_platform_id = p_play.platform_id
-      WHERE retro = ?
-      AND handheld = ?
-      AND to_play = 1
+      LEFT JOIN play_history
+        ON play_history.game_id = games.game_id
+        AND play_history.when_played = (
+          SELECT MAX(ph.when_played)
+          FROM play_history ph
+          WHERE ph.game_id = games.game_id
+        )
+      WHERE to_play = 1
       AND (prequel_id IS NULL OR
           EXISTS (
               SELECT 1
@@ -365,7 +367,7 @@ export async function fetchGameOptions(
         release_date IS NULL
         OR release_date <= ?
       )`,
-      [String(Number(retro)), String(Number(handheld)), new Date().toISOString().split("T")[0]],
+      [new Date().toISOString().split("T")[0]],
     )) as GamesTable[];
     if (!response) throw new Error("Failed to fetch game");
     return response;
@@ -393,5 +395,33 @@ export async function fetchGameTimeline(): Promise<GamesTable[]> {
   } catch (error) {
     console.error("Error fetching game:", error);
     return [] as GamesTable[];
+  }
+}
+
+export async function getEarliestReleaseDate(): Promise<string> {
+  try {
+    const response = (await dbGet(`
+      SELECT MIN(NULLIF(release_date, '')) AS earliest_release_date
+      FROM games
+    `)) as { earliest_release_date: string | null};
+        if (!response) throw new Error("Failed to fetch game");
+    return response.earliest_release_date ?? "";
+  } catch (error) {
+    console.error("Error fetching game:", error);
+    return "";
+  }
+}
+
+export async function getEarliestPlayedDate(): Promise<string> {
+  try {
+    const response = (await dbGet(`
+      SELECT MIN(when_played) AS earliest_play_date
+      FROM play_history;
+    `)) as { earliest_play_date: string | null};
+        if (!response) throw new Error("Failed to fetch game");
+    return response.earliest_play_date ?? "";
+  } catch (error) {
+    console.error("Error fetching game:", error);
+    return "";
   }
 }
