@@ -2,16 +2,76 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import {
   checkPlayedStats,
   checkToPlayStats,
+  fetchAllGames,
   fetchGameOptions,
+  getEarliestPlayedDate,
+  getEarliestReleaseDate,
 } from "../lib/data";
 import GenericGamesTable from "../ui/generic-table";
 import { refreshRandomGame } from "../lib/actions";
 import { Metadata } from "next";
 import GameCard from "../ui/game-card";
+import { GamesTable } from "../lib/definitions";
+import { buildSeriesMap } from "../lib/utils";
 
 export const metadata: Metadata = {
   title: "Randomiser",
 };
+
+type WeightedGame = GamesTable & {
+  weighting: number;
+};
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+async function calculateRandomWeight(games: GamesTable[], modernPreferred: boolean, desktopPreferred: boolean): Promise<WeightedGame[]> {
+  const [earliestReleaseDate, earliestPlayDate] = await Promise.all([
+    getEarliestReleaseDate(),
+    getEarliestPlayedDate(),
+  ]);
+    const allGames = await fetchAllGames();
+    const seriesMap = buildSeriesMap(allGames);
+
+  return games.map((game) => {
+    let weighting = 0;
+    if (game.retro != modernPreferred) {
+      weighting += 10;
+    }
+    if (game.handheld != desktopPreferred) {
+      weighting += 10;
+    }
+    weighting += ((seriesMap.get(game.game_id)?.length || 1) - 1);
+
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+    const todayTime = Date.now();
+
+    if (game.latest_played == null && game.release_date != null && game.release_date != "") {
+      const earliest = new Date(earliestReleaseDate).getTime();
+      const release = new Date(game.release_date).getTime();
+      const totalDays = (todayTime - earliest) / MS_PER_DAY;
+      const releaseDays = (release - earliest) / MS_PER_DAY;
+
+      weighting += 20 * Math.abs(releaseDays / totalDays - 0.5);
+    } else if (game.latest_played != null && game.latest_played != "") {
+      const earliest = new Date(earliestPlayDate).getTime();
+      const played = new Date(game.latest_played).getTime();
+      const playedDays = (todayTime - played) / MS_PER_DAY;
+      const totalDays = (todayTime - earliest) / MS_PER_DAY;
+
+      weighting += 10 * playedDays / totalDays;
+    }
+
+    if (game.licence_id != 6) {
+      weighting += 5
+    }
+    weighting -= game.hltb_time / 10;
+    
+    return {
+      ...game,
+      weighting,
+    };
+  });
+}
 
 export default async function Page() {
   const [toPlayStats, playedStats] = await Promise.all([
@@ -68,12 +128,19 @@ export default async function Page() {
         ),
       };
 
-  const games = await fetchGameOptions(
-    moreModernGamesPlayed,
-    moreDesktopGamesPlayed,
+  const games = await fetchGameOptions();
+
+  const weightedGames = await calculateRandomWeight(
+    games,
+    moreModernGamesPlayed ? false : true,
+    moreDesktopGamesPlayed ? false : true,
   );
 
-  const randomGame = games[Math.floor(Math.random() * games.length)];
+  weightedGames.sort((a, b) => b.weighting - a.weighting);
+
+  // update to use weighting in randomiser function
+  const randomGame =
+    weightedGames[Math.floor(Math.random() * weightedGames.length)];
 
   return (
     <div className="w-full">
@@ -107,7 +174,7 @@ export default async function Page() {
           <GameCard game={randomGame} />
         </label>
       </div>
-      <GenericGamesTable games={games} vertPos={"124px"} randomiser={true} />
+      <GenericGamesTable games={weightedGames} vertPos={"124px"} randomiser={true} />
     </div>
   );
 }
