@@ -33,12 +33,12 @@ async function calculateRandomWeight(games: GamesTable[], modernPreferred: boole
   return games.map((game) => {
     let weighting = 0;
     if (game.retro != modernPreferred) {
-      weighting += 10;
+      weighting += 20;
     }
     if (game.handheld != desktopPreferred) {
-      weighting += 10;
+      weighting += 20;
     }
-    weighting += ((seriesMap.get(game.game_id)?.length || 1) - 1);
+    weighting += 1.5 * ((seriesMap.get(game.game_id)?.length || 1) - 1);
 
     const MS_PER_DAY = 1000 * 60 * 60 * 24;
     const todayTime = Date.now();
@@ -49,20 +49,20 @@ async function calculateRandomWeight(games: GamesTable[], modernPreferred: boole
       const totalDays = (todayTime - earliest) / MS_PER_DAY;
       const releaseDays = (release - earliest) / MS_PER_DAY;
 
-      weighting += 20 * Math.abs(releaseDays / totalDays - 0.5);
+      weighting += 30 * Math.abs(releaseDays / totalDays - 0.5);
     } else if (game.latest_played != null && game.latest_played != "") {
       const earliest = new Date(earliestPlayDate).getTime();
       const played = new Date(game.latest_played).getTime();
       const playedDays = (todayTime - played) / MS_PER_DAY;
       const totalDays = (todayTime - earliest) / MS_PER_DAY;
 
-      weighting += 10 * playedDays / totalDays;
+      weighting += 15 * playedDays / totalDays;
     }
 
     if (game.licence_id != 6) {
-      weighting += 10
+      weighting += 20
     }
-    weighting -= game.hltb_time / 20;
+    weighting -= game.hltb_time / 40;
     
     return {
       ...game,
