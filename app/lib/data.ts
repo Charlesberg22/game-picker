@@ -403,6 +403,7 @@ export async function getEarliestReleaseDate(): Promise<string> {
     const response = (await dbGet(`
       SELECT MIN(NULLIF(release_date, '')) AS earliest_release_date
       FROM games
+      WHERE to_play = 1
     `)) as { earliest_release_date: string | null};
         if (!response) throw new Error("Failed to fetch game");
     return response.earliest_release_date ?? "";

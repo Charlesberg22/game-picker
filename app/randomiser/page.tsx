@@ -22,8 +22,6 @@ type WeightedGame = GamesTable & {
   weighting: number;
 };
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 async function calculateRandomWeight(games: GamesTable[], modernPreferred: boolean, desktopPreferred: boolean): Promise<WeightedGame[]> {
   const [earliestReleaseDate, earliestPlayDate] = await Promise.all([
     getEarliestReleaseDate(),
@@ -51,18 +49,18 @@ async function calculateRandomWeight(games: GamesTable[], modernPreferred: boole
       const totalDays = (todayTime - earliest) / MS_PER_DAY;
       const releaseDays = (release - earliest) / MS_PER_DAY;
 
-      weighting += 10 * Math.abs(releaseDays / totalDays - 0.5);
+      weighting += 20 * Math.abs(releaseDays / totalDays - 0.5);
     } else if (game.latest_played != null && game.latest_played != "") {
       const earliest = new Date(earliestPlayDate).getTime();
       const played = new Date(game.latest_played).getTime();
       const playedDays = (todayTime - played) / MS_PER_DAY;
       const totalDays = (todayTime - earliest) / MS_PER_DAY;
 
-      weighting += 5 * playedDays / totalDays;
+      weighting += 10 * playedDays / totalDays;
     }
 
     if (game.licence_id != 6) {
-      weighting += 15
+      weighting += 10
     }
     weighting -= game.hltb_time / 20;
     
@@ -71,6 +69,25 @@ async function calculateRandomWeight(games: GamesTable[], modernPreferred: boole
       weighting,
     };
   });
+}
+
+function getWeightedRandomGame(games: WeightedGame[]): WeightedGame {
+  const totalWeight = games.reduce(
+    (sum, game) => sum + game.weighting,
+    0,
+  );
+
+  let random = Math.random() * totalWeight;
+
+  for (const game of games) {
+    random -= game.weighting;
+
+    if (random <= 0) {
+      return game;
+    }
+  }
+
+  return games[games.length - 1];
 }
 
 export default async function Page() {
@@ -139,8 +156,7 @@ export default async function Page() {
   weightedGames.sort((a, b) => b.weighting - a.weighting);
 
   // update to use weighting in randomiser function
-  const randomGame =
-    weightedGames[Math.floor(Math.random() * weightedGames.length)];
+  const randomGame = getWeightedRandomGame(weightedGames);
 
   return (
     <div className="w-full">
