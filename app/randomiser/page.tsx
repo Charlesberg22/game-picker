@@ -73,14 +73,14 @@ async function calculateRandomWeight(games: GamesTable[], modernPreferred: boole
 
 function getWeightedRandomGame(games: WeightedGame[]): WeightedGame {
   const totalWeight = games.reduce(
-    (sum, game) => sum + game.weighting,
+    (sum, game) => sum + Math.pow(game.weighting, 3),
     0,
   );
 
   let random = Math.random() * totalWeight;
 
   for (const game of games) {
-    random -= game.weighting;
+    random -= Math.pow(game.weighting, 3);
 
     if (random <= 0) {
       return game;
