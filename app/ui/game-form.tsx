@@ -47,6 +47,7 @@ export default function GameForm({
   const [newPlayDate, setNewPlayDate] = useState("");
 
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const notToPlayRef = useRef<HTMLInputElement>(null);
 
   function updateHltb(nameFieldValue: string) {
     fetch(`/api/hltb?name=${encodeURIComponent(nameFieldValue)}`)
@@ -449,6 +450,7 @@ export default function GameForm({
                       id="not_to_play"
                       name="to_play"
                       type="radio"
+                      ref={notToPlayRef}
                       value=""
                       defaultChecked={game?.to_play == false}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
@@ -478,6 +480,9 @@ export default function GameForm({
                       type="radio"
                       value="true"
                       defaultChecked={game?.finished}
+                      onChange={() => {
+                        notToPlayRef.current?.click();
+                      }}
                       className="h-4 w-4 cursor-pointer border-green-300 bg-gray-100 text-gray-600 focus:ring-2"
                     />
                     <label
