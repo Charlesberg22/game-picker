@@ -83,7 +83,6 @@ export const keywords = [
   "avoided",
   "finished",
   "abandoned",
-  "timeline",
   "playable",
   "prequel",
 ];

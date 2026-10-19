@@ -8,11 +8,13 @@ import { DeleteGame } from "./delete-buttons";
 export default async function AllGamesTable({
   query,
   view,
+  timeline = false,
 }: {
   query: string;
   view: boolean;
+  timeline?: boolean;
 }) {
-  const games = await fetchFilteredGames(query);
+  const games = await fetchFilteredGames(query, timeline);
 
   return (
     <div>

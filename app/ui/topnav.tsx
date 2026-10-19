@@ -7,8 +7,10 @@ import clsx from "clsx";
 const links = [
   { name: "Home", href: "/" },
   { name: "Randomiser", href: "/randomiser" },
+  { name: "Timeline", href: "/timeline" },
   { name: "Stats", href: "/stats" },
   { name: "Series", href: "/series" },
+  { name: "Settings", href: "/settings"},
 ];
 
 function NavLinks() {

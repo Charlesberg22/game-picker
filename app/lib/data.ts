@@ -22,121 +22,166 @@ export async function fetchAllGames(): Promise<GamesTable[]> {
   }
 }
 
-export async function fetchFilteredGames(query: string): Promise<GamesTable[]> {
-  query = query.toLowerCase();
-  const words = query.split(" ");
-  const keywordLessQuery = words.filter(removeKeywords).join(" ");
-  const values = Array(4).fill(`%${keywordLessQuery}%`);
-  if (query.includes("retro")) {
-    values.push("1");
-  } else if (query.includes("modern")) {
-    values.push("0");
-  } else {
-    values.push("%");
-  }
-  if (query.includes("handheld")) {
-    values.push("1");
-  } else if (query.includes("desktop")) {
-    values.push("0");
-  } else {
-    values.push("%");
-  }
-  if (query.includes("prequel")) {
-    values.push("1");
-  } else if (query.includes("playable")) {
-    values.push("0");
-  } else {
-    values.push("%");
-  }
-  if (query.includes("timeline")) {
-    values.push("1", "1", "1", "%", "%", "timeline", "timeline");
-  } else {
-    if (query.includes("tried")) { //fix this shit
-      values.push("1", "1", "1");
-    } else if (query.includes("avoided")) {
-      values.push("0", "0", "0");
-    } else if (query.includes("tbc")) {
-      values.push("", "null", "");
-    } else {
-      values.push("%", "%", "%");
-    }
-    if (query.includes("finished")) {
-      values.push("1", "1");
-    } else if (query.includes("abandoned")) {
-      values.push("0", "0");
-    } else {
-      values.push("%", "%");
-    }
-    values.push("", "");
-  }
-
-  // finished are treated differently due to their nullability
-  try {
-    const response = (await dbAll(
+export async function fetchFilteredGames(query: string, timeline?: boolean): Promise<GamesTable[]> {
+  if (timeline) {
+      try {
+      const response = (await dbAll(
+        `
+        SELECT
+          games.game_id,
+          games.platform_id,
+          p_release.platform_name AS platform_name,
+          p_play.platform_name AS play_platform_name,
+          licences.licence_name AS licence_name,
+          games.name, games.licence_id,
+          games.play_platform_id,
+          retro,
+          handheld,
+          prequel_id,
+          hltb_time,
+          to_play,
+          finished,
+          rating,
+          img,
+          release_date,
+          play_history.when_played AS when_played
+        FROM games
+        JOIN platforms p_release ON games.platform_id = p_release.platform_id
+        JOIN licences ON games.licence_id = licences.licence_id
+        JOIN platforms p_play ON games.play_platform_id = p_play.platform_id
+        JOIN play_history ON play_history.game_id = games.game_id
+        ORDER BY when_played DESC
       `
-      SELECT
-        games.game_id,
-        games.platform_id,
-        p_release.platform_name AS platform_name,
-        p_play.platform_name AS play_platform_name,
-        licences.licence_name AS licence_name,
-        games.name, games.licence_id,
-        games.play_platform_id,
-        retro,
-        handheld,
-        prequel_id,
-        hltb_time,
-        to_play,
-        finished,
-        rating,
-        MAX(play_history.when_played) as latest_played,
-        img,
-        release_date,
-        COALESCE((
+      )) as GamesTable[];
+      if (!response) throw new Error("Failed to fetch games");
+      return response;
+    } catch (error) {
+      console.error("Error fetching games:", error);
+      return [];
+    }
+  } else {
+    query = query.toLowerCase();
+      const words = query.split(" ");
+      const keywordLessQuery = words.filter(removeKeywords).join(" ");
+      const values = Array(4).fill(`%${keywordLessQuery}%`);
+      if (query.includes("retro")) {
+        values.push("1");
+      } else if (query.includes("modern")) {
+        values.push("0");
+      } else {
+        values.push("%");
+      }
+      if (query.includes("handheld")) {
+        values.push("1");
+      } else if (query.includes("desktop")) {
+        values.push("0");
+      } else {
+        values.push("%");
+      }
+      if (query.includes("prequel")) {
+        values.push("1");
+      } else if (query.includes("playable")) {
+        values.push("0");
+      } else {
+        values.push("%");
+      }
+      const playStatus = query.includes("tried")
+        ? "tried"
+        : query.includes("avoided")
+          ? "avoided"
+          : query.includes("tbc")
+            ? "tbc"
+            : "";
+
+      const completionStatus = query.includes("finished")
+        ? "finished"
+        : query.includes("abandoned")
+          ? "abandoned"
+          : "";
+
+      values.push(playStatus, completionStatus);
+
+      // finished are treated differently due to their nullability
+      try {
+        const response = (await dbAll(
+          `
           SELECT
-            CASE
-              WHEN prequel.game_id = games.prequel_id
-              AND prequel.to_play IS 1
-                THEN 1
-              ELSE 0
-            END
-          FROM games AS prequel
-          WHERE prequel.game_id = games.prequel_id
-        ), 0) AS prequel_required
-      FROM games
-      JOIN platforms p_release ON games.platform_id = p_release.platform_id
-      JOIN licences ON games.licence_id = licences.licence_id
-      JOIN platforms p_play ON games.play_platform_id = p_play.platform_id
-      LEFT JOIN play_history ON play_history.game_id = games.game_id
-      WHERE (
-        p_release.platform_name LIKE ?
-        OR games.name LIKE ?
-        OR licences.licence_name LIKE ?
-        OR p_play.platform_name LIKE ?
-      )
-      AND retro LIKE ?
-      AND handheld LIKE ?
-      AND prequel_required LIKE ?
-      AND (? = '%' OR (? = 'null' AND to_play IS NULL) OR to_play LIKE ?)
-      AND (finished = ? OR ? = '%')
-      GROUP BY games.game_id
-      ORDER BY 
-        CASE
-          WHEN ? = 'timeline' THEN when_played
-          ELSE games.platform_id
-        END,
-        CASE
-          WHEN ? != 'timeline' THEN games.name
-          ELSE -hltb_time
-        END
-    `,
-      values,
-    )) as GamesTable[];
-    if (!response) throw new Error("Failed to fetch games");
-    return response;
-  } catch (error) {
-    console.error("Error fetching games:", error);
-    return [];
+            games.game_id,
+            games.platform_id,
+            p_release.platform_name AS platform_name,
+            p_play.platform_name AS play_platform_name,
+            licences.licence_name AS licence_name,
+            games.name, games.licence_id,
+            games.play_platform_id,
+            retro,
+            handheld,
+            prequel_id,
+            hltb_time,
+            to_play,
+            finished,
+            rating,
+            MAX(play_history.when_played) as latest_played,
+            img,
+            release_date,
+            COALESCE((
+              SELECT
+                CASE
+                  WHEN prequel.game_id = games.prequel_id
+                  AND prequel.to_play IS 1
+                    THEN 1
+                  ELSE 0
+                END
+              FROM games AS prequel
+              WHERE prequel.game_id = games.prequel_id
+            ), 0) AS prequel_required
+          FROM games
+          JOIN platforms p_release ON games.platform_id = p_release.platform_id
+          JOIN licences ON games.licence_id = licences.licence_id
+          JOIN platforms p_play ON games.play_platform_id = p_play.platform_id
+          LEFT JOIN play_history ON play_history.game_id = games.game_id
+          WHERE (
+            p_release.platform_name LIKE ?
+            OR games.name LIKE ?
+            OR licences.licence_name LIKE ?
+            OR p_play.platform_name LIKE ?
+          )
+          AND retro LIKE ?
+          AND handheld LIKE ?
+          AND prequel_required LIKE ?
+          AND CASE ?
+            WHEN 'tried' THEN EXISTS (
+              SELECT 1 FROM play_history ph
+              WHERE ph.game_id = games.game_id
+                AND ph.when_played IS NOT NULL
+            )
+            WHEN 'avoided' THEN to_play = 0 AND NOT EXISTS (
+              SELECT 1 FROM play_history ph
+              WHERE ph.game_id = games.game_id
+                AND ph.when_played IS NOT NULL
+            )
+            WHEN 'tbc' THEN to_play = 1
+            ELSE 1
+          END
+          AND CASE ?
+            WHEN 'finished' THEN finished = 1
+            WHEN 'abandoned' THEN finished = 0 AND EXISTS (
+              SELECT 1 FROM play_history ph
+              WHERE ph.game_id = games.game_id
+                AND ph.when_played IS NOT NULL
+            )
+            ELSE 1
+          END
+          GROUP BY games.game_id
+          ORDER BY games.platform_id, games.name
+        `,
+          values,
+        )) as GamesTable[];
+        if (!response) throw new Error("Failed to fetch games");
+        return response;
+      } catch (error) {
+        console.error("Error fetching games:", error);
+        return [];
+      }
   }
 }
 
