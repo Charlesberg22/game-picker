@@ -73,6 +73,7 @@ export async function deleteGame(id: string) {
 
   revalidatePath("/");
   revalidatePath("/stats");
+  revalidatePath("timeline");
 }
 
 const UpdateGame = FormSchema.omit({ game_id: true });
@@ -171,6 +172,7 @@ export async function updateGame(id: string, state: State, formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/stats");
+  revalidatePath("/timeline");
 }
 
 const CreateGame = FormSchema.omit({ game_id: true });
@@ -267,6 +269,7 @@ export async function createGame(state: State, formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/stats");
+  revalidatePath("/timeline");
 }
 
 export async function refreshRandomGame() {
