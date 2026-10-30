@@ -23,7 +23,7 @@ function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              "flex mt-2 h-[36px] grow items-center rounded-md bg-black-50 text-sm font-medium hover:bg-emerald-100 hover:text-green-600 p-2 md:px-3",
+              "flex mt-2 h-[36px] shrink-0 items-center rounded-md bg-black-50 text-sm font-medium hover:bg-emerald-100 hover:text-green-600 p-2 md:px-3",
               {
                 "mt-2 p-2 bg-emerald-100 text-green-600":
                   pathname === link.href,
@@ -40,8 +40,10 @@ function NavLinks() {
 
 export default function TopNav() {
   return (
-    <div className="flex flex-row gap-x-2 md:flex-row md:space-x-0 md:py-2 ml-2">
-      <NavLinks />
+    <div className="ml-2 overflow-x-auto">
+      <div className="flex flex-row gap-x-2 py-2 w-max min-w-full">
+        <NavLinks />
+      </div>
     </div>
   );
 }
